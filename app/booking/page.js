@@ -168,29 +168,33 @@ export default function MyBookingsPage() {
                <div className="relative flex justify-between items-center px-4">
                   <div className="absolute top-1/2 left-0 w-full h-[1px] bg-slate-800 -translate-y-1/2 z-0"></div>
                   <div className={`absolute top-1/2 left-0 h-[1.5px] bg-indigo-500 -translate-y-1/2 z-0 transition-all duration-1000 ${
+                    booking.status === 'REJECTED' ? 'w-0' :
                     booking.status === 'KEYS_COLLECTED' ? 'w-full' : 
-                    booking.status === 'DOCS_WITH_OWNER' ? 'w-1/2' : 'w-[5%]'
+                    ['DOCS_WITH_OWNER','APPROVED'].includes(booking.status) ? 'w-1/2' : 'w-[5%]'
                   }`}></div>
 
                   {[
-                    { label: 'Reserved', sub: 'Confirmed', icon: '📍', status: 'RESERVED' },
+                    { label: 'Requested', sub: booking.status === 'PENDING' ? 'Awaiting Host' : booking.status === 'REJECTED' ? 'Declined' : 'Approved', icon: booking.status === 'REJECTED' ? '❌' :'📍', status: 'PENDING' },
                     { label: 'Documents', sub: 'At Origin', icon: '📄', status: 'DOCS_WITH_OWNER' },
                     { label: 'Access', sub: 'Keys Received', icon: '🔑', status: 'KEYS_COLLECTED' }
                   ].map((step, i) => {
-                    const isCompleted = i === 0 || 
+                    const isCompleted = (i === 0 && booking.status !== 'PENDING' && booking.status !== 'REJECTED') || 
                       (booking.status === 'DOCS_WITH_OWNER' && i <= 1) || 
                       (booking.status === 'KEYS_COLLECTED');
                     
+                    const isRejected = i === 0 && booking.status === 'REJECTED';
+
                     return (
                       <div key={i} className="relative z-10 flex flex-col items-center gap-3">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs transition-all duration-500 border-2 ${
+                          isRejected ? 'bg-rose-500 border-rose-400 text-white shadow-[0_0_15px_rgba(244,63,94,0.5)]' :
                           isCompleted ? 'bg-indigo-500 border-indigo-400 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'bg-slate-900 border-slate-700 text-slate-500'
                         }`}>
                           {step.icon}
                         </div>
                         <div className="text-center">
-                          <p className={`text-[8px] font-black uppercase tracking-tighter ${isCompleted ? 'text-white' : 'text-slate-600'}`}>{step.label}</p>
-                          <p className="text-[7px] font-bold text-slate-500 uppercase tracking-widest">{step.sub}</p>
+                          <p className={`text-[8px] font-black uppercase tracking-tighter ${isCompleted || isRejected ? 'text-white' : 'text-slate-600'}`}>{step.label}</p>
+                          <p className={`text-[7px] font-bold uppercase tracking-widest ${isRejected ? 'text-rose-400' : 'text-slate-500'}`}>{step.sub}</p>
                         </div>
                       </div>
                     );

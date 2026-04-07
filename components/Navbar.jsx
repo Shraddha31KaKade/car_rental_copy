@@ -13,9 +13,31 @@ export default function Navbar({ onLoginClick }) {
   };
 
   useEffect(() => {
-    const user = localStorage.getItem("loggedInUser");
-    if (user) {
-      setLoggedInUser(JSON.parse(user));
+    const checkUser = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const res = await fetch("http://localhost:5000/api/auth/me", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setLoggedInUser(data.user);
+          // Also sync to local storage for other components if needed
+          localStorage.setItem("loggedInUser", JSON.stringify(data.user));
+        }
+      } catch (err) {
+        console.error("Failed to fetch user context", err);
+      }
+    };
+    
+    checkUser();
+    
+    // Fallback sync with local storage if network fails
+    const localUser = localStorage.getItem("loggedInUser");
+    if (!loggedInUser && localUser) {
+      setLoggedInUser(JSON.parse(localUser));
     }
   }, []);
 
@@ -49,6 +71,12 @@ export default function Navbar({ onLoginClick }) {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-6">
+          {loggedInUser?.role === "OWNER" && (
+            <Link href="/owner/dashboard" className="btn-outline py-2 px-6 text-xs drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+               Owner Dashboard
+            </Link>
+          )}
+
           {loggedInUser ? (
             <div className="flex items-center gap-6">
               <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Welcome, <span className="text-indigo-400">{loggedInUser.name || loggedInUser.email}</span></span>
