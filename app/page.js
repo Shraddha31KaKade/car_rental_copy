@@ -18,7 +18,7 @@ export default function Home() {
         const data = await res.json();
 
         if (res.ok) {
-          setFeaturedCars(data);
+          setFeaturedCars(data.slice(0, 4));
         } else {
           console.error(data.error || "Failed to fetch cars");
         }

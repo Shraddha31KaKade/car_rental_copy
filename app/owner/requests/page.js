@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { fetchWithAuth } from "../../../utils/api";
 
 export default function RequestsPage() {
   const [requests, setRequests] = useState([]);
@@ -9,11 +10,11 @@ export default function RequestsPage() {
 
   const fetchRequests = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
       if (!token) return;
 
-      const res = await fetch("http://localhost:5000/api/owner/requests", {
-        headers: { Authorization: `Bearer ${token}` }
+      const res = await fetchWithAuth("http://localhost:5000/api/owner/requests", {
+        method: "GET"
       });
       
       if (res.ok) {
@@ -33,13 +34,9 @@ export default function RequestsPage() {
 
   const handleAction = async (id, action) => {
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/owner/requests/${id}`, {
+      const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
+      const res = await fetchWithAuth(`http://localhost:5000/api/owner/requests/${id}`, {
         method: "PATCH",
-        headers: { 
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}` 
-        },
         body: JSON.stringify({ action })
       });
 

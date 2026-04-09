@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { fetchWithAuth } from "../../../utils/api";
 
 export default function DashboardPage() {
   const [stats, setStats] = useState(null);
@@ -9,11 +10,11 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
         if (!token) return;
 
-        const res = await fetch("http://localhost:5000/api/owner/dashboard", {
-          headers: { Authorization: `Bearer ${token}` }
+        const res = await fetchWithAuth("http://localhost:5000/api/owner/dashboard", {
+          method: "GET"
         });
         
         if (res.ok) {

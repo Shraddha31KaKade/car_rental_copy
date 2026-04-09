@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { fetchWithAuth } from "../../utils/api";
 
 export default function ListYourCarPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [file, setFile] = useState(null);
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -37,7 +39,7 @@ export default function ListYourCarPage() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
       if (!token) {
         alert("Please login as an owner to list your vehicle.");
         setLoading(false);
@@ -53,12 +55,8 @@ export default function ListYourCarPage() {
         dataToSend.append("image", file); // Multer expects 'image' field
       }
 
-      const res = await fetch("http://localhost:5000/api/cars", {
+      const res = await fetchWithAuth("http://localhost:5000/api/cars", {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`
-          // Note: Do NOT set Content-Type header when sending FormData
-        },
         body: dataToSend
       });
 
@@ -135,6 +133,38 @@ export default function ListYourCarPage() {
                   <p className="text-slate-500 max-w-xs mx-auto font-medium">Your vehicle is being reviewed by our specialists. Redirecting to fleet...</p>
                </div>
              ) : (
+               !termsAccepted ? (
+                 <div className="bg-slate-900/40 backdrop-blur-3xl p-10 sm:p-14 rounded-[4rem] border border-white/5 shadow-2xl relative overflow-hidden">
+                   <h2 className="text-3xl font-black text-white mb-6 uppercase tracking-tighter italic">Terms & Conditions</h2>
+                   <div className="max-h-64 overflow-y-auto pr-4 space-y-4 text-sm text-slate-400 font-medium mb-8">
+                     <p>Welcome to CarRental Fleet Partnership. By listing your vehicle, you agree to these legal bindings.</p>
+                     <p><strong>1. Accuracy of Information:</strong> The listed specifications, photos, and condition of your vehicle must be thoroughly accurate. Misrepresentations will lead to a permanent ban.</p>
+                     <p><strong>2. Insurance Coverage:</strong> You must maintain professional grade insurance covering short-term rentals and any claims arising from damage, theft, or liability.</p>
+                     <p><strong>3. Maintenance:</strong> The car must be mechanically sound, safe to drive, and regularly maintained per official manufacturer manuals.</p>
+                     <p><strong>4. Fee Structure:</strong> CarRental takes a 15% service fee from all completed rentals for providing the platform, security, and verification systems.</p>
+                   </div>
+                   <label className="flex items-center gap-4 cursor-pointer group mb-10">
+                     <div className="relative flex items-center justify-center w-8 h-8 rounded-xl border-2 border-indigo-500/30 bg-black/20 group-hover:border-indigo-400 transition-colors">
+                       <input 
+                         type="checkbox" 
+                         className="absolute opacity-0 w-full h-full cursor-pointer"
+                         checked={termsAccepted}
+                         onChange={(e) => setTermsAccepted(e.target.checked)}
+                       />
+                       {termsAccepted && <span className="text-indigo-400">✓</span>}
+                     </div>
+                     <span className="text-white font-bold text-sm tracking-wide">I have read, understood, and agree to the Terms & Conditions.</span>
+                   </label>
+                   
+                   <button 
+                     disabled={!termsAccepted}
+                     className="btn-primary w-full py-7 rounded-[2rem] text-lg tracking-[0.2em] shadow-indigo-500/20 disabled:opacity-50"
+                     onClick={() => setTermsAccepted(true)}
+                   >
+                     Proceed to Listing Form
+                   </button>
+                 </div>
+               ) : (
                <div className="bg-slate-900/40 backdrop-blur-3xl p-10 sm:p-14 rounded-[4rem] border border-white/5 shadow-2xl relative overflow-hidden">
                  <h2 className="text-3xl font-black text-white mb-10 uppercase tracking-tighter italic">Vehicle Specifications</h2>
                  <form onSubmit={handleSubmit} className="space-y-8">
@@ -230,6 +260,7 @@ export default function ListYourCarPage() {
                    </button>
                  </form>
                </div>
+               )
              )}
            </div>
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { fetchWithAuth } from "../../../utils/api";
 
 export default function MyCarsPage() {
   const [cars, setCars] = useState([]);
@@ -10,11 +11,11 @@ export default function MyCarsPage() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
         if (!token) return;
 
-        const res = await fetch("http://localhost:5000/api/owner/cars", {
-          headers: { Authorization: `Bearer ${token}` }
+        const res = await fetchWithAuth("http://localhost:5000/api/owner/cars", {
+          method: "GET"
         });
         
         if (res.ok) {

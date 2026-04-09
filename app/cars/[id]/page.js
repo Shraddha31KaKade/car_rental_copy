@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { fetchWithAuth } from "../../../utils/api";
 
 export default function CarDetailsPage() {
   const { id } = useParams();
@@ -49,7 +50,7 @@ export default function CarDetailsPage() {
 
   const handleBooking = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
 
       if (!token) {
         alert("Please login first to book a car!");
@@ -70,12 +71,8 @@ export default function CarDetailsPage() {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/bookings", {
+      const res = await fetchWithAuth("http://localhost:5000/api/bookings", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
         body: JSON.stringify({
           carId: Number(id),
           startDate,

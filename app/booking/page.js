@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { fetchWithAuth } from "../../utils/api";
 
 export default function MyBookingsPage() {
   const [myBookings, setMyBookings] = useState([]);
@@ -10,8 +11,10 @@ export default function MyBookingsPage() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("loggedInUser"));
-    const token = localStorage.getItem("token");
+    const userCookie = document.cookie.split('; ').find(row => row.startsWith('loggedInUser='));
+    const userStr = userCookie ? decodeURIComponent(userCookie.split('=')[1]) : null;
+    const storedUser = userStr ? JSON.parse(userStr) : null;
+    const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
 
     if (!storedUser || !token) {
       setLoading(false);
@@ -20,12 +23,8 @@ export default function MyBookingsPage() {
 
     setUser(storedUser);
 
-    fetch("http://localhost:5000/api/bookings", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      }
+    fetchWithAuth("http://localhost:5000/api/bookings", {
+      method: "GET"
     })
       .then(async (res) => {
         if (!res.ok) {
@@ -50,12 +49,9 @@ export default function MyBookingsPage() {
     if (!confirmDelete) return;
 
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/bookings/${bookingId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
+      const res = await fetchWithAuth(`http://localhost:5000/api/bookings/${bookingId}`, {
+        method: "DELETE"
       });
 
       if (res.ok) {

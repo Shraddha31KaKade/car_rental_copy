@@ -12,10 +12,20 @@ export default function Navbar({ onLoginClick }) {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  };
+
   useEffect(() => {
     const checkUser = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+      const token = getCookie("token");
+      if (!token) {
+        setLoggedInUser(null);
+        return;
+      }
 
       try {
         const res = await fetch("http://localhost:5000/api/auth/me", {
@@ -24,27 +34,46 @@ export default function Navbar({ onLoginClick }) {
         if (res.ok) {
           const data = await res.json();
           setLoggedInUser(data.user);
-          // Also sync to local storage for other components if needed
-          localStorage.setItem("loggedInUser", JSON.stringify(data.user));
+          // Also sync to cookie for other components if needed
+          document.cookie = `loggedInUser=${encodeURIComponent(JSON.stringify(data.user))}; path=/; max-age=86400`;
         }
       } catch (err) {
         console.error("Failed to fetch user context", err);
       }
     };
     
-    checkUser();
+    // Sync function to read directly from cookies
+    const syncLocal = () => {
+      const localUser = getCookie("loggedInUser");
+      if (localUser) {
+        try {
+          const userStr = decodeURIComponent(localUser);
+          setLoggedInUser(JSON.parse(userStr));
+        } catch(e) {}
+      } else {
+        setLoggedInUser(null);
+      }
+    };
+
+    const handleAuthChange = () => {
+      syncLocal();
+      checkUser();
+    };
+
+    window.addEventListener("authChange", handleAuthChange);
     
-    // Fallback sync with local storage if network fails
-    const localUser = localStorage.getItem("loggedInUser");
-    if (!loggedInUser && localUser) {
-      setLoggedInUser(JSON.parse(localUser));
-    }
+    syncLocal();
+    checkUser();
+
+    return () => window.removeEventListener("authChange", handleAuthChange);
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("loggedInUser");
+    document.cookie = "token=; path=/; max-age=0";
+    document.cookie = "refreshToken=; path=/; max-age=0";
+    document.cookie = "loggedInUser=; path=/; max-age=0";
     setLoggedInUser(null);
+    window.dispatchEvent(new Event("authChange"));
     alert("Logged out successfully");
   };
 
