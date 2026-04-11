@@ -40,74 +40,67 @@ export default function Home() {
   };
 
   return (
-    <div className="relative isolate overflow-hidden">
-      {/* BACKGROUND BLOBS */}
-      <div className="bg-blob blob-indigo top-[-10%] left-[-10%]"></div>
-      <div className="bg-blob blob-violet bottom-[20%] right-[-10%]"></div>
-      <div className="bg-blob blob-cyan top-[40%] left-[20%] opacity-10"></div>
-
+    <div className="min-h-screen bg-[#0a0a0a]">
       {/* HERO SECTION */}
       <section className="flex flex-col items-center justify-center text-center mt-32 mb-20 px-4 sm:px-6 relative">
-        <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em] animate-fadeUp">
-          Experience the extraordinary
+        <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-semibold tracking-widest uppercase">
+          Elite Vehicle Fleet
         </div>
         
-        <h1 className="text-5xl sm:text-6xl md:text-8xl font-black mb-8 tracking-tighter text-white animate-fadeUp delay-100">
-          Drive the <br/>
-          <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-indigo-400 bg-clip-text text-transparent italic">Future</span> Today.
+        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 tracking-tight text-white">
+          Drive the Future Today
         </h1>
         
-        <p className="max-w-xl text-slate-400 text-lg sm:text-xl mb-12 leading-relaxed font-medium animate-fadeUp delay-200">
-          Elite rentals for those who demand perfection. Unrivaled performance, absolute luxury, delivered to your door.
+        <p className="max-w-xl text-slate-400 text-lg mb-12">
+          Experience unrivaled performance and luxury, delivered directly to your door.
         </p>
 
         {/* SEARCH BOX */}
-        <div className="w-full max-w-5xl animate-scaleIn delay-300 px-4">
+        <div className="w-full max-w-3xl px-4 mb-20">
           <form
             onSubmit={handleSearch}
-            className="search-card"
+            className="flex flex-col md:flex-row bg-[#111] border border-white/10 rounded-lg overflow-hidden"
           >
-            <div className="flex-grow flex items-center gap-4 px-2 py-1 w-full">
-              <span className="text-indigo-500 text-2xl drop-shadow-[0_0_10px_rgba(99,102,241,0.5)]"><FaSearch /></span>
+            <div className="flex-1 flex items-center px-6 py-4 relative">
+              <FaSearch className="text-slate-500 mr-4" />
               <input
                 type="text"
                 placeholder="Search by brand, model, or category..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-transparent outline-none text-slate-100 font-semibold placeholder:text-slate-500 text-lg"
+                className="bg-transparent w-full outline-none text-white placeholder-slate-500 text-lg"
               />
             </div>
-
             <button
               type="submit"
-              className="btn-primary w-full md:w-auto min-w-[180px]"
+              className="bg-white text-black hover:bg-slate-200 font-semibold py-4 px-10 transition-colors md:w-auto w-full"
             >
-              Check Availability
+              Search Vehicles
             </button>
           </form>
         </div>
 
-        {/* LARGE DECORATIVE CAR IMAGE */}
-        <div className="mt-24 animate-fadeUp delay-500 w-full max-w-6xl px-4">
-          <div className="relative group">
-            <div className="absolute -inset-10 bg-indigo-600/20 rounded-[3rem] blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-            <div className="relative rounded-[3rem] overflow-hidden border border-white/5 bg-slate-900/40 backdrop-blur-3xl p-4 sm:p-8">
-               <Image
-                src="/audi.png"
-                alt="Highlight Car"
-                width={1200}
-                height={600}
-                className="w-full h-auto object-cover rounded-2xl animate-float"
-              />
-            </div>
-          </div>
+        {/* PROFESSIONAL STATS */}
+        <div className="w-full max-w-5xl px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-left border-t border-white/10 pt-16">
+           <div className="p-4">
+             <h3 className="text-white text-4xl font-bold mb-2">300+</h3>
+             <p className="text-slate-500 text-sm uppercase tracking-widest font-semibold">Premium Vehicles</p>
+           </div>
+           <div className="p-4 border-l border-white/10">
+             <h3 className="text-white text-4xl font-bold mb-2">24/7</h3>
+             <p className="text-slate-500 text-sm uppercase tracking-widest font-semibold">Concierge Support</p>
+           </div>
+           <div className="p-4 border-l border-white/10">
+             <h3 className="text-white text-4xl font-bold mb-2">100%</h3>
+             <p className="text-slate-500 text-sm uppercase tracking-widest font-semibold">Verified Owners</p>
+           </div>
         </div>
       </section>
 
       {/* FEATURED VEHICLES */}
       <section className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8 animate-fadeUp">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
             <div className="max-w-2xl">
               <span className="text-2xl font-black tracking-tighter text-white uppercase flex items-baseline">
                 Car<span className="text-indigo-500 italic lowercase">Rental</span>
@@ -131,8 +124,7 @@ export default function Home() {
             {featuredCars.map((car, index) => (
               <div
                 key={car.id}
-                className="group carCard animate-fadeUp"
-                style={{ animationDelay: `${200 + index * 100}ms` }}
+                className="group carCard"
               >
                 <div className="carImageWrapper h-64">
                   <Image
@@ -157,7 +149,7 @@ export default function Home() {
                   </div>
                   
                   <p className="text-slate-400 font-medium mb-8 text-sm flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
                     {car.type || "Performance Luxury"}
                   </p>
 
@@ -178,9 +170,9 @@ export default function Home() {
       <section className="py-32 px-6 relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="bg-gradient-to-br from-slate-900 to-black rounded-[4rem] p-12 sm:p-24 flex flex-col md:flex-row items-center justify-between text-white gap-16 overflow-hidden relative border border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.5)]">
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px] -mr-64 -mt-64"></div>
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full -mr-64 -mt-64"></div>
             
-            <div className="text-center md:text-left relative z-10 max-w-xl animate-fadeUp">
+            <div className="text-center md:text-left relative z-10 max-w-xl">
               <h1 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-tighter uppercase italic leading-[0.9]">
                 Drive the <span className="text-indigo-500">Extraordinary</span>
               </h1>
@@ -196,8 +188,8 @@ export default function Home() {
               </Link>
             </div>
             
-            <div className="relative z-10 group animate-scaleIn">
-              <div className="absolute -inset-10 bg-indigo-500/20 rounded-full blur-[80px] scale-75 group-hover:scale-110 transition-transform duration-1000"></div>
+            <div className="relative z-10">
+              <div className="absolute -inset-10 bg-indigo-500/20 rounded-full scale-75"></div>
               <Image
                 src="/bmw.png"
                 alt="Partner Vehicle"
@@ -211,7 +203,7 @@ export default function Home() {
       </section>
 
       {/* EXCLUSIVE NEWSLETTER */}
-      <section className="py-32 px-6 border-t border-white/5 animate-fadeUp">
+      <section className="py-32 px-6 border-t border-white/5">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">Join the Circle.</h2>
           <p className="text-slate-400 text-xl mb-12 max-w-lg mx-auto font-medium">

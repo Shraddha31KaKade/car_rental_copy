@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { fetchWithAuth } from "../../../utils/api";
+import SmartDocumentUploader from "../../../components/SmartDocumentUploader";
 
 export default function CarDetailsPage() {
   const { id } = useParams();
@@ -15,6 +16,9 @@ export default function CarDetailsPage() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isBooked, setIsBooked] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState(1);
+  const [extractedData, setExtractedData] = useState(null);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -70,7 +74,25 @@ export default function CarDetailsPage() {
         alert("⚠️ Selection Error: Journey cannot commence in the past.");
         return;
       }
+      
+      setCheckoutStep(2);
+    } catch (err) {
+      console.error("Booking setup error:", err);
+    }
+  };
 
+  const handleDocumentVerification = (data) => {
+      setExtractedData(data);
+      alert("AI Verification complete! Name matched: " + data.fullName);
+      setCheckoutStep(3);
+  };
+
+  const finalizePaymentAndBooking = async () => {
+    try {
+      setIsProcessingPayment(true);
+      // Simulate real payment delay
+      await new Promise(r => setTimeout(r, 2000));
+      
       const res = await fetchWithAuth("http://localhost:5000/api/bookings", {
         method: "POST",
         body: JSON.stringify({
@@ -89,6 +111,8 @@ export default function CarDetailsPage() {
     } catch (err) {
       console.error("Booking error:", err);
       alert(err.message);
+    } finally {
+      setIsProcessingPayment(false);
     }
   };
 
@@ -122,10 +146,7 @@ export default function CarDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#020617] pt-40 pb-24 relative overflow-hidden isolate">
-      {/* Background Blobs */}
-      <div className="bg-blob blob-indigo top-0 left-0 opacity-10"></div>
-      <div className="bg-blob blob-violet bottom-0 right-0 opacity-10"></div>
+    <div className="min-h-screen bg-[#0a0a0a] pt-40 pb-24 relative overflow-hidden isolate">
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <Link href="/cars" className="inline-flex items-center gap-2 text-slate-500 hover:text-indigo-400 font-black uppercase tracking-[0.3em] text-[10px] mb-12 transition-colors group">
@@ -133,8 +154,8 @@ export default function CarDetailsPage() {
         </Link>
 
         {isBooked ? (
-          <div className="max-w-3xl mx-auto text-center animate-scaleIn bg-slate-900/40 backdrop-blur-3xl p-20 rounded-[4rem] border border-indigo-500/30 shadow-[0_0_50px_rgba(99,102,241,0.2)]">
-            <div className="text-9xl mb-10 animate-float brightness-150">🎉</div>
+          <div className="max-w-3xl mx-auto text-center bg-[#111] p-20 rounded-3xl border border-white/10">
+            <div className="text-9xl mb-10">🎉</div>
             <h1 className="text-6xl font-black text-white mb-6 tracking-tighter uppercase italic">Success!</h1>
             <p className="text-indigo-400 text-2xl font-black mb-12 tracking-widest uppercase">The car is booked.</p>
             <p className="text-slate-400 mb-16 text-lg max-w-sm mx-auto font-medium leading-relaxed">
@@ -150,21 +171,20 @@ export default function CarDetailsPage() {
 
           {/* IMAGE SECTION */}
           <div className="lg:sticky lg:top-40 w-full lg:w-1/2">
-            <div className="bg-slate-900/40 backdrop-blur-3xl rounded-[3rem] border border-white/5 p-12 shadow-2xl animate-scaleIn overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+            <div className="bg-[#111] rounded-3xl border border-white/10 p-12 overflow-hidden">
               <Image
                 src={displayImage}
                 alt={car.name}
                 width={800}
                 height={500}
-                className="w-full h-auto object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.5)] transition-all duration-1000 group-hover:scale-110 group-hover:-rotate-2"
+                className="w-full h-auto object-contain"
               />
             </div>
           </div>
 
           {/* DETAILS SECTION */}
-          <div className="w-full lg:w-1/2 animate-fadeUp delay-100">
-            <div className="bg-slate-900/40 backdrop-blur-3xl rounded-[3.5rem] border border-white/5 p-10 sm:p-14 shadow-2xl relative overflow-hidden">
+          <div className="w-full lg:w-1/2">
+            <div className="bg-[#111] rounded-3xl border border-white/10 p-10 sm:p-14 relative overflow-hidden">
               <div className="flex flex-col sm:flex-row justify-between items-start mb-12 gap-6">
                 <div>
                   <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">
@@ -210,36 +230,83 @@ export default function CarDetailsPage() {
               </div>
 
               <div className="space-y-8">
-                <h3 className="text-white font-black uppercase tracking-[0.4em] text-[10px] mb-6 opacity-40">Reservation Config</h3>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  <div className="space-y-3">
-                    <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Departure Date</label>
-                    <input
-                      type="date"
-                      className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white text-xs uppercase"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="space-y-3">
-                    <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Return Date</label>
-                    <input
-                      type="date"
-                      className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white text-xs uppercase"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                    />
-                  </div>
+                {/* CHECKOUT STEPPER UI */}
+                <div className="flex items-center justify-between mb-8 opacity-60">
+                   {[1,2,3].map(step => (
+                     <div key={step} className={`flex items-center ${checkoutStep === step ? 'opacity-100 text-indigo-400 font-black' : 'opacity-40'}`}>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${checkoutStep === step ? 'bg-indigo-500/20 border-indigo-500/50' : 'bg-white/5'} border`}>{step}</div>
+                        {step < 3 && <div className="h-0.5 w-10 sm:w-16 bg-white/10 mx-2"></div>}
+                     </div>
+                   ))}
                 </div>
 
-                <button
-                  onClick={handleBooking}
-                  className="btn-primary w-full mt-10 py-7 rounded-[2rem] text-lg tracking-[0.2em] shadow-indigo-500/20"
-                >
-                  Secure Reservation
-                </button>
+                {checkoutStep === 1 && (
+                  <div>
+                    <h3 className="text-white font-bold uppercase tracking-[0.4em] text-[10px] mb-6 opacity-40">STEP 1: Schedule Configuration</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                      <div className="space-y-3">
+                        <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Departure Date</label>
+                        <input
+                          type="date"
+                          className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white text-xs uppercase"
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                        />
+                      </div>
+
+                      <div className="space-y-3">
+                        <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Return Date</label>
+                        <input
+                          type="date"
+                          className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white text-xs uppercase"
+                          value={endDate}
+                          onChange={(e) => setEndDate(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleBooking} // Opens Step 2
+                      className="btn-primary w-full mt-10 py-5 rounded-2xl text-sm font-black uppercase tracking-widest"
+                    >
+                      Verify Eligibility
+                    </button>
+                  </div>
+                )}
+
+                {checkoutStep === 2 && (
+                  <div>
+                     <h3 className="text-white font-bold uppercase tracking-[0.4em] text-[10px] mb-6 opacity-40">STEP 2: Security & ID Verification</h3>
+                     <SmartDocumentUploader onExtracted={handleDocumentVerification} />
+                     <button onClick={() => setCheckoutStep(1)} className="text-xs uppercase tracking-widest text-slate-500 mt-4 underline font-black text-center w-full block">Back</button>
+                  </div>
+                )}
+
+                {checkoutStep === 3 && (
+                  <div className="bg-[#11] border border-white/10 p-8 rounded-2xl">
+                     <h3 className="text-white font-bold uppercase tracking-[0.4em] text-[10px] mb-6 opacity-40">STEP 3: Vault Authorization</h3>
+                     
+                     <div className="space-y-4 mb-8">
+                        <div className="flex justify-between text-slate-400 text-xs font-black uppercase tracking-widest"><p>Base Rental Rate</p><p>₹{car.price} / day</p></div>
+                        <div className="flex justify-between text-slate-400 text-xs font-black uppercase tracking-widest"><p>Duration</p><p>{Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) || 1} Days</p></div>
+                        <div className="w-full h-px bg-white/10 my-4"></div>
+                        <div className="flex justify-between text-indigo-400 text-sm font-black uppercase tracking-widest"><p>Total Charge</p><p>₹{(car.price * (Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) || 1)).toLocaleString()}</p></div>
+                     </div>
+
+                     <div className="bg-[#111] border border-white/10 rounded-xl p-4 flex items-center justify-center gap-4 mb-8">
+                         <span className="text-2xl">💳</span>
+                         <p className="text-[10px] text-white uppercase tracking-widest font-black leading-relaxed">System holds your card securely for deposit.</p>
+                     </div>
+
+                     <button
+                        onClick={finalizePaymentAndBooking}
+                        disabled={isProcessingPayment}
+                        className="btn-primary w-full py-5 rounded-2xl text-sm font-black uppercase tracking-widest bg-gradient-to-r from-indigo-500 to-violet-500"
+                      >
+                        {isProcessingPayment ? "Authorizing Payment..." : "Initialize Gateway Integration"}
+                      </button>
+                  </div>
+                )}
+
               </div>
             </div>
           </div>

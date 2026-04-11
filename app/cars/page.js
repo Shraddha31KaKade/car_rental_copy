@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import NextLink from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const CarMap = dynamic(() => import("../../components/CarMap"), { ssr: false });
 
 // CarCard component
 function CarCard({ car, index }) {
@@ -37,10 +40,7 @@ function CarCard({ car, index }) {
   }
 
   return (
-    <div 
-      className="group carCard animate-fadeUp"
-      style={{ animationDelay: `${200 + index * 50}ms` }}
-    >
+    <div className="group carCard">
       <div className="carImageWrapper h-64">
         <Image
           src={displayImage}
@@ -68,7 +68,7 @@ function CarCard({ car, index }) {
         </div>
         
         <p className="text-slate-400 font-medium text-[10px] uppercase tracking-widest mb-6 flex items-center gap-2">
-           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
+           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
            {car.type || "Performance"} • {car.location || "Global"}
         </p>
 
@@ -101,17 +101,30 @@ function CarCard({ car, index }) {
 export default function CarsPage() {
   const searchParams = useSearchParams();
   const searchFromUrl = searchParams.get('search') || "";
+  const latFromUrl = searchParams.get('lat') || "";
+  const lngFromUrl = searchParams.get('lng') || "";
+  const startFromUrl = searchParams.get('startDate') || "";
+  const endFromUrl = searchParams.get('endDate') || "";
   
   const [searchTerm, setSearchTerm] = useState(searchFromUrl);
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showMap, setShowMap] = useState(false);
 
   useEffect(() => {
     const fetchCars = async () => {
       setLoading(true);
       try {
-        const url = searchFromUrl 
-          ? `http://localhost:5000/api/cars?search=${encodeURIComponent(searchFromUrl)}`
+        const params = new URLSearchParams();
+        if (searchFromUrl) params.append('search', searchFromUrl);
+        if (latFromUrl) params.append('lat', latFromUrl);
+        if (lngFromUrl) params.append('lng', lngFromUrl);
+        if (startFromUrl) params.append('startDate', startFromUrl);
+        if (endFromUrl) params.append('endDate', endFromUrl);
+
+        const paramString = params.toString();
+        const url = paramString 
+          ? `http://localhost:5000/api/cars?${paramString}`
           : `http://localhost:5000/api/cars`;
         
         const res = await fetch(url);
@@ -130,69 +143,96 @@ export default function CarsPage() {
     };
 
     fetchCars();
-  }, [searchFromUrl]);
+  }, [searchFromUrl, latFromUrl, lngFromUrl, startFromUrl, endFromUrl]);
 
   return (
-    <div className="relative isolate min-h-screen pt-40 pb-24 overflow-hidden bg-[#020617]">
-      {/* Background Blobs */}
-      <div className="bg-blob blob-indigo top-[10%] left-[-10%] opacity-10"></div>
-      <div className="bg-blob blob-violet bottom-[10%] right-[-10%] opacity-10"></div>
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-24 animate-fadeUp">
-          <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">
-            Curated Excellence
-          </div>
-          <h1 className="text-6xl md:text-8xl font-black mb-8 tracking-tighter text-white">
-            The <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-indigo-400 bg-clip-text text-transparent italic">Escape</span> Fleet
-          </h1>
-          <p className="text-slate-400 text-xl max-w-2xl mx-auto font-medium leading-relaxed">
-            Every vehicle in our collection is a masterpiece of design and performance.
-          </p>
-        </div>
-
-        {/* Search Bar */}
-        <div className="flex justify-center mb-24 animate-scaleIn delay-100">
-          <div className="relative w-full max-w-xl group">
-            <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-indigo-400 text-xl">
-               <span className="drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]">🔍</span>
+    <div className="relative isolate min-h-screen pt-32 pb-24 bg-[#0a0a0a]">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10">
+        
+        {/* Header & Controls Area */}
+        <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end mb-12 gap-8">
+          <div>
+            <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">
+              Curated Excellence
             </div>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              window.history.pushState(null, '', `/cars?search=${encodeURIComponent(searchTerm)}`);
-              // Force re-fetch manually if needed, or rely on searchParams change
-              const event = new PopStateEvent('popstate');
-              window.dispatchEvent(event);
-            }}>
-              <input
-                type="text"
-                placeholder="Search by brand or model..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-slate-900/40 backdrop-blur-3xl border border-white/5 rounded-[2rem] pl-16 pr-6 py-7 focus:outline-none focus:border-indigo-500/40 transition-all shadow-2xl font-bold text-white placeholder:text-slate-700 text-lg"
-              />
-            </form>
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-2">
+              The <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-indigo-400 bg-clip-text text-transparent italic">Escape</span> Fleet
+            </h1>
+            <p className="text-slate-400 text-lg font-medium leading-relaxed max-w-xl">
+              Every vehicle in our collection is a masterpiece of design and performance.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto">
+            {/* Search Bar */}
+            <div className="relative w-full sm:w-96 group text-white">
+              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-indigo-400">
+                 <span className="drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]">🔍</span>
+              </div>
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                window.history.pushState(null, '', `/cars?search=${encodeURIComponent(searchTerm)}`);
+                const event = new PopStateEvent('popstate');
+                window.dispatchEvent(event);
+              }}>
+                <input
+                  type="text"
+                  placeholder="Search by brand or model..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-slate-900/60 backdrop-blur-3xl border border-white/10 rounded-2xl pl-14 pr-6 py-4 focus:outline-none focus:border-indigo-500/50 transition-all shadow-xl font-bold placeholder:text-slate-600 text-sm"
+                />
+              </form>
+            </div>
+
+            {/* View Map Toggle */}
+            <button 
+              onClick={() => setShowMap(!showMap)}
+              title={showMap ? "Hide Map" : "Show Map"}
+              className="w-14 h-14 rounded-2xl bg-slate-900/40 hover:bg-slate-800 border border-white/10 hover:border-indigo-500/50 flex items-center justify-center transition-all shadow-xl text-2xl group"
+            >
+              <span className="group-hover:scale-110 transition-transform">
+                {showMap ? "🗺️" : "🌍"}
+              </span>
+            </button>
           </div>
         </div>
 
-        {/* Cars Grid */}
-        {loading ? (
-          <div className="flex justify-center py-40">
-             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent"></div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
-            {cars.length > 0 ? (
-              cars.map((car, index) => <CarCard key={car.id} car={car} index={index} />)
+        {/* Split Layout Container */}
+        <div className={`flex flex-col xl:flex-row gap-8 ${!showMap ? 'justify-center mx-auto max-w-7xl' : ''}`}>
+          
+          {/* Map Side (Sticky) */}
+          {showMap && (
+             <div className="w-full xl:w-1/3 relative z-20">
+               <div className="xl:sticky xl:top-32 h-[400px] rounded-lg overflow-hidden border border-white/10 shadow-lg group">
+                 <div className="h-full w-full [&>div]:h-full">
+                    <CarMap cars={cars} centerLat={latFromUrl ? parseFloat(latFromUrl) : null} centerLng={lngFromUrl ? parseFloat(lngFromUrl) : null} />
+                 </div>
+               </div>
+             </div>
+          )}
+
+          {/* Cars Grid Side */}
+          <div className={`w-full ${showMap ? 'xl:w-2/3' : 'w-full'}`}>
+            {loading ? (
+              <div className="flex justify-center py-40">
+                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent"></div>
+              </div>
             ) : (
-              <div className="text-center col-span-full py-40 animate-fadeIn bg-slate-900/20 border border-white/5 rounded-[4rem] backdrop-blur-3xl">
-                <div className="text-9xl mb-8 animate-float brightness-150">🏎️💨</div>
-                <h2 className="text-4xl font-black text-white mb-4 tracking-tighter">Fleet Not Found</h2>
-                <p className="text-slate-500 text-xl font-medium max-w-xs mx-auto">Refine your criteria for the perfect escape.</p>
+              <div className={`grid grid-cols-1 ${showMap ? 'sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3'} gap-6`}>
+                {cars.length > 0 ? (
+                  cars.map((car, index) => <CarCard key={car.id} car={car} index={index} />)
+                ) : (
+                  <div className={`text-center col-span-full py-32 bg-[#111] border border-white/5 rounded-2xl`}>
+                    <div className="text-6xl mb-6">🏎️</div>
+                    <h2 className="text-2xl font-bold text-white mb-3 tracking-tight">Fleet Not Found</h2>
+                    <p className="text-slate-500 max-w-xs mx-auto">Refine your criteria for the perfect escape.</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

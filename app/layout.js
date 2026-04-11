@@ -1,4 +1,5 @@
 import ClientWrapper from "../components/ClientWrapper";
+import ChatbotWidget from "../components/ChatbotWidget";
 import "./globals.css";
 
 export const metadata = {
@@ -12,6 +13,7 @@ export default function RootLayout({ children }) {
       <body>
         <ClientWrapper>
           {children}
+          <ChatbotWidget />
         </ClientWrapper>
       </body>
     </html>

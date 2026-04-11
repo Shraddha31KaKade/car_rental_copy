@@ -85,8 +85,8 @@ export default function Navbar({ onLoginClick }) {
           <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white text-xl shadow-lg shadow-indigo-500/20 group-hover:rotate-12 transition-transform duration-500 overflow-hidden">
              🏎️
           </div>
-          <span className="text-2xl font-black tracking-tighter text-white uppercase flex items-baseline">
-            Car<span className="text-indigo-500 italic lowercase">Rental</span>
+          <span className="text-2xl font-black tracking-tighter text-white flex items-baseline">
+            car<span className="text-indigo-500">Rental</span>
           </span>
         </Link>
 
@@ -94,6 +94,7 @@ export default function Navbar({ onLoginClick }) {
         <div className="hidden md:flex items-center gap-10">
           <Link href="/" className="text-sm font-bold text-slate-100 hover:text-indigo-400 transition-colors uppercase tracking-widest">Home</Link>
           <Link href="/cars" className="text-sm font-bold text-slate-400 hover:text-indigo-400 transition-colors uppercase tracking-widest">Fleet</Link>
+          <Link href="/services" className="text-sm font-bold text-slate-400 hover:text-indigo-400 transition-colors uppercase tracking-widest">Services</Link>
           <Link href="/booking" className="text-sm font-bold text-slate-400 hover:text-indigo-400 transition-colors uppercase tracking-widest">My Journeys</Link>
           <Link href="/list-cars" className="text-sm font-bold text-slate-400 hover:text-indigo-400 transition-colors uppercase tracking-widest">List Your Car</Link>
         </div>
@@ -141,6 +142,7 @@ export default function Navbar({ onLoginClick }) {
           <div className="flex flex-col gap-6 text-center">
             <Link href="/" className="text-xl font-black text-white" onClick={toggleMobileMenu}>Home</Link>
             <Link href="/cars" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>Fleet</Link>
+            <Link href="/services" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>Services</Link>
             <Link href="/booking" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>My Journeys</Link>
             <Link href="/list-cars" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>List Your Car</Link>
             {loggedInUser ? (

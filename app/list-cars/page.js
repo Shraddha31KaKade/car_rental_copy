@@ -75,14 +75,12 @@ export default function ListYourCarPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] pt-40 pb-24 relative overflow-hidden isolate">
-       <div className="bg-blob blob-indigo top-0 left-0 opacity-10"></div>
-       <div className="bg-blob blob-violet bottom-0 right-0 opacity-10"></div>
+    <div className="min-h-screen bg-[#0a0a0a] pt-40 pb-24 relative overflow-hidden isolate">
 
        <div className="max-w-7xl mx-auto px-6 relative z-10">
          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
            
-           <div className="animate-fadeUp">
+           <div>
              <div className="inline-block px-4 py-1.5 mb-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.3em]">
                 Partner Program
              </div>
@@ -124,18 +122,18 @@ export default function ListYourCarPage() {
              </div>
            </div>
 
-           <div className="animate-scaleIn delay-100">
+           <div>
              {success ? (
                <div className="bg-slate-900/40 backdrop-blur-3xl p-16 rounded-[4rem] border border-indigo-500/30 text-center shadow-2xl">
-                  <div className="text-8xl mb-8 animate-float">🚀</div>
+                  <div className="text-8xl mb-8">🚀</div>
                   <h2 className="text-4xl font-black text-white mb-4 uppercase tracking-tighter">Asset Integrated</h2>
                   <p className="text-indigo-400 font-black uppercase tracking-widest text-[10px] mb-10">Verification Protocol Initialized</p>
                   <p className="text-slate-500 max-w-xs mx-auto font-medium">Your vehicle is being reviewed by our specialists. Redirecting to fleet...</p>
                </div>
              ) : (
                !termsAccepted ? (
-                 <div className="bg-slate-900/40 backdrop-blur-3xl p-10 sm:p-14 rounded-[4rem] border border-white/5 shadow-2xl relative overflow-hidden">
-                   <h2 className="text-3xl font-black text-white mb-6 uppercase tracking-tighter italic">Terms & Conditions</h2>
+                 <div className="bg-[#111] p-10 sm:p-14 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
+                   <h2 className="text-3xl font-bold text-white mb-6 uppercase tracking-tighter">Terms & Conditions</h2>
                    <div className="max-h-64 overflow-y-auto pr-4 space-y-4 text-sm text-slate-400 font-medium mb-8">
                      <p>Welcome to CarRental Fleet Partnership. By listing your vehicle, you agree to these legal bindings.</p>
                      <p><strong>1. Accuracy of Information:</strong> The listed specifications, photos, and condition of your vehicle must be thoroughly accurate. Misrepresentations will lead to a permanent ban.</p>
@@ -165,8 +163,8 @@ export default function ListYourCarPage() {
                    </button>
                  </div>
                ) : (
-               <div className="bg-slate-900/40 backdrop-blur-3xl p-10 sm:p-14 rounded-[4rem] border border-white/5 shadow-2xl relative overflow-hidden">
-                 <h2 className="text-3xl font-black text-white mb-10 uppercase tracking-tighter italic">Vehicle Specifications</h2>
+               <div className="bg-[#111] p-10 sm:p-14 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
+                 <h2 className="text-3xl font-bold text-white mb-10 uppercase tracking-tighter">Vehicle Specifications</h2>
                  <form onSubmit={handleSubmit} className="space-y-8">
                    
                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
