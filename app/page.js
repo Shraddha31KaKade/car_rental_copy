@@ -169,15 +169,15 @@ export default function Home() {
       {/* LUXURY PARTNERSHIP CTA */}
       <section className="py-32 px-6 relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-br from-slate-900 to-black rounded-[4rem] p-12 sm:p-24 flex flex-col md:flex-row items-center justify-between text-white gap-16 overflow-hidden relative border border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.5)]">
+          <div className="bg-gradient-to-br from-slate-900 to-black rounded-[2rem] p-10 sm:p-16 flex flex-col md:flex-row items-center justify-between text-white gap-16 overflow-hidden relative border border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.5)]">
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full -mr-64 -mt-64"></div>
             
             <div className="text-center md:text-left relative z-10 max-w-xl">
-              <h1 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-tighter uppercase italic leading-[0.9]">
+              <h1 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tighter uppercase italic leading-tight">
                 Drive the <span className="text-indigo-500">Extraordinary</span>
               </h1>
-              <p className="text-slate-400 text-xl font-medium max-w-xl mb-12">Redefining luxury travel with CarRental.</p>
-              <p className="text-slate-400 text-xl mb-12 leading-relaxed font-medium">
+              <p className="text-slate-400 text-lg font-medium max-w-xl mb-8">Redefining luxury travel with CarRental.</p>
+              <p className="text-slate-400 text-lg mb-10 leading-relaxed font-medium">
                 Connect with an exclusive network of drivers. List your vehicle and join the most prestigious rental collective.
               </p>
               <Link
@@ -188,14 +188,14 @@ export default function Home() {
               </Link>
             </div>
             
-            <div className="relative z-10">
-              <div className="absolute -inset-10 bg-indigo-500/20 rounded-full scale-75"></div>
+            <div className="relative z-10 hidden md:block">
+              <div className="absolute -inset-10 bg-indigo-500/20 rounded-full scale-75 blur-2xl"></div>
               <Image
                 src="/bmw.png"
                 alt="Partner Vehicle"
-                width={600}
-                height={350}
-                className="w-full max-w-md h-auto transition-all duration-1000 group-hover:scale-110 group-hover:-rotate-3 drop-shadow-[0_20px_40px_rgba(0,0,0,0.8)]"
+                width={500}
+                height={300}
+                className="relative z-10 w-full max-w-md h-auto transition-all duration-1000 group-hover:scale-105"
               />
             </div>
           </div>

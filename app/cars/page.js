@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
-const CarMap = dynamic(() => import("../../components/CarMap"), { ssr: false });
+const SearchMap = dynamic(() => import("../../components/maps/SearchMap"), { ssr: false });
 
 // CarCard component
 function CarCard({ car, index }) {
@@ -40,7 +40,11 @@ function CarCard({ car, index }) {
   }
 
   return (
-    <div className="group carCard">
+    <div 
+      className="group carCard"
+      onMouseEnter={() => window.dispatchEvent(new CustomEvent('carHover', { detail: car.id }))}
+      onMouseLeave={() => window.dispatchEvent(new CustomEvent('carHover', { detail: null }))}
+    >
       <div className="carImageWrapper h-64">
         <Image
           src={displayImage}
@@ -110,6 +114,13 @@ export default function CarsPage() {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showMap, setShowMap] = useState(false);
+  const [hoverCarId, setHoverCarId] = useState(null);
+
+  useEffect(() => {
+    const handleHover = (e) => setHoverCarId(e.detail);
+    window.addEventListener('carHover', handleHover);
+    return () => window.removeEventListener('carHover', handleHover);
+  }, []);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -205,8 +216,8 @@ export default function CarsPage() {
           {showMap && (
              <div className="w-full xl:w-1/3 relative z-20">
                <div className="xl:sticky xl:top-32 h-[400px] rounded-lg overflow-hidden border border-white/10 shadow-lg group">
-                 <div className="h-full w-full [&>div]:h-full">
-                    <CarMap cars={cars} centerLat={latFromUrl ? parseFloat(latFromUrl) : null} centerLng={lngFromUrl ? parseFloat(lngFromUrl) : null} />
+                 <div className="h-[600px] w-full [&>div]:h-full">
+                    <SearchMap cars={cars} hoverCarId={hoverCarId} />
                  </div>
                </div>
              </div>

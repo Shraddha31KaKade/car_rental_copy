@@ -8,29 +8,47 @@ export default function MyCarsPage() {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchCars = async () => {
-      try {
-        const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
-        if (!token) return;
+  const fetchCars = async () => {
+    try {
+      const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
+      if (!token) return;
 
-        const res = await fetchWithAuth("http://localhost:5000/api/owner/cars", {
-          method: "GET"
-        });
-        
-        if (res.ok) {
-          const data = await res.json();
-          setCars(data);
-        }
-      } catch (err) {
-        console.error("Fetch cars error:", err);
-      } finally {
-        setLoading(false);
+      const res = await fetchWithAuth("http://localhost:5000/api/owner/cars", {
+        method: "GET"
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        setCars(data);
       }
-    };
+    } catch (err) {
+      console.error("Fetch cars error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchCars();
   }, []);
+
+  const handlePauseToggle = async (carId, currentPausedStatus) => {
+    try {
+      const res = await fetchWithAuth(`http://localhost:5000/api/cars/${carId}/pause`, {
+        method: "PATCH",
+        body: JSON.stringify({ isPaused: !currentPausedStatus }),
+        headers: { "Content-Type": "application/json" }
+      });
+      if (res.ok) {
+        fetchCars(); // refresh array
+      } else {
+        alert("Failed to toggle pause status.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error updating status.");
+    }
+  };
 
   if (loading) return <div className="text-white animate-pulse">Retrieving Fleet Data...</div>;
 
@@ -52,25 +70,46 @@ export default function MyCarsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cars.map(car => (
             <div key={car.id} className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden group">
-              <div className="h-48 relative overflow-hidden bg-slate-900">
-                <Image 
-                  src={car.image ? (car.image.startsWith('/upload') ? `http://localhost:5000${car.image}` : car.image) : "/car-placeholder.png"} 
-                  alt={car.name} 
-                  fill 
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                  unoptimized
-                />
-                {!car.availability && (
-                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                    <span className="bg-rose-500 text-white px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest">Hidden</span>
+              <div className="h-48 relative overflow-hidden bg-slate-900 leading-[0]">
+                {car.images && car.images[0] ? (
+                  <img 
+                    src={car.images[0]} 
+                    alt={car.name} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                  />
+                ) : (
+                  <Image 
+                    src={car.image ? (car.image.startsWith('/upload') ? `http://localhost:5000${car.image}` : car.image) : "/car-placeholder.png"} 
+                    alt={car.name} 
+                    fill 
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                    unoptimized
+                  />
+                )}
+                {car.isPaused && (
+                  <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center">
+                    <span className="bg-yellow-500 text-black px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest">Paused</span>
                   </div>
                 )}
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-black text-white mb-2">{car.name}</h3>
-                <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest text-slate-400">
+                <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
                   <span>{car.year || '2024'}</span>
                   <span className="text-indigo-400">₹{car.price}/day</span>
+                </div>
+                
+                <div className="flex gap-3">
+                  <button 
+                     onClick={() => handlePauseToggle(car.id, car.isPaused)}
+                     className={`flex-1 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors ${car.isPaused ? 'bg-indigo-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'}`}>
+                     {car.isPaused ? "Unpause" : "Pause"}
+                  </button>
+                  <button 
+                     onClick={() => alert('Edit form coming soon!')}
+                     className="flex-1 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
+                     Edit
+                  </button>
                 </div>
               </div>
             </div>

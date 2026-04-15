@@ -92,11 +92,11 @@ export default function Navbar({ onLoginClick }) {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-10">
-          <Link href="/" className="text-sm font-bold text-slate-100 hover:text-indigo-400 transition-colors uppercase tracking-widest">Home</Link>
-          <Link href="/cars" className="text-sm font-bold text-slate-400 hover:text-indigo-400 transition-colors uppercase tracking-widest">Fleet</Link>
-          <Link href="/services" className="text-sm font-bold text-slate-400 hover:text-indigo-400 transition-colors uppercase tracking-widest">Services</Link>
-          <Link href="/booking" className="text-sm font-bold text-slate-400 hover:text-indigo-400 transition-colors uppercase tracking-widest">My Journeys</Link>
-          <Link href="/list-cars" className="text-sm font-bold text-slate-400 hover:text-indigo-400 transition-colors uppercase tracking-widest">List Your Car</Link>
+          <Link href="/" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">Home</Link>
+          <Link href="/cars" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">Fleet</Link>
+          <Link href="/services" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">Services</Link>
+          <Link href="/booking" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">My Journeys</Link>
+          <Link href="/list-cars" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">List Your Car</Link>
         </div>
 
         {/* Desktop Actions */}
