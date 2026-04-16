@@ -4,9 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { fetchWithAuth } from "../../utils/api";
-import dynamic from 'next/dynamic';
-
-const MapLocationPicker = dynamic(() => import('../../components/maps/MapLocationPicker'), { ssr: false });
+// Removed MapLocationPicker to eliminate Leaflet issues
 
 export default function ListYourCarPage() {
   const router = useRouter();
@@ -31,7 +29,7 @@ export default function ListYourCarPage() {
 
   const [images, setImages] = useState([]);
   const [rcDocument, setRcDocument] = useState(null);
-  const [position, setPosition] = useState(null); // {lat, lng}
+// Location handling simplified, position state removed
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,11 +71,7 @@ export default function ListYourCarPage() {
          dataToSend.append("rcDocument", rcDocument);
       }
 
-      // Append Location
-      if (position) {
-         dataToSend.append("lat", position.lat);
-         dataToSend.append("lng", position.lng);
-      }
+      // Location is submitted as simple text field from formData.location
 
       const res = await fetchWithAuth("http://localhost:5000/api/cars", {
         method: "POST",
@@ -247,7 +241,7 @@ export default function ListYourCarPage() {
                            <div className="space-y-2">
                              <label className="text-[10px] font-black text-emerald-400 uppercase tracking-widest ml-1">Registration Certificate (RC)</label>
                              <div className="relative group/file">
-                                <input type="file" accept=".pdf,image/*" onChange={handleDocChange} required
+                                <input type="file" accept=".pdf,image/*,.txt" onChange={handleDocChange} required
                                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
                                 <div className="w-full bg-emerald-500/5 border-2 border-dashed border-emerald-500/20 rounded-2xl px-6 py-6 flex flex-col items-center justify-center group-hover/file:border-emerald-500/40 transition-all">
                                    <span className="text-2xl mb-2">📄</span>
@@ -272,9 +266,7 @@ export default function ListYourCarPage() {
                           </div>
                           
                           <div className="space-y-2 pt-4">
-                             <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Pin Exact Location on Map</label>
-                             <MapLocationPicker position={position} setPosition={setPosition} />
-                             {position && <p className="text-emerald-400 text-xs mt-2 font-bold tracking-wider">✓ Location pinned successfully.</p>}
+                             <p className="text-slate-400 text-xs">Note: Map selection has been removed. Simply provide the specific region.</p>
                           </div>
                         </div>
                      </>

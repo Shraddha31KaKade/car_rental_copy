@@ -75,6 +75,10 @@ export default function Navbar({ onLoginClick }) {
     setLoggedInUser(null);
     window.dispatchEvent(new Event("authChange"));
     alert("Logged out successfully");
+    
+    if (window.location.pathname.startsWith("/admin") || window.location.pathname.startsWith("/owner")) {
+      window.location.href = "/";
+    }
   };
 
   return (

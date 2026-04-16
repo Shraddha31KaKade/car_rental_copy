@@ -22,8 +22,8 @@ export default function AdminReports() {
 
   // Stats
   const metrics = useMemo(() => {
-    const openCount = reports.filter(r => r.status === 'Open').length;
-    const resolvedCount = reports.filter(r => r.status === 'Resolved').length;
+    const openCount = reports.filter(r => r.status === 'PENDING').length;
+    const resolvedCount = reports.filter(r => r.status === 'RESOLVED').length;
     return { openCount, resolvedCount };
   }, [reports]);
 
@@ -32,22 +32,16 @@ export default function AdminReports() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetchWithAuth("http://localhost:5000/api/reports");
+      const res = await fetchWithAuth("http://localhost:5000/api/admin/reports");
       if (!res.ok) {
-        throw new Error("Failed to fetch from API. Using local state.");
+        throw new Error("Failed to fetch from API.");
       }
       const data = await res.json();
-      setReports(data.reports || []);
+      setReports(data.data || []);
     } catch (err) {
       console.warn(err.message);
-      // Fallback to mock data for demonstration
-      setReports([
-        { id: "RC-8921", vehicle: "Tesla Model Y", user: "Michael Chen", status: "Open", type: "Mechanical", date: "Oct 24, 2026" },
-        { id: "RC-8920", vehicle: "BMW X5", user: "Sarah Jenkins", status: "Resolved", type: "Cleanliness", date: "Oct 23, 2026" },
-        { id: "RC-8919", vehicle: "Audi A4", user: "David Kim", status: "In Progress", type: "Billing", date: "Oct 22, 2026" },
-        { id: "RC-8918", vehicle: "Mercedes C-Class", user: "Emma Watson", status: "Open", type: "Late Return", date: "Oct 22, 2026" },
-      ]);
-      setError("Connected to dummy data. Live API endpoint unavailable.");
+      setError("Could not load reports. Backend might be down.");
+      setReports([]);
     } finally {
       setLoading(false);
     }
@@ -60,9 +54,9 @@ export default function AdminReports() {
   // Filter Logic
   const filteredReports = useMemo(() => {
     return reports.filter(r => 
-      r.id.toLowerCase().includes(searchQuery.toLowerCase()) || 
-      r.user.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.vehicle.toLowerCase().includes(searchQuery.toLowerCase())
+      r.id.toString().includes(searchQuery) || 
+      (r.reporter?.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (r.vehicle?.name || "").toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [reports, searchQuery]);
 
@@ -130,12 +124,20 @@ export default function AdminReports() {
             <p className="text-on-surface-variant font-semibold tracking-wide text-sm mb-1 uppercase">Admin Suite</p>
             <h1 className="text-4xl text-on-surface font-bold tracking-tight">Reports & Complaints</h1>
           </div>
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="bg-gradient-to-br from-primary to-primary-dim text-white px-6 py-3 rounded-xl font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:opacity-90 transition-opacity"
-          >
-            Generate Report
-          </button>
+          <div className="flex gap-4">
+            <button 
+              onClick={() => router.push("/admin/cars")}
+              className="bg-surface-container-high text-on-surface px-6 py-3 rounded-xl font-medium transition-colors hover:bg-surface-container-highest"
+            >
+              Pending Car Approvals
+            </button>
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="bg-gradient-to-br from-primary to-primary-dim text-white px-6 py-3 rounded-xl font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] hover:opacity-90 transition-opacity"
+            >
+              Generate Report
+            </button>
+          </div>
         </div>
 
         {/* Action Cards (Metrics) - Uses surface hierarchy */}
@@ -224,18 +226,18 @@ export default function AdminReports() {
                         <BoxSelect size={18} className="text-outline-variant/30 group-hover:text-outline-variant transition-colors cursor-pointer" />
                       </td>
                       <td className="p-4 font-medium text-primary cursor-pointer hover:underline" onClick={() => navigateToDetails(item.id)}>{item.id}</td>
-                      <td className="p-4">{item.user}</td>
-                      <td className="p-4 text-on-surface-variant">{item.vehicle}</td>
+                      <td className="p-4">{item.reporter?.name || "Unknown"}</td>
+                      <td className="p-4 text-on-surface-variant">{item.vehicle?.name || "N/A"}</td>
                       <td className="p-4">
                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
-                          item.status === 'Open' ? 'bg-error-container text-on-error-container' :
-                          item.status === 'Resolved' ? 'bg-tertiary-container text-on-tertiary-container' :
+                          item.status === 'PENDING' ? 'bg-error-container text-on-error-container' :
+                          item.status === 'RESOLVED' ? 'bg-tertiary-container text-on-tertiary-container' :
                           'bg-primary-container text-on-surface'
                         }`}>
                           {item.status}
                         </span>
                       </td>
-                      <td className="p-4 text-on-surface-variant">{item.date}</td>
+                      <td className="p-4 text-on-surface-variant">{new Date(item.createdAt).toLocaleDateString()}</td>
                       <td className="p-4 text-right">
                         <button 
                           onClick={() => navigateToDetails(item.id)}

@@ -69,8 +69,8 @@ export default function DashboardPage() {
 
       <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
         <h2 className="text-2xl font-bold text-white mb-6">Revenue History</h2>
-        <div className="h-64">
-           <ResponsiveContainer width="100%" height="100%">
+        <div className="mt-4">
+           <ResponsiveContainer width="99%" height={256}>
              <BarChart data={chartData}>
                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
                <XAxis dataKey="name" stroke="#94a3b8" fontSize={12} />

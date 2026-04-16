@@ -91,22 +91,40 @@ export default function MyCarsPage() {
                     <span className="bg-yellow-500 text-black px-4 py-1 rounded-full text-xs font-black uppercase tracking-widest">Paused</span>
                   </div>
                 )}
+                {car.listingStatus && car.listingStatus !== 'APPROVED' && (
+                  <div className="absolute top-3 left-3 z-10">
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg ${
+                      car.listingStatus === 'PENDING_APPROVAL' ? 'bg-yellow-500 text-black' : 
+                      car.listingStatus === 'CHANGES_REQUESTED' ? 'bg-orange-500 text-white' : 
+                      'bg-red-500 text-white'
+                    }`}>
+                      {car.listingStatus.replace('_', ' ')}
+                    </span>
+                  </div>
+                )}
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-black text-white mb-2">{car.name}</h3>
-                <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">
+                <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
                   <span>{car.year || '2024'}</span>
-                  <span className="text-indigo-400">₹{car.price}/day</span>
+                  <span className="text-indigo-400">${car.price}/day</span>
                 </div>
+
+                {car.rejectionReason && car.listingStatus !== 'APPROVED' && (
+                  <div className="mb-4 bg-red-500/10 border border-red-500/20 p-3 rounded-xl shadow-inner">
+                    <p className="text-[10px] font-black text-red-400 uppercase tracking-widest mb-1">Admin Feedback:</p>
+                    <p className="text-xs text-red-200 font-medium">{car.rejectionReason}</p>
+                  </div>
+                )}
                 
-                <div className="flex gap-3">
+                <div className="flex gap-3 mt-4">
                   <button 
                      onClick={() => handlePauseToggle(car.id, car.isPaused)}
                      className={`flex-1 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors ${car.isPaused ? 'bg-indigo-500 text-white' : 'bg-white/10 text-white hover:bg-white/20'}`}>
                      {car.isPaused ? "Unpause" : "Pause"}
                   </button>
                   <button 
-                     onClick={() => alert('Edit form coming soon!')}
+                     onClick={() => window.location.href = `/list-cars?edit=${car.id}`}
                      className="flex-1 py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
                      Edit
                   </button>

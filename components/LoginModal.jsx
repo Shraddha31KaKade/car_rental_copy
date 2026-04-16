@@ -45,6 +45,8 @@ export default function LoginModal({ onClose, onLoginSuccess }) {
 
         if (onLoginSuccess) {
           onLoginSuccess(data.user);
+        } else if (data.user && data.user.role === 'ADMIN') {
+          window.location.href = '/admin';
         }
 
         onClose();
