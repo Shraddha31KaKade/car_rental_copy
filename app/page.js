@@ -202,6 +202,91 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CONTACT US SECTION */}
+      <section id="contact" className="py-32 px-6 bg-gradient-to-b from-[#0a0a0a] to-[#020617] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div>
+            <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">
+              Direct Inquiries
+            </div>
+            <h2 className="text-5xl md:text-6xl font-black text-white mb-8 tracking-tighter">
+              Get in Touch <br />
+              <span className="text-indigo-500">Instantly.</span>
+            </h2>
+            <p className="text-slate-400 text-lg mb-12 max-w-md leading-relaxed font-medium">
+              Have questions about our fleet or specific rental costs? Ask away, and our AI-powered response system will get back to you immediately.
+            </p>
+            
+            <div className="space-y-6">
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-2xl border border-white/10 text-indigo-400">📍</div>
+                <div>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Global HQ</p>
+                  <p className="text-white font-bold">Cyber City, DLF Phase 3, Gurugram</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-2xl border border-white/10 text-indigo-400">📱</div>
+                <div>
+                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Priority Support</p>
+                  <p className="text-white font-bold">+91 98765 43210</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-[#111] border border-white/10 rounded-[2.5rem] p-10 sm:p-14 shadow-2xl relative">
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-indigo-600/20 rounded-full blur-3xl"></div>
+            <h3 className="text-2xl font-black text-white mb-8 uppercase tracking-tight">Quick Inquiry</h3>
+            
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              const data = Object.fromEntries(formData);
+              
+              try {
+                const res = await fetch("http://localhost:5000/api/contact/inquiry", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                if (res.ok) {
+                  alert(result.message || "Inquiry sent! You will receive an automated price update if you mentioned a car name.");
+                  e.target.reset();
+                } else {
+                  alert(result.error || "Failed to send inquiry.");
+                }
+              } catch (err) {
+                alert("Connection error.");
+              }
+            }} className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1">Name</label>
+                  <input name="name" type="text" required placeholder="John Doe" className="w-full bg-black/30 border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1">Mobile No.</label>
+                  <input name="mobile" type="tel" required placeholder="+91..." className="w-full bg-black/30 border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1">Email</label>
+                <input name="email" type="email" required placeholder="john@example.com" className="w-full bg-black/30 border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-indigo-500/50 transition-colors" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1">Message (Ask about a car!)</label>
+                <textarea name="message" required rows={3} placeholder="What is the rent of the BMW X5?" className="w-full bg-black/30 border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-indigo-500/50 transition-colors resize-none" />
+              </div>
+              <button type="submit" className="w-full py-5 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-black uppercase tracking-widest text-sm transition-all shadow-lg hover:shadow-indigo-500/30">
+                Send Transmission
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
       {/* EXCLUSIVE NEWSLETTER */}
       <section className="py-32 px-6 border-t border-white/5">
         <div className="max-w-4xl mx-auto text-center">

@@ -23,21 +23,57 @@ export default function ServicesPage() {
       title: "Chauffeur Drives",
       desc: "Experience ultimate luxury with our professional chauffeur services. Sit back and relax.",
       icon: "👔",
-      delay: "0ms"
+      delay: "0ms",
+      details: [
+        "Professional Uniformed Drivers",
+        "Punctual Pick-ups & Drop-offs",
+        "Multilingual Support",
+        "Discretion & Safety Guaranteed"
+      ]
     },
     {
       title: "Airport Transfers",
       desc: "Punctual, private, and premium transfers. Seamless transition from sky to road.",
       icon: "✈️",
-      delay: "100ms"
+      delay: "100ms",
+      details: [
+        "Flight Monitoring & Adjustment",
+        "Meet & Greet Services",
+        "Porterage Assistance",
+        "Fixed Rates (No Surge)"
+      ]
     },
     {
       title: "Corporate Leasing",
       desc: "Flexible, long-term fleet solutions tailored for your business needs and executives.",
       icon: "🏢",
-      delay: "200ms"
+      delay: "200ms",
+      details: [
+        "Customizable Fleet Selection",
+        "Tax-Efficient Solutions",
+        "Dedicated Account Manager",
+        "24/7 Priority Support"
+      ]
+    },
+    {
+      title: "Event Concierge",
+      desc: "Comprehensive transportation management for weddings, galas, and high-profile events.",
+      icon: "💍",
+      delay: "300ms",
+      details: [
+        "Coordinated Multi-Car Logistics",
+        "VIP Liaison Services",
+        "Event Branding Options",
+        "On-Site Dispatcher"
+      ]
     }
   ];
+
+  const [expandedSvc, setExpandedSvc] = useState(null);
+
+  const toggleSvc = (index) => {
+    setExpandedSvc(expandedSvc === index ? null : index);
+  };
 
   const testimonials = [
     {
@@ -100,12 +136,50 @@ export default function ServicesPage() {
              </p>
              <div className="grid gap-6">
                 {services.map((svc, i) => (
-                   <div key={i} className="flex gap-4 items-start p-6 bg-white/5 border border-white/5 rounded-2xl hover:border-indigo-500/30 transition-colors" style={{ animationDelay: svc.delay }}>
-                      <div className="text-3xl">{svc.icon}</div>
-                      <div>
-                         <h3 className="text-white font-bold mb-1 uppercase tracking-wider">{svc.title}</h3>
-                         <p className="text-slate-500 text-sm">{svc.desc}</p>
+                   <div 
+                    key={i} 
+                    className={`cursor-pointer overflow-hidden p-6 bg-white/5 border border-white/5 rounded-2xl hover:border-indigo-500/30 transition-all duration-500 ${expandedSvc === i ? 'bg-indigo-500/5 border-indigo-500/30' : ''}`} 
+                    style={{ animationDelay: svc.delay }}
+                    onClick={() => toggleSvc(i)}
+                   >
+                      <div className="flex justify-between items-center">
+                        <div className="flex gap-4 items-start">
+                          <div className="text-3xl">{svc.icon}</div>
+                          <div>
+                             <h3 className="text-white font-bold mb-1 uppercase tracking-wider">{svc.title}</h3>
+                             <p className="text-slate-500 text-sm">{svc.desc}</p>
+                          </div>
+                        </div>
+                        <div className={`text-indigo-400 transition-transform duration-500 ${expandedSvc === i ? 'rotate-180' : ''}`}>
+                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
                       </div>
+                      
+                      {expandedSvc === i && (
+                        <div className="mt-6 pt-6 border-t border-white/5 animate-fadeIn">
+                          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {svc.details.map((detail, idx) => (
+                              <li key={idx} className="flex items-center gap-2 text-slate-400 text-sm">
+                                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                                {detail}
+                              </li>
+                            ))}
+                          </ul>
+                          
+                          {/* USER: ADD VIDEO FOR THIS SERVICE HERE */}
+                          {/* 
+                          <div className="mt-6 rounded-xl overflow-hidden border border-white/5">
+                            <video className="w-full h-40 object-cover" controls>
+                               <source src="/path-to-your-service-video.mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                          */}
+                          <div className="mt-4 p-4 border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center text-[10px] text-slate-600 uppercase tracking-tighter">
+                            <span>Video Placeholder</span>
+                            <span>Add video for {svc.title} here</span>
+                          </div>
+                        </div>
+                      )}
                    </div>
                 ))}
              </div>

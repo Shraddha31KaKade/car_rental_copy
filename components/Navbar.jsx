@@ -105,6 +105,12 @@ export default function Navbar({ onLoginClick }) {
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-6">
+          {loggedInUser?.role === "ADMIN" && (
+            <Link href="/admin/analytics" className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white py-2 px-6 rounded-xl text-xs font-black shadow-lg shadow-indigo-500/20 hover:scale-105 transition-transform uppercase tracking-widest border border-white/10">
+               Admin Panel
+            </Link>
+          )}
+
           {loggedInUser?.role === "OWNER" && (
             <Link href="/owner/dashboard" className="btn-outline py-2 px-6 text-xs drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]">
                Owner Dashboard

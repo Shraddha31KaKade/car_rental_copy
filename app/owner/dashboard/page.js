@@ -8,20 +8,24 @@ export default function DashboardPage() {
   const [stats, setStats] = useState(null);
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [dashRes, anRes] = await Promise.all([
+        const [dashRes, anRes, notifRes] = await Promise.all([
            fetchWithAuth("http://localhost:5000/api/owner/dashboard", { method: "GET" }),
-           fetchWithAuth("http://localhost:5000/api/owner/analytics", { method: "GET" })
+           fetchWithAuth("http://localhost:5000/api/owner/analytics", { method: "GET" }),
+           fetchWithAuth("http://localhost:5000/api/owner/notifications", { method: "GET" })
         ]);
         
-        if (dashRes.ok && anRes.ok) {
+        if (dashRes.ok && anRes.ok && notifRes.ok) {
           const dashData = await dashRes.json();
           const anData = await anRes.json();
+          const notifData = await notifRes.json();
           setStats(dashData);
           setAnalytics(anData);
+          setNotifications(notifData);
         }
       } catch (err) {
         console.error("Dashboard fetch error:", err);
@@ -41,9 +45,57 @@ export default function DashboardPage() {
      earnings: analytics.earningsPerMonth[month]
   }));
 
+  const handleMarkAsRead = async () => {
+    try {
+      const res = await fetchWithAuth("http://localhost:5000/api/owner/notifications/read", { method: "POST" });
+      if (res.ok) {
+        setNotifications(notifications.map(n => ({ ...n, isRead: true })));
+      }
+    } catch (e) {}
+  };
+
   return (
     <div className="animate-fadeUp">
-      <h1 className="text-4xl font-black text-white uppercase tracking-tighter mb-8 italic">Command Center</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl font-black text-white uppercase tracking-tighter italic">Command Center</h1>
+        {notifications.some(n => !n.isRead) && (
+          <button onClick={handleMarkAsRead} className="text-[10px] font-black text-indigo-400 border border-indigo-500/30 px-4 py-2 rounded-full hover:bg-indigo-500/10 transition-colors uppercase tracking-widest">
+            Clear New Alerts
+          </button>
+        )}
+      </div>
+
+      {/* ALERTS SECTION */}
+      {notifications.length > 0 && (
+        <div className="mb-12 space-y-4">
+          <div className="flex items-center gap-3 mb-4">
+             <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
+             <h2 className="text-sm font-black text-white uppercase tracking-widest">Operational Alerts</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             {notifications.slice(0, 4).map((notif, i) => (
+               <div key={notif.id} className={`p-6 rounded-[1.5rem] border transition-all ${notif.isRead ? 'bg-white/5 border-white/5 opacity-60' : 'bg-indigo-500/10 border-indigo-500/30 shadow-[0_10px_30px_rgba(99,102,241,0.1)]'}`}>
+                  <div className="flex justify-between items-start mb-3">
+                    <span className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter ${notif.isRead ? 'bg-white/5 text-slate-500' : 'bg-indigo-500 text-white'}`}>
+                      {notif.isRead ? 'Viewed' : 'New Transmission'}
+                    </span>
+                    <span className="text-[9px] font-bold text-slate-600 font-mono italic">
+                      {new Date(notif.createdAt).toLocaleString()}
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium text-slate-200 leading-relaxed">{notif.message}</p>
+                  {!notif.isRead && notif.message.includes("update your listing") && (
+                    <div className="mt-4 pt-4 border-t border-white/5">
+                      <a href="/owner/my-cars" className="text-[10px] font-black text-indigo-400 uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2">
+                        Go to Listing Control Panel →
+                      </a>
+                    </div>
+                  )}
+               </div>
+             ))}
+          </div>
+        </div>
+      )}
       
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
         <div className="bg-white/5 border border-white/10 rounded-3xl p-8 relative overflow-hidden group">

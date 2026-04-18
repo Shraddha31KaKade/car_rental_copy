@@ -112,6 +112,11 @@ export default function LoginModal({ onClose, onLoginSuccess }) {
               onChange={handleChange}
               className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
             />
+            <div className="flex justify-end pr-2">
+               <Link href="/forgot-password" onClick={onClose} className="text-[9px] font-black text-slate-500 hover:text-indigo-400 uppercase tracking-widest transition-colors">
+                 Forgot Security Key?
+               </Link>
+            </div>
           </div>
         </div>
 
