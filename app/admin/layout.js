@@ -50,12 +50,12 @@ export default function AdminLayout({ children }) {
           })}
         </nav>
 
-        <div className="px-4 mt-auto">
+        <div className="px-4 mt-auto mb-4">
           <Link
             href="/"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-colors font-medium border border-transparent hover:border-white/10"
+            className="flex items-center justify-center gap-3 px-4 py-4 rounded-2xl bg-white/5 text-indigo-400 hover:text-white hover:bg-indigo-600 transition-all duration-500 font-black text-xs uppercase tracking-widest border border-white/5 hover:border-indigo-500 shadow-xl"
           >
-            <ArrowLeft size={18} /> Back to Portal
+            <ArrowLeft size={16} /> Back to Website
           </Link>
         </div>
       </aside>

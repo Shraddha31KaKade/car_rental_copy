@@ -1,6 +1,13 @@
+import { Outfit } from "next/font/google";
 import ClientWrapper from "../components/ClientWrapper";
 import ChatbotWidget from "../components/ChatbotWidget";
 import "./globals.css";
+
+const outfit = Outfit({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-outfit",
+});
 
 export const metadata = {
   title: "CarRental | Elite Vehicle Fleet",
@@ -9,8 +16,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={outfit.variable}>
+      <body className="font-sans antialiased">
         <ClientWrapper>
           {children}
           <ChatbotWidget />

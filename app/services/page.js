@@ -29,7 +29,8 @@ export default function ServicesPage() {
         "Punctual Pick-ups & Drop-offs",
         "Multilingual Support",
         "Discretion & Safety Guaranteed"
-      ]
+      ],
+      videoPlaceholder: "Chauffeur Luxury Experience"
     },
     {
       title: "Airport Transfers",
@@ -41,7 +42,8 @@ export default function ServicesPage() {
         "Meet & Greet Services",
         "Porterage Assistance",
         "Fixed Rates (No Surge)"
-      ]
+      ],
+      videoPlaceholder: "Seamless Airport Transit"
     },
     {
       title: "Corporate Leasing",
@@ -53,7 +55,8 @@ export default function ServicesPage() {
         "Tax-Efficient Solutions",
         "Dedicated Account Manager",
         "24/7 Priority Support"
-      ]
+      ],
+      videoPlaceholder: "Business Fleet Solutions"
     },
     {
       title: "Event Concierge",
@@ -65,7 +68,34 @@ export default function ServicesPage() {
         "VIP Liaison Services",
         "Event Branding Options",
         "On-Site Dispatcher"
-      ]
+      ],
+      videoPlaceholder: "Grand Event Management"
+    },
+    {
+      title: "Wedding Special",
+      desc: "Make your special day unforgettable with our fleet of vintage and modern luxury cars.",
+      icon: "🥂",
+      delay: "400ms",
+      details: [
+        "Decorated Bridal Cars",
+        "Guest Convoy Management",
+        "Professional Photo-op Coordination",
+        "Late-night Send-off Service"
+      ],
+      videoPlaceholder: "Romantic Wedding Journey"
+    },
+    {
+      title: "Inter-City Travels",
+      desc: "Safe and comfortable long-distance travel with premium sedans and SUVs.",
+      icon: "🛣️",
+      delay: "500ms",
+      details: [
+        "Experienced Highway Drivers",
+        "In-Car Refreshments",
+        "Regular Sanitization",
+        "Real-Time Tracking"
+      ],
+      videoPlaceholder: "Cross-Country Comfort"
     }
   ];
 
@@ -136,51 +166,65 @@ export default function ServicesPage() {
              </p>
              <div className="grid gap-6">
                 {services.map((svc, i) => (
-                   <div 
-                    key={i} 
-                    className={`cursor-pointer overflow-hidden p-6 bg-white/5 border border-white/5 rounded-2xl hover:border-indigo-500/30 transition-all duration-500 ${expandedSvc === i ? 'bg-indigo-500/5 border-indigo-500/30' : ''}`} 
-                    style={{ animationDelay: svc.delay }}
-                    onClick={() => toggleSvc(i)}
-                   >
-                      <div className="flex justify-between items-center">
-                        <div className="flex gap-4 items-start">
-                          <div className="text-3xl">{svc.icon}</div>
-                          <div>
-                             <h3 className="text-white font-bold mb-1 uppercase tracking-wider">{svc.title}</h3>
-                             <p className="text-slate-500 text-sm">{svc.desc}</p>
-                          </div>
-                        </div>
-                        <div className={`text-indigo-400 transition-transform duration-500 ${expandedSvc === i ? 'rotate-180' : ''}`}>
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </div>
-                      </div>
-                      
-                      {expandedSvc === i && (
-                        <div className="mt-6 pt-6 border-t border-white/5 animate-fadeIn">
-                          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            {svc.details.map((detail, idx) => (
-                              <li key={idx} className="flex items-center gap-2 text-slate-400 text-sm">
-                                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-                                {detail}
-                              </li>
-                            ))}
-                          </ul>
-                          
-                          {/* USER: ADD VIDEO FOR THIS SERVICE HERE */}
-                          {/* 
-                          <div className="mt-6 rounded-xl overflow-hidden border border-white/5">
-                            <video className="w-full h-40 object-cover" controls>
-                               <source src="/path-to-your-service-video.mp4" type="video/mp4" />
-                            </video>
-                          </div>
-                          */}
-                          <div className="mt-4 p-4 border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center text-[10px] text-slate-600 uppercase tracking-tighter">
-                            <span>Video Placeholder</span>
-                            <span>Add video for {svc.title} here</span>
-                          </div>
-                        </div>
-                      )}
-                   </div>
+                    <div 
+                     key={i} 
+                     className={`cursor-pointer overflow-hidden p-8 bg-white/5 border border-white/5 rounded-[2rem] hover:border-indigo-500/30 transition-all duration-500 ${expandedSvc === i ? 'bg-indigo-500/5 border-indigo-500/30 ring-1 ring-indigo-500/20' : ''}`} 
+                     style={{ animationDelay: svc.delay }}
+                     onClick={() => toggleSvc(i)}
+                    >
+                       <div className="flex justify-between items-center">
+                         <div className="flex gap-6 items-center">
+                           <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-3xl border border-white/10 group-hover:scale-110 transition-transform">
+                             {svc.icon}
+                           </div>
+                           <div>
+                              <h3 className="text-white font-black text-xl mb-1 uppercase tracking-tight">{svc.title}</h3>
+                              <p className="text-slate-500 text-sm font-medium">{svc.desc}</p>
+                           </div>
+                         </div>
+                         <div className={`w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-indigo-400 transition-all duration-500 ${expandedSvc === i ? 'rotate-180 bg-indigo-500/20 text-white' : ''}`}>
+                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7"></path></svg>
+                         </div>
+                       </div>
+                       
+                       {expandedSvc === i && (
+                         <div className="mt-8 pt-8 border-t border-white/5 animate-fadeUp">
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                             <div className="space-y-4">
+                               <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-4">Core Benefits</p>
+                               <ul className="space-y-3">
+                                 {svc.details.map((detail, idx) => (
+                                   <li key={idx} className="flex items-center gap-3 text-slate-300 text-sm font-medium">
+                                     <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,1)]"></div>
+                                     {detail}
+                                   </li>
+                                 ))}
+                               </ul>
+                             </div>
+                             
+                             <div className="relative group/vid">
+                               <div className="aspect-video bg-black/60 rounded-2xl border border-dashed border-white/10 flex flex-col items-center justify-center gap-4 transition-all duration-500 group-hover/vid:border-indigo-500/50">
+                                 {/* USER: REPLACE THIS PLACEHOLDER WITH YOUR VIDEO COMPONENT */}
+                                 <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.841z"></path></svg>
+                                 </div>
+                                 <div className="text-center">
+                                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Visual Preview</p>
+                                   <p className="text-white/40 text-xs font-bold">{svc.videoPlaceholder}</p>
+                                 </div>
+                               </div>
+                               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/vid:opacity-100 transition-opacity pointer-events-none">
+                                  <span className="bg-indigo-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-2xl">Coming Soon</span>
+                               </div>
+                             </div>
+                           </div>
+                           
+                           <div className="p-4 bg-indigo-500/5 rounded-xl border border-indigo-500/10 text-[10px] text-indigo-300 font-bold uppercase tracking-widest text-center">
+                             To add your custom video, edit <code className="text-white bg-black/30 px-1 rounded">services/page.js</code> and replace the placeholder div with a <code className="text-white bg-black/30 px-1 rounded">&lt;video&gt;</code> tag.
+                           </div>
+                         </div>
+                       )}
+                    </div>
                 ))}
              </div>
           </div>

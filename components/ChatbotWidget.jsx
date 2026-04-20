@@ -14,6 +14,28 @@ export default function ChatbotWidget() {
   const messagesEndRef = useRef(null);
   const router = useRouter();
 
+  // Function to get user ID from cookie
+  const getUserId = () => {
+    if (typeof document === "undefined") return null;
+    const cookie = document.cookie.split('; ').find(row => row.startsWith('loggedInUser='));
+    if (!cookie) return null;
+    try {
+      const userData = JSON.parse(decodeURIComponent(cookie.split('=')[1]));
+      return userData.id;
+    } catch (e) { return null; }
+  };
+
+  const userId = getUserId();
+
+  // Reset chat logic when user authentication changes
+  useEffect(() => {
+    // This clears the chat history instantly when the user identity changes
+    setMessages([
+      { id: 1, text: "Hi! I'm your AI Car Assistant. Looking for a specific car or budget?", isBot: true }
+    ]);
+    console.log("Chat context cleared due to user change.");
+  }, [userId]); // Watches for specific login/logout ID change
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -32,11 +54,23 @@ export default function ChatbotWidget() {
     setIsLoading(true);
 
     try {
-      // Need an API proxy or complete URL. We assume backend is running on 5000.
+      // 1. Get token from cookie logic
+      const getCookie = (name) => {
+        if (typeof document === "undefined") return null;
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+      };
+      const token = getCookie('token');
+
       const res = await fetch("http://localhost:5000/api/v1/ai/chat", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMsg.text, sessionId: "sess-" + 123 })
+        headers: { 
+          "Content-Type": "application/json",
+          ...(token ? { "Authorization": `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ message: userMsg.text, sessionId: "sess-123" })
       });
       
       const data = await res.json();
@@ -50,7 +84,7 @@ export default function ChatbotWidget() {
 
     } catch (error) {
       console.error(error);
-      setMessages(prev => [...prev, { id: Date.now()+2, text: "Sorry, I am having trouble connecting.", isBot: true }]);
+      setMessages(prev => [...prev, { id: Date.now()+2, text: "I'm having trouble connecting to my central node. Please check your network.", isBot: true }]);
     } finally {
       setIsLoading(false);
     }
