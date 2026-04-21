@@ -16,8 +16,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={outfit.variable}>
-      <body className="font-sans antialiased">
+    <html lang="en" className={outfit.variable} suppressHydrationWarning>
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <ClientWrapper>
           {children}
           <ChatbotWidget />

@@ -13,6 +13,13 @@ export default function ChatbotWidget() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const router = useRouter();
+  const BACKEND_URL = "http://localhost:5000";
+
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return "/ferrari.png";
+    if (imagePath.startsWith("http")) return imagePath;
+    return `${BACKEND_URL}${imagePath}`;
+  };
 
   // Function to get user ID from cookie
   const getUserId = () => {
@@ -127,7 +134,7 @@ export default function ChatbotWidget() {
                   <div className="mt-2 w-full flex flex-row gap-2 overflow-x-auto pb-2">
                     {m.cars.map(c => (
                       <div key={c.id} onClick={() => router.push('/cars/'+c.id)} className="flex-shrink-0 w-32 border border-gray-200 bg-white rounded-lg p-2 cursor-pointer hover:shadow-md transition">
-                        <img src={c.image || "/ferrari.png"} alt={c.name} className="w-full h-16 object-cover rounded-md" />
+                        <img src={getImageUrl(c.image)} alt={c.name} className="w-full h-16 object-cover rounded-md" />
                         <p className="text-xs font-semibold mt-1 truncate">{c.name}</p>
                         <p className="text-xs text-blue-600">₹{c.price}</p>
                       </div>
