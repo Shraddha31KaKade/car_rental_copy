@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { id: 1, text: "Hi! I'm your AI Car Assistant. Looking for a specific car or budget?", isBot: true }
+    { id: 1, text: "Greetings! I am the Antigravity Assistant, your experts co-pilot for car rentals and project engineering. How may I assist you today?", isBot: true }
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -71,13 +71,20 @@ export default function ChatbotWidget() {
       };
       const token = getCookie('token');
 
+      // Get or generate sessionId
+      let sessionId = localStorage.getItem('chat_session_id');
+      if (!sessionId) {
+        sessionId = `sess-${Math.random().toString(36).substr(2, 9)}`;
+        localStorage.setItem('chat_session_id', sessionId);
+      }
+
       const res = await fetch("http://localhost:5000/api/v1/ai/chat", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
           ...(token ? { "Authorization": `Bearer ${token}` } : {})
         },
-        body: JSON.stringify({ message: userMsg.text, sessionId: "sess-123" })
+        body: JSON.stringify({ message: userMsg.text, sessionId })
       });
       
       const data = await res.json();
@@ -112,12 +119,15 @@ export default function ChatbotWidget() {
       {isOpen && (
         <div className="fixed bottom-24 right-6 w-80 sm:w-96 bg-white border border-gray-200 rounded-2xl shadow-2xl flex flex-col overflow-hidden" style={{ height: "500px", zIndex: 999999 }}>
           {/* Header */}
-          <div className="bg-blue-600 text-white p-4 flex justify-between items-center">
-            <div>
-              <h3 className="font-bold">AI Assistant</h3>
-              <p className="text-xs text-blue-100">Powered by AI</p>
+          <div className="bg-gradient-to-r from-blue-700 to-blue-600 text-white p-4 flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <div>
+                <h3 className="font-bold text-sm">Antigravity Assistant</h3>
+                <p className="text-[10px] text-blue-100 uppercase tracking-wider">Secure Hybrid Node</p>
+              </div>
             </div>
-            <button onClick={() => setIsOpen(false)} className="text-blue-100 hover:text-white">
+            <button onClick={() => setIsOpen(false)} className="text-blue-100 hover:text-white transition">
               <X size={20} />
             </button>
           </div>
