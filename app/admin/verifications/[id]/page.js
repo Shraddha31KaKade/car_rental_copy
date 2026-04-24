@@ -82,7 +82,7 @@ export default function AdminCarReviewDetail({ params }) {
       });
       if (res.ok) {
         alert("Car deleted successfully");
-        router.push("/admin/cars");
+        router.push("/admin/verifications");
       } else {
         const data = await res.json();
         alert(data.error || "Failed to delete car.");
@@ -121,7 +121,7 @@ export default function AdminCarReviewDetail({ params }) {
 
         {/* ─── Breadcrumb ─── */}
         <button
-          onClick={() => router.push("/admin/cars")}
+          onClick={() => router.push("/admin/verifications")}
           className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-medium group"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />

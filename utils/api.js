@@ -35,7 +35,7 @@ export const fetchWithAuth = async (url, options = {}) => {
 
         if (refreshRes.ok) {
           const data = await refreshRes.json();
-          document.cookie = `token=${data.token}; path=/; max-age=86400`;
+          document.cookie = `token=${data.token}; path=/`;
           
           headers.set("Authorization", `Bearer ${data.token}`);
           res = await fetch(url, { ...options, headers });

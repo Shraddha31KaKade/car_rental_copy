@@ -125,7 +125,7 @@ export default function AdminPendingCars() {
                   filteredCars.map((item) => (
                     <tr key={item.id} className="hover:bg-surface-container">
                       <td className="p-4"></td>
-                      <td className="p-4 font-medium text-primary cursor-pointer hover:underline" onClick={() => router.push(`/admin/cars/${item.id}`)}>{item.id}</td>
+                      <td className="p-4 font-medium text-primary cursor-pointer hover:underline" onClick={() => router.push(`/admin/verifications/${item.id}`)}>{item.id}</td>
                       <td className="p-4">{item.brand} {item.name}</td>
                       <td className="p-4">{item.owner?.name || "Unknown"}</td>
                       <td className="p-4">
@@ -137,7 +137,7 @@ export default function AdminPendingCars() {
                         </span>
                       </td>
                       <td className="p-4 text-right">
-                        <button onClick={() => router.push(`/admin/cars/${item.id}`)} className="text-primary font-medium hover:underline">
+                        <button onClick={() => router.push(`/admin/verifications/${item.id}`)} className="text-primary font-medium hover:underline">
                           {activeTab === "PENDING" ? "Review" : "View"}
                         </button>
                       </td>

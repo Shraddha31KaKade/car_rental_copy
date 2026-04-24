@@ -23,32 +23,40 @@ export default function AdminReports() {
   // Stats
   const metrics = useMemo(() => {
     const openCount = reports.filter(r => r.status === 'PENDING').length;
-    const resolvedCount = reports.filter(r => r.status === 'RESOLVED').length;
-    return { openCount, resolvedCount };
+    return { openCount };
   }, [reports]);
 
+  const [approvedCars, setApprovedCars] = useState([]);
+
   // API Integration Hooks (Simulated endpoint gracefully falling back to mock data if 404)
-  const fetchReports = async () => {
+  const fetchData = async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetchWithAuth("http://localhost:5000/api/admin/reports");
-      if (!res.ok) {
-        throw new Error("Failed to fetch from API.");
+      const [reportsRes, carsRes] = await Promise.all([
+        fetchWithAuth("http://localhost:5000/api/admin/reports").catch(() => null),
+        fetchWithAuth("http://localhost:5000/api/admin/cars/approved").catch(() => null)
+      ]);
+      
+      if (reportsRes && reportsRes.ok) {
+        const data = await reportsRes.json();
+        setReports(data.data || []);
       }
-      const data = await res.json();
-      setReports(data.data || []);
+      
+      if (carsRes && carsRes.ok) {
+        const carData = await carsRes.json();
+        setApprovedCars(carData.data || []);
+      }
     } catch (err) {
       console.warn(err.message);
-      setError("Could not load reports. Backend might be down.");
-      setReports([]);
+      setError("Could not load data.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchReports();
+    fetchData();
   }, []);
 
   // Filter Logic
@@ -126,7 +134,7 @@ export default function AdminReports() {
           </div>
           <div className="flex gap-4">
             <button 
-              onClick={() => router.push("/admin/cars")}
+              onClick={() => router.push("/admin/verifications")}
               className="bg-surface-container-high text-on-surface px-6 py-3 rounded-xl font-medium transition-colors hover:bg-surface-container-highest"
             >
               Pending Car Approvals
@@ -150,10 +158,10 @@ export default function AdminReports() {
             </p>
           </div>
           <div className="bg-surface-container-low rounded-2xl p-6 transition-transform hover:-translate-y-1 border border-transparent">
-            <h3 className="text-on-surface-variant text-sm font-medium mb-4">Resolved (30 Days)</h3>
-            <p className="text-5xl font-bold text-on-surface tracking-tight">{loading ? "-" : metrics.resolvedCount}</p>
+            <h3 className="text-on-surface-variant text-sm font-medium mb-4">Active Fleet (Approved)</h3>
+            <p className="text-5xl font-bold text-on-surface tracking-tight">{loading ? "-" : approvedCars.length}</p>
             <p className="text-sm text-primary mt-4 font-medium flex items-center gap-1">
-              <CheckCircle2 size={16} /> Healthy resolution rate
+              <CheckCircle2 size={16} /> Cars available to rent
             </p>
           </div>
           <div className="bg-surface-container-low rounded-2xl p-6 transition-transform hover:-translate-y-1">
@@ -253,7 +261,46 @@ export default function AdminReports() {
             </table>
           </div>
         </div>
-
+        <div className="bg-surface-container-lowest rounded-2xl shadow-diffused overflow-hidden mt-8">
+          <div className="p-6 border-b border-surface-container flex flex-wrap gap-4 justify-between items-center bg-surface-container-lowest">
+            <h2 className="text-xl font-bold text-on-surface">Recently Approved Cars</h2>
+            <button onClick={() => router.push("/admin/verifications")} className="text-primary font-medium hover:underline text-sm">
+              View All Approvals &rarr;
+            </button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-surface-container-high text-on-surface-variant text-sm uppercase tracking-wider">
+                  <th className="p-4 font-semibold">Car ID</th>
+                  <th className="p-4 font-semibold">Vehicle</th>
+                  <th className="p-4 font-semibold">Owner</th>
+                  <th className="p-4 font-semibold">Status</th>
+                </tr>
+              </thead>
+              <tbody className="text-on-surface text-[15px] leading-relaxed">
+                {loading ? (
+                  <tr><td colSpan="4" className="p-8 text-center text-on-surface-variant"><Loader2 className="animate-spin inline-block" /></td></tr>
+                ) : approvedCars.length === 0 ? (
+                  <tr><td colSpan="4" className="p-8 text-center text-on-surface-variant">No approved cars found.</td></tr>
+                ) : (
+                  approvedCars.slice(0, 5).map((car) => (
+                    <tr key={car.id} className="hover:bg-surface-container transition-colors border-b border-surface-container-low border-opacity-50">
+                      <td className="p-4 font-medium text-primary cursor-pointer hover:underline" onClick={() => router.push(`/admin/verifications/${car.id}`)}>{car.id}</td>
+                      <td className="p-4">{car.brand} {car.name}</td>
+                      <td className="p-4">{car.owner?.name || "Unknown"}</td>
+                      <td className="p-4">
+                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400">
+                          {car.listingStatus}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
         {/* "Generate Report" Modal */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-[#0f172a]/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">

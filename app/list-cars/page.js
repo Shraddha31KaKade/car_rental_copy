@@ -17,6 +17,7 @@ function ListCarForm() {
   const [termsAccepted,     setTermsAccepted]      = useState(false);
   const [isTermsSubmitted,  setIsTermsSubmitted]   = useState(isEditMode); // skip terms in edit mode
   const [step,              setStep]               = useState(1);
+  const [userRole,          setUserRole]           = useState(null);
 
   const [formData, setFormData] = useState({
     name:         "",
@@ -29,6 +30,9 @@ function ListCarForm() {
     transmission: "Automatic",
     fuel:         "Petrol",
     location:     "",
+    ownerName:    "",
+    ownerEmail:   "",
+    ownerContact: "",
   });
 
   // Existing images URLs (from edit mode)
@@ -39,6 +43,21 @@ function ListCarForm() {
 
   // ── Fetch car data when in edit mode ───────────────────────────────────────
   useEffect(() => {
+    // Check user role from cookie
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    };
+    const userCookie = getCookie("loggedInUser");
+    if (userCookie) {
+      try {
+        const parsed = JSON.parse(decodeURIComponent(userCookie));
+        setUserRole(parsed.role);
+      } catch(e) {}
+    }
+
     if (!isEditMode) return;
 
     const loadCar = async () => {
@@ -59,6 +78,9 @@ function ListCarForm() {
           transmission: car.transmission || "Automatic",
           fuel:         car.fuel         || "Petrol",
           location:     car.location     || "",
+          ownerName:    car.ownerName    || "",
+          ownerEmail:   car.ownerEmail   || "",
+          ownerContact: car.ownerContact || "",
         });
 
         setExistingImages(car.images || (car.image ? [car.image] : []));
@@ -128,6 +150,27 @@ function ListCarForm() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this car? This action cannot be undone.")) return;
+    setLoading(true);
+    try {
+      const res = await fetchWithAuth(`http://localhost:5000/api/cars/${editId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to delete car");
+      }
+      alert("Car deleted successfully");
+      router.push("/owner/my-cars");
+    } catch (err) {
+      console.error("Delete car error:", err);
+      alert(err.message);
+      setLoading(false);
+    }
+  };
+
+
   // ── Loading state while fetching car ──────────────────────────────────────
   if (fetchingCar) {
     return (
@@ -135,6 +178,30 @@ function ListCarForm() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent mx-auto mb-6" />
           <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Loading car details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Admin blocker ────────────────────────────────────────────────────────
+  if (userRole === "ADMIN") {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+        <div className="bg-slate-900/40 backdrop-blur-3xl p-16 rounded-[4rem] border border-red-500/30 text-center shadow-2xl max-w-md mx-auto">
+          <div className="text-8xl mb-8">🛡️</div>
+          <h2 className="text-4xl font-black text-white mb-4 uppercase tracking-tighter">
+            Admin Restricted
+          </h2>
+          <p className="text-slate-500 font-medium">
+            Admins are not allowed to list their own cars on the platform to avoid conflict of interest. 
+            If you wish to list a car, please use a personal account.
+          </p>
+          <button 
+            onClick={() => router.push("/admin")}
+            className="mt-8 bg-indigo-600 hover:bg-indigo-500 text-white py-3 px-8 rounded-full font-bold uppercase tracking-widest text-xs transition"
+          >
+            Go to Admin Dashboard
+          </button>
         </div>
       </div>
     );
@@ -262,10 +329,30 @@ function ListCarForm() {
                   onSubmit={step === 3 ? handleSubmit : (e) => { e.preventDefault(); setStep(step + 1); }}
                   className="space-y-8"
                 >
-                  {/* ── Step 1: Specifications ── */}
+                  {/* ── Step 1: Specifications & Owner Details ── */}
                   {step === 1 && (
                     <>
-                      <h2 className="text-3xl font-bold text-white mb-6 uppercase tracking-tighter">Step 1: Specifications</h2>
+                      <h2 className="text-3xl font-bold text-white mb-6 uppercase tracking-tighter">Step 1: Specifications & Owner Details</h2>
+                      
+                      <div className="bg-white/5 p-6 rounded-2xl border border-white/10 space-y-6 mb-8">
+                        <h3 className="text-sm font-black text-indigo-400 uppercase tracking-widest">Owner Contact Information</h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Owner Full Name</label>
+                            <input name="ownerName" required value={formData.ownerName} onChange={handleChange} placeholder="e.g. John Doe" className="input-field" />
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Owner Email</label>
+                            <input name="ownerEmail" type="email" required value={formData.ownerEmail} onChange={handleChange} placeholder="e.g. john@example.com" className="input-field" />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Owner Contact Number</label>
+                          <input name="ownerContact" type="tel" required value={formData.ownerContact} onChange={handleChange} placeholder="e.g. +91 9876543210" className="input-field" />
+                        </div>
+                      </div>
+
+                      <h3 className="text-sm font-black text-indigo-400 uppercase tracking-widest mb-4">Vehicle Details</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         <div className="space-y-2">
                           <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Vehicle Name</label>
@@ -425,6 +512,16 @@ function ListCarForm() {
                         step < 3 ? "Next Step →" : (isEditMode ? "✅ Resubmit for Review" : "Authorize Listing")
                       )}
                     </button>
+                    {isEditMode && (
+                      <button
+                        type="button"
+                        onClick={handleDelete}
+                        disabled={loading}
+                        className="w-1/3 py-4 rounded-[1.5rem] bg-red-600/20 text-red-500 font-bold tracking-widest uppercase text-xs hover:bg-red-600 hover:text-white transition"
+                      >
+                        Delete Car
+                      </button>
+                    )}
                   </div>
                 </form>
               </div>

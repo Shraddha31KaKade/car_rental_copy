@@ -49,6 +49,25 @@ export default function MyCarsPage() {
     }
   };
 
+  const handleDelete = async (carId) => {
+    if (!window.confirm("Are you sure you want to delete this car? This action cannot be undone.")) return;
+    try {
+      const res = await fetchWithAuth(`http://localhost:5000/api/cars/${carId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        alert("Car deleted successfully");
+        fetchCars(); // Refresh list
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to delete car.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error deleting car.");
+    }
+  };
+
   const statusConfig = {
     APPROVED:          { label: "Live",             color: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30", icon: CheckCircle2 },
     PENDING_APPROVAL:  { label: "Pending Review",   color: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30",   icon: Clock },
@@ -151,7 +170,7 @@ export default function MyCarsPage() {
                   )}
 
                   {/* Action buttons */}
-                  <div className="flex gap-2 mt-2">
+                  <div className="flex gap-2 mt-2 flex-wrap">
                     {/* Pause/Unpause — only for approved cars */}
                     {canPause && (
                       <button
@@ -180,6 +199,14 @@ export default function MyCarsPage() {
                     >
                       <Edit size={13} />
                       {needsResubmit ? "Edit & Resubmit" : "Edit"}
+                    </button>
+
+                    {/* Delete button */}
+                    <button
+                      onClick={() => handleDelete(car.id)}
+                      className="flex items-center gap-1.5 flex-none px-4 justify-center py-2 rounded-xl bg-red-500/10 text-red-500 text-xs font-bold uppercase tracking-widest hover:bg-red-500 hover:text-white transition-colors"
+                    >
+                      Delete
                     </button>
                   </div>
                 </div>

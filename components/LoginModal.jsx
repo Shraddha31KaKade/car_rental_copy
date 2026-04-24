@@ -38,9 +38,9 @@ export default function LoginModal({ onClose, onLoginSuccess }) {
       if (res.ok) {
         alert("Login successful");
 
-        document.cookie = `token=${data.token}; path=/; max-age=86400`;
-        document.cookie = `refreshToken=${data.refreshToken}; path=/; max-age=604800`;
-        document.cookie = `loggedInUser=${encodeURIComponent(JSON.stringify(data.user))}; path=/; max-age=86400`;
+        document.cookie = `token=${data.token}; path=/`;
+        document.cookie = `refreshToken=${data.refreshToken}; path=/`;
+        document.cookie = `loggedInUser=${encodeURIComponent(JSON.stringify(data.user))}; path=/`;
         window.dispatchEvent(new Event("authChange"));
 
         if (onLoginSuccess) {
