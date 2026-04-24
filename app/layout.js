@@ -1,6 +1,7 @@
 import { Outfit } from "next/font/google";
 import ClientWrapper from "../components/ClientWrapper";
 import ChatbotWidget from "../components/ChatbotWidget";
+
 import "./globals.css";
 
 const outfit = Outfit({ 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={outfit.variable} suppressHydrationWarning>
       <body className="font-sans antialiased" suppressHydrationWarning>
+
         <ClientWrapper>
           {children}
           <ChatbotWidget />

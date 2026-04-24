@@ -1,10 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Settings, Shield, Bell, Database, Globe, Percent, Key, Power } from "lucide-react";
 
 export default function AdminSettings() {
   const [activeTab, setActiveTab] = useState("general");
+  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [globalAnnouncement, setGlobalAnnouncement] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/settings")
+      .then(res => res.json())
+      .then(data => {
+        setMaintenanceMode(data.maintenanceMode || false);
+        setGlobalAnnouncement(data.globalAnnouncement || "");
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleSaveSettings = async (updates) => {
+    try {
+      const res = await fetch("http://localhost:5000/api/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates),
+      });
+      if (res.ok) {
+        alert("Settings updated successfully");
+      } else {
+        alert("Failed to update settings");
+      }
+    } catch (err) {
+      alert("Error updating settings");
+    }
+  };
 
   const tabs = [
     { id: "general", label: "General", icon: Globe },
@@ -59,7 +93,16 @@ export default function AdminSettings() {
                     <p className="text-xs text-on-surface-variant">Users will see a "Be right back" screen.</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" className="sr-only peer" />
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={maintenanceMode}
+                      onChange={(e) => {
+                        const val = e.target.checked;
+                        setMaintenanceMode(val);
+                        handleSaveSettings({ maintenanceMode: val });
+                      }}
+                    />
                     <div className="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                   </label>
                 </div>
@@ -71,8 +114,28 @@ export default function AdminSettings() {
                 </h2>
                 <p className="text-sm text-on-surface-variant mb-4">Display a banner at the top of the website for all users.</p>
                 <div className="space-y-4">
-                  <input type="text" placeholder="e.g., Use code SUMMER20 for 20% off!" className="w-full bg-surface-container-low border border-surface-container p-3 rounded-xl text-on-surface focus:outline-none focus:border-primary" />
-                  <button className="bg-primary text-white px-6 py-2 rounded-xl font-medium hover:opacity-90 transition-opacity">Publish Banner</button>
+                  <input 
+                    type="text" 
+                    placeholder="e.g., Use code SUMMER20 for 20% off!" 
+                    value={globalAnnouncement}
+                    onChange={(e) => setGlobalAnnouncement(e.target.value)}
+                    className="w-full bg-surface-container-low border border-surface-container p-3 rounded-xl text-on-surface focus:outline-none focus:border-primary" 
+                  />
+                  <button 
+                    onClick={() => handleSaveSettings({ globalAnnouncement })}
+                    className="bg-primary text-white px-6 py-2 rounded-xl font-medium hover:opacity-90 transition-opacity"
+                  >
+                    Publish Banner
+                  </button>
+                  <button 
+                    onClick={() => {
+                      setGlobalAnnouncement("");
+                      handleSaveSettings({ globalAnnouncement: "" });
+                    }}
+                    className="ml-4 bg-red-500 text-white px-6 py-2 rounded-xl font-medium hover:opacity-90 transition-opacity"
+                  >
+                    Clear Banner
+                  </button>
                 </div>
               </div>
             </div>
@@ -102,7 +165,7 @@ export default function AdminSettings() {
                 <p className="text-sm text-on-surface-variant mb-4">Minimum amount an owner must earn before a payout is processed.</p>
                 <div className="flex items-center gap-4">
                   <div className="relative">
-                    <span className="absolute left-4 top-3 text-on-surface-variant font-bold">$</span>
+                    <span className="absolute left-4 top-3 text-on-surface-variant font-bold">₹</span>
                     <input type="number" defaultValue="50" className="w-32 bg-surface-container-low border border-surface-container p-3 rounded-xl text-on-surface focus:outline-none focus:border-primary pl-8 font-bold" />
                   </div>
                   <button className="bg-surface-container-high text-on-surface px-6 py-3 rounded-xl font-medium hover:bg-surface-container-highest transition-colors">Save</button>

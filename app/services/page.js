@@ -3,6 +3,44 @@ import React, { useState } from "react";
 import Image from "next/image";
 import ChatbotWidget from "../../components/ChatbotWidget";
 
+function HoverVideo({ videoId, placeholder }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div 
+      className="relative w-full aspect-video bg-black/60 rounded-2xl border border-dashed border-white/10 flex flex-col items-center justify-center overflow-hidden transition-all duration-500 hover:border-indigo-500/50 group/vid cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {!isHovered ? (
+        <div className="flex flex-col items-center justify-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.841z"></path></svg>
+          </div>
+          <div className="text-center">
+            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Visual Preview</p>
+            <p className="text-white/40 text-xs font-bold">{placeholder}</p>
+          </div>
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/vid:opacity-100 transition-opacity pointer-events-none">
+            <span className="bg-indigo-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-2xl">Hover to play</span>
+          </div>
+        </div>
+      ) : (
+        <iframe 
+          width="100%" 
+          height="100%" 
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}`} 
+          title="YouTube video player" 
+          frameBorder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowFullScreen
+          className="absolute inset-0 w-full h-full object-cover"
+        ></iframe>
+      )}
+    </div>
+  );
+}
+
 export default function ServicesPage() {
   const [feedbackName, setFeedbackName] = useState("");
   const [feedbackText, setFeedbackText] = useState("");
@@ -202,20 +240,8 @@ export default function ServicesPage() {
                                </ul>
                              </div>
                              
-                             <div className="relative group/vid">
-                               <div className="aspect-video bg-black/60 rounded-2xl border border-dashed border-white/10 flex flex-col items-center justify-center gap-4 transition-all duration-500 group-hover/vid:border-indigo-500/50">
-                                 {/* USER: REPLACE THIS PLACEHOLDER WITH YOUR VIDEO COMPONENT */}
-                                 <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
-                                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.841z"></path></svg>
-                                 </div>
-                                 <div className="text-center">
-                                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Visual Preview</p>
-                                   <p className="text-white/40 text-xs font-bold">{svc.videoPlaceholder}</p>
-                                 </div>
-                               </div>
-                               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/vid:opacity-100 transition-opacity pointer-events-none">
-                                  <span className="bg-indigo-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-2xl">Coming Soon</span>
-                               </div>
+                             <div className="relative">
+                               <HoverVideo videoId="h9dTYG1y21k" placeholder={svc.videoPlaceholder} />
                              </div>
                            </div>
                            

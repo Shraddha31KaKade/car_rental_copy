@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import GlobalAnnouncement from "./GlobalAnnouncement";
 
 export default function Navbar({ onLoginClick }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -34,8 +35,8 @@ export default function Navbar({ onLoginClick }) {
         if (res.ok) {
           const data = await res.json();
           setLoggedInUser(data.user);
-          // Also sync to cookie for other components if needed
-          document.cookie = `loggedInUser=${encodeURIComponent(JSON.stringify(data.user))}; path=/; max-age=86400`;
+          // Sync to session cookie (clears when browser closes)
+          document.cookie = `loggedInUser=${encodeURIComponent(JSON.stringify(data.user))}; path=/`;
         }
       } catch (err) {
         console.error("Failed to fetch user context", err);
@@ -82,29 +83,38 @@ export default function Navbar({ onLoginClick }) {
   };
 
   return (
-    <nav className="fixed top-0 w-full z-[100] transition-all duration-500 glass-nav py-4">
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <div className="fixed top-0 w-full z-[100] transition-all duration-500 flex flex-col">
+      <GlobalAnnouncement />
+      <nav className="w-full glass-nav py-4">
+        <div className="max-w-[90rem] mx-auto px-6 flex items-center justify-between gap-4 lg:gap-8">
         {/* Logo Section */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white text-xl shadow-lg shadow-indigo-500/20 group-hover:rotate-12 transition-transform duration-500 overflow-hidden">
-             🏎️
-          </div>
-          <span className="text-2xl font-black tracking-tighter text-white flex items-baseline">
+        <Link href="/" className="flex items-center gap-3 group flex-shrink-0">
+          <img 
+            src="/logo.png" 
+            alt="CarRental Logo" 
+            className="h-12 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
+            onError={(e) => {
+              // Fallback to text if image not found
+              e.target.style.display = 'none';
+              e.target.nextSibling.style.display = 'flex';
+            }}
+          />
+          <span className="text-2xl font-black tracking-tighter text-white hidden md:flex items-baseline">
             car<span className="text-indigo-500">Rental</span>
           </span>
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-10">
-          <Link href="/" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">Home</Link>
-          <Link href="/cars" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">Fleet</Link>
-          <Link href="/services" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">Services</Link>
-          <Link href="/booking" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">My Journeys</Link>
-          <Link href="/list-cars" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest">List Your Car</Link>
+        <div className="hidden lg:flex items-center gap-6 xl:gap-10 flex-1 justify-center">
+          <Link href="/" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">Home</Link>
+          <Link href="/cars" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">Fleet</Link>
+          <Link href="/services" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">Services</Link>
+          <Link href="/booking" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">My Journeys</Link>
+          <Link href="/list-cars" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">List Your Car</Link>
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-shrink-0 justify-end">
           {loggedInUser?.role === "ADMIN" && (
             <Link href="/admin" className="bg-indigo-600 hover:bg-indigo-500 text-white py-3 px-6 rounded-2xl text-xs font-black shadow-lg shadow-indigo-500/20 hover:-translate-y-1 transition-all uppercase tracking-widest border border-white/10 flex items-center gap-2">
                <span className="text-sm">🛡️</span> Admin Portal
@@ -175,6 +185,7 @@ export default function Navbar({ onLoginClick }) {
           </div>
         </div>
       )}
-    </nav>
+      </nav>
+    </div>
   );
 }

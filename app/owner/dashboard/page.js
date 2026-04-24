@@ -98,9 +98,23 @@ export default function DashboardPage() {
       )}
       
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 relative overflow-hidden group">
-           <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 relative z-10">Total Revenue</p>
-           <p className="text-4xl font-black text-white tracking-tighter relative z-10">${analytics.totalEarnings}</p>
+        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 relative overflow-hidden group col-span-1 sm:col-span-2 lg:col-span-1">
+           <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 relative z-10 flex items-center justify-between">
+              Net Earnings
+              <span className="bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full">After 15% Fee</span>
+           </p>
+           <p className="text-4xl font-black text-white tracking-tighter relative z-10 mb-2">₹{analytics.totalEarnings}</p>
+           
+           <div className="pt-4 border-t border-white/5 mt-4 relative z-10">
+              <div className="flex justify-between text-xs mb-1">
+                 <span className="text-slate-400 font-medium">Gross Booking Revenue</span>
+                 <span className="text-white font-bold">₹{analytics.grossEarnings}</span>
+              </div>
+              <div className="flex justify-between text-xs">
+                 <span className="text-slate-500 font-medium text-[10px] uppercase">Platform Escrow Fee</span>
+                 <span className="text-rose-400 font-bold">-₹{analytics.platformFees}</span>
+              </div>
+           </div>
         </div>
 
         <div className="bg-white/5 border border-white/10 rounded-3xl p-8 relative overflow-hidden group">
