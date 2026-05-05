@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchWithAuth } from "../../utils/api";
@@ -9,8 +10,18 @@ export default function MyBookingsPage() {
   const [myBookings, setMyBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const searchParams = useSearchParams();
 
   const [payingBookingId, setPayingBookingId] = useState(null);
+
+  useEffect(() => {
+    const paymentStatus = searchParams.get('payment');
+    if (paymentStatus === 'success') {
+      alert('Payment successful! Your booking is now confirmed.');
+    } else if (paymentStatus === 'cancelled') {
+      alert('Payment cancelled.');
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const userCookie = document.cookie.split('; ').find(row => row.startsWith('loggedInUser='));
@@ -69,21 +80,75 @@ export default function MyBookingsPage() {
     }
   };
 
+  const loadRazorpay = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const handlePay = async (bookingId) => {
     try {
        setPayingBookingId(bookingId);
        
-       // SImulate payment gateway UX
-       await new Promise(r => setTimeout(r, 2000));
-
-       const res = await fetchWithAuth(`http://localhost:5000/api/bookings/${bookingId}/pay`, {
-         method: "POST"
+       const res = await fetchWithAuth(`http://localhost:5000/api/payments/create-order`, {
+         method: "POST",
+         body: JSON.stringify({ bookingId })
        });
 
        if (res.ok) {
-         setMyBookings((prev) => 
-            prev.map(b => b.id === bookingId ? { ...b, status: 'CONFIRMED' } : b)
-         );
+         const orderData = await res.json();
+         
+         const isLoaded = await loadRazorpay();
+         if (!isLoaded) {
+           alert("Razorpay SDK failed to load. Are you online?");
+           setPayingBookingId(null);
+           return;
+         }
+
+         const options = {
+           key: orderData.keyId,
+           amount: orderData.amount,
+           currency: orderData.currency,
+           name: "CarRental",
+           description: "Trip Payment",
+           order_id: orderData.orderId,
+           handler: async function (response) {
+             // Verify Payment
+             const verifyRes = await fetchWithAuth(`http://localhost:5000/api/payments/verify-payment`, {
+               method: "POST",
+               body: JSON.stringify({
+                 razorpay_order_id: response.razorpay_order_id,
+                 razorpay_payment_id: response.razorpay_payment_id,
+                 razorpay_signature: response.razorpay_signature,
+                 bookingId: bookingId
+               })
+             });
+
+             if (verifyRes.ok) {
+               alert("Payment successful! Your booking is now confirmed.");
+               setMyBookings((prev) => 
+                 prev.map(b => b.id === bookingId ? { ...b, status: 'CONFIRMED' } : b)
+               );
+             } else {
+               alert("Payment verification failed.");
+             }
+           },
+           prefill: {
+             name: user?.name,
+             email: user?.email,
+           },
+           theme: {
+             color: "#6366f1",
+           },
+         };
+
+         const paymentObject = new window.Razorpay(options);
+         paymentObject.open();
+
        } else {
          const data = await res.json();
          alert(data.error || "Payment failed.");

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { id: 1, text: "Greetings! I am the Antigravity Assistant, your experts co-pilot for car rentals and project engineering. How may I assist you today?", isBot: true }
+    { id: 1, text: "Greetings! I am the carRental Assistant, your experts co-pilot for car rentals and project engineering. How may I assist you today?", isBot: true }
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
