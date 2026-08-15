@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import NextLink from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -102,7 +102,7 @@ function CarCard({ car, index }) {
   );
 }
 
-export default function CarsPage() {
+function CarsContent() {
   const searchParams = useSearchParams();
   const searchFromUrl = searchParams.get('search') || "";
   const latFromUrl = searchParams.get('lat') || "";
@@ -246,6 +246,18 @@ export default function CarsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function CarsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent"></div>
+      </div>
+    }>
+      <CarsContent />
+    </Suspense>
   );
 }
 

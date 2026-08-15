@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchWithAuth } from "../../utils/api";
 
-export default function MyBookingsPage() {
+function MyBookingsContent() {
   const [myBookings, setMyBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -404,13 +404,25 @@ export default function MyBookingsPage() {
                  {pastBookings.length > 0 ? (
                    pastBookings.map((b, i) => <BookingCard key={b.id} booking={b} index={i} isActive={false} />)
                  ) : (
-                   <p className="text-slate-700 text-[10px] font-black uppercase tracking-widest text-center py-10">No historical records found</p>
-                 )}
-               </div>
-            </div>
-          </div>
-        )}
+                    <p className="text-slate-700 text-[10px] font-black uppercase tracking-widest text-center py-10">No historical records found</p>
+                  )}
+                </div>
+             </div>
+           </div>
+         )}
       </div>
     </div>
+  );
+}
+
+export default function MyBookingsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent"></div>
+      </div>
+    }>
+      <MyBookingsContent />
+    </Suspense>
   );
 }
