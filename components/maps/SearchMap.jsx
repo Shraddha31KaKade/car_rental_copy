@@ -113,7 +113,7 @@ export default function SearchMap({ cars, hoverCarId }) {
                        <img src={car.images[0]} alt={car.name} className="w-full h-full object-cover" />
                      ) : (
                        <Image 
-                         src={car.image ? (car.image.startsWith('/upload') ? `http://localhost:5000${car.image}` : car.image) : "/car-placeholder.png"} 
+                         src={car.image ? (car.image.startsWith('/upload') ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}${car.image}` : car.image) : "/car-placeholder.png"} 
                          alt={car.name} 
                          fill 
                          className="object-cover"

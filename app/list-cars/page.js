@@ -63,7 +63,8 @@ function ListCarForm() {
     const loadCar = async () => {
       setFetchingCar(true);
       try {
-        const res  = await fetchWithAuth(`http://localhost:5000/api/cars/${editId}`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const res  = await fetchWithAuth(`${apiUrl}/api/cars/${editId}`);
         const data = await res.json();
         const car  = data;
 
@@ -124,14 +125,15 @@ function ListCarForm() {
       }
 
       let res;
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       if (isEditMode) {
         // PUT to update — carController.updateCar will reset listingStatus to PENDING_APPROVAL
-        res = await fetchWithAuth(`http://localhost:5000/api/cars/${editId}`, {
+        res = await fetchWithAuth(`${apiUrl}/api/cars/${editId}`, {
           method: "PUT",
           body:   dataToSend,
         });
       } else {
-        res = await fetchWithAuth("http://localhost:5000/api/cars", {
+        res = await fetchWithAuth(`${apiUrl}/api/cars`, {
           method: "POST",
           body:   dataToSend,
         });
@@ -154,7 +156,8 @@ function ListCarForm() {
     if (!window.confirm("Are you sure you want to delete this car? This action cannot be undone.")) return;
     setLoading(true);
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/cars/${editId}`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/cars/${editId}`, {
         method: "DELETE",
       });
       if (!res.ok) {

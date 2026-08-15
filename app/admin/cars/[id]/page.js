@@ -27,7 +27,8 @@ export default function AdminCarReviewDetail({ params }) {
     if (!id) return;
     const fetchCar = async () => {
       try {
-        const res = await fetchWithAuth(`http://localhost:5000/api/admin/cars/${id}`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const res = await fetchWithAuth(`${apiUrl}/api/admin/cars/${id}`);
         if (!res.ok) throw new Error("Failed to fetch car details");
         const data = await res.json();
         setCar(data.data);
@@ -48,7 +49,8 @@ export default function AdminCarReviewDetail({ params }) {
 
     setIsSubmitting(true);
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/admin/cars/${id}/decision`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/admin/cars/${id}/decision`, {
         method: "PATCH",
         body: JSON.stringify({
           status,
@@ -64,7 +66,7 @@ export default function AdminCarReviewDetail({ params }) {
       setNotes("");
 
       // Re-fetch updated car state
-      const updated = await fetchWithAuth(`http://localhost:5000/api/admin/cars/${id}`);
+      const updated = await fetchWithAuth(`${apiUrl}/api/admin/cars/${id}`);
       const updatedData = await updated.json();
       setCar(updatedData.data);
     } catch (err) {
@@ -77,7 +79,8 @@ export default function AdminCarReviewDetail({ params }) {
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this car? This action cannot be undone.")) return;
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/cars/${id}`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/cars/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
@@ -312,7 +315,8 @@ export default function AdminCarReviewDetail({ params }) {
                     onClick={async () => {
                       setAnalyzing(true);
                       try {
-                        const res = await fetchWithAuth(`http://localhost:5000/api/admin/cars/${id}/analyze-rc`, { method: "POST" });
+                        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+                        const res = await fetchWithAuth(`${apiUrl}/api/admin/cars/${id}/analyze-rc`, { method: "POST" });
                         const aires = await res.json();
                         setAiData(aires.data);
                       } catch {
@@ -332,7 +336,7 @@ export default function AdminCarReviewDetail({ params }) {
               {car.rcDocument ? (
                 <div className="space-y-3">
                   <a
-                    href={car.rcDocument.startsWith("http") ? car.rcDocument : `http://localhost:5000/${car.rcDocument}`}
+                    href={car.rcDocument.startsWith("http") ? car.rcDocument : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/${car.rcDocument}`}
                     target="_blank"
                     rel="noreferrer"
                     className="flex items-center gap-3 p-4 border border-white/10 rounded-xl text-indigo-400 font-medium hover:bg-white/5 transition text-sm"
@@ -371,7 +375,7 @@ export default function AdminCarReviewDetail({ params }) {
                   car.images.map((img, i) => (
                     <img
                       key={i}
-                      src={img.startsWith("http") ? img : `http://localhost:5000/${img}`}
+                      src={img.startsWith("http") ? img : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/${img}`}
                       className="h-28 w-44 object-cover rounded-xl shrink-0 border border-white/10"
                       alt={`Car ${i + 1}`}
                     />

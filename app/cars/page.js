@@ -20,9 +20,10 @@ function CarCard({ car, index }) {
   };
 
   let displayImage = car.image;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
   if (displayImage) {
     if (displayImage.startsWith("/uploads/")) {
-      displayImage = `http://localhost:5000${displayImage}`;
+      displayImage = `${apiUrl}${displayImage}`;
     } else if (!displayImage.startsWith("http") && !displayImage.startsWith("/")) {
       displayImage = `/${displayImage}`;
     }
@@ -134,9 +135,10 @@ function CarsContent() {
         if (endFromUrl) params.append('endDate', endFromUrl);
 
         const paramString = params.toString();
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
         const url = paramString 
-          ? `http://localhost:5000/api/cars?${paramString}`
-          : `http://localhost:5000/api/cars`;
+          ? `${apiUrl}/api/cars?${paramString}`
+          : `${apiUrl}/api/cars`;
         
         const res = await fetch(url);
         const data = await res.json();

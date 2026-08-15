@@ -13,7 +13,8 @@ export default function RecommendationCarousel({ tripType = "weekend", budget = 
   useEffect(() => {
     async function fetchRecommendations() {
       try {
-        const res = await fetch("http://localhost:5000/api/v1/ai/recommend", {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const res = await fetch(`${apiUrl}/api/v1/ai/recommend`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ tripType, budget, passengers })

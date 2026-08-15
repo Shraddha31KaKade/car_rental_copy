@@ -25,7 +25,8 @@ export default function SmartDocumentUploader({ onExtracted }) {
       // Simulating intelligence
       await new Promise(r => setTimeout(r, 1500));
       
-      const res = await fetch("http://localhost:5000/api/v1/ai/extract-document", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetch(`${apiUrl}/api/v1/ai/extract-document`, {
         method: "POST",
         body: formData,
       }).catch(() => null); // Catch network errors and fallback

@@ -17,9 +17,10 @@ export default function AdminUsersPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
         const [usersRes, inqRes] = await Promise.all([
-          fetchWithAuth("http://localhost:5000/api/admin/users"),
-          fetchWithAuth("http://localhost:5000/api/admin/inquiries")
+          fetchWithAuth(`${apiUrl}/api/admin/users`),
+          fetchWithAuth(`${apiUrl}/api/admin/inquiries`)
         ]);
         
         if (!usersRes.ok || !inqRes.ok) throw new Error("Failed to fetch data");

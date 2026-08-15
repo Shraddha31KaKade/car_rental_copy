@@ -10,7 +10,8 @@ export default function AdminSettings() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/settings")
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    fetch(`${apiUrl}/api/settings`)
       .then(res => res.json())
       .then(data => {
         setMaintenanceMode(data.maintenanceMode || false);
@@ -25,7 +26,8 @@ export default function AdminSettings() {
 
   const handleSaveSettings = async (updates) => {
     try {
-      const res = await fetch("http://localhost:5000/api/settings", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetch(`${apiUrl}/api/settings`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updates),

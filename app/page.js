@@ -14,7 +14,8 @@ export default function Home() {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/cars");
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const res = await fetch(`${apiUrl}/api/cars`);
         const data = await res.json();
 
         if (res.ok) {
@@ -245,7 +246,8 @@ export default function Home() {
               const data = Object.fromEntries(formData);
               
               try {
-                const res = await fetch("http://localhost:5000/api/contact/inquiry", {
+                const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+                const res = await fetch(`${apiUrl}/api/contact/inquiry`, {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify(data)

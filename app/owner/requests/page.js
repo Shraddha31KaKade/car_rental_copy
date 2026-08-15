@@ -15,7 +15,8 @@ export default function RequestsPage() {
       const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
       if (!token) return;
 
-      const res = await fetchWithAuth("http://localhost:5000/api/owner/requests", {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/owner/requests`, {
         method: "GET"
       });
       
@@ -36,7 +37,8 @@ export default function RequestsPage() {
 
   const handleApprove = async (id) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/bookings/${id}/approve`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/bookings/${id}/approve`, {
         method: "PATCH"
       });
 
@@ -50,7 +52,8 @@ export default function RequestsPage() {
 
   const handleReject = async (id) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/bookings/${id}/reject`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/bookings/${id}/reject`, {
         method: "PATCH",
         body: JSON.stringify({ reason: rejectReason }),
         headers: { "Content-Type": "application/json" }
@@ -87,7 +90,7 @@ export default function RequestsPage() {
                      <img src={request.car.images[0]} alt={request.car.name} className="w-full h-full object-cover" />
                    ) : (
                      <Image 
-                       src={request.car.image ? (request.car.image.startsWith('/upload') ? `http://localhost:5000${request.car.image}` : request.car.image) : "/car-placeholder.png"} 
+                       src={request.car.image ? (request.car.image.startsWith('/upload') ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}${request.car.image}` : request.car.image) : "/car-placeholder.png"} 
                        alt={request.car.name} 
                        fill 
                        className="object-cover"

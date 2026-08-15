@@ -13,7 +13,7 @@ export default function ChatbotWidget() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const router = useRouter();
-  const BACKEND_URL = "http://localhost:5000";
+  const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
   const getImageUrl = (imagePath) => {
     if (!imagePath) return "/ferrari.png";
@@ -78,7 +78,7 @@ export default function ChatbotWidget() {
         localStorage.setItem('chat_session_id', sessionId);
       }
 
-      const res = await fetch("http://localhost:5000/api/v1/ai/chat", {
+      const res = await fetch(`${BACKEND_URL}/api/v1/ai/chat`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

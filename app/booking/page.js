@@ -35,8 +35,9 @@ function MyBookingsContent() {
     }
 
     setUser(storedUser);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
-    fetchWithAuth("http://localhost:5000/api/bookings", {
+    fetchWithAuth(`${apiUrl}/api/bookings`, {
       method: "GET"
     })
       .then(async (res) => {
@@ -63,7 +64,8 @@ function MyBookingsContent() {
 
     try {
       const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
-      const res = await fetchWithAuth(`http://localhost:5000/api/bookings/${bookingId}`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/bookings/${bookingId}`, {
         method: "DELETE"
       });
 
@@ -93,8 +95,9 @@ function MyBookingsContent() {
   const handlePay = async (bookingId) => {
     try {
        setPayingBookingId(bookingId);
+       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
        
-       const res = await fetchWithAuth(`http://localhost:5000/api/payments/create-order`, {
+       const res = await fetchWithAuth(`${apiUrl}/api/payments/create-order`, {
          method: "POST",
          body: JSON.stringify({ bookingId })
        });
@@ -118,7 +121,8 @@ function MyBookingsContent() {
            order_id: orderData.orderId,
            handler: async function (response) {
              // Verify Payment
-             const verifyRes = await fetchWithAuth(`http://localhost:5000/api/payments/verify-payment`, {
+             const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+             const verifyRes = await fetchWithAuth(`${apiUrl}/api/payments/verify-payment`, {
                method: "POST",
                body: JSON.stringify({
                  razorpay_order_id: response.razorpay_order_id,

@@ -18,9 +18,10 @@ export default function AdminPendingCars() {
   const fetchCars = async () => {
     setLoading(true);
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const [pendingRes, approvedRes] = await Promise.all([
-        fetchWithAuth("http://localhost:5000/api/admin/cars/pending"),
-        fetchWithAuth("http://localhost:5000/api/admin/cars/approved")
+        fetchWithAuth(`${apiUrl}/api/admin/cars/pending`),
+        fetchWithAuth(`${apiUrl}/api/admin/cars/approved`)
       ]);
       
       if (!pendingRes.ok) throw new Error("Failed to fetch pending cars");

@@ -24,7 +24,8 @@ export default function CarDetailsPage() {
   useEffect(() => {
     const fetchCar = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/cars/${id}`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+        const res = await fetch(`${apiUrl}/api/cars/${id}`);
         const data = await res.json();
         if (res.ok) {
           setCar(data);
@@ -85,8 +86,9 @@ export default function CarDetailsPage() {
   const sendBookingRequest = async () => {
     try {
       setIsSubmitting(true);
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       
-      const res = await fetchWithAuth("http://localhost:5000/api/bookings", {
+      const res = await fetchWithAuth(`${apiUrl}/api/bookings`, {
         method: "POST",
         body: JSON.stringify({
           carId: Number(id),
@@ -119,9 +121,10 @@ export default function CarDetailsPage() {
   };
 
   let displayImage = car.image;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
   if (displayImage) {
     if (displayImage.startsWith("/uploads/")) {
-      displayImage = `http://localhost:5000${displayImage}`;
+      displayImage = `${apiUrl}${displayImage}`;
     } else if (!displayImage.startsWith("http") && !displayImage.startsWith("/")) {
       displayImage = `/${displayImage}`;
     }

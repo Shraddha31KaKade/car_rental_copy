@@ -12,7 +12,8 @@ export default function MyCarsPage() {
 
   const fetchCars = async () => {
     try {
-      const res = await fetchWithAuth("http://localhost:5000/api/owner/cars", { method: "GET" });
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/owner/cars`, { method: "GET" });
       if (res.ok) {
         const data = await res.json();
         setCars(data);
@@ -31,7 +32,8 @@ export default function MyCarsPage() {
   const handlePauseToggle = async (carId, currentPausedStatus) => {
     setTogglingId(carId);
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/cars/${carId}/pause`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/cars/${carId}/pause`, {
         method: "PATCH",
         body: JSON.stringify({ isPaused: !currentPausedStatus }),
         headers: { "Content-Type": "application/json" },
@@ -52,7 +54,8 @@ export default function MyCarsPage() {
   const handleDelete = async (carId) => {
     if (!window.confirm("Are you sure you want to delete this car? This action cannot be undone.")) return;
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/cars/${carId}`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/cars/${carId}`, {
         method: "DELETE",
       });
       if (res.ok) {
@@ -118,7 +121,7 @@ export default function MyCarsPage() {
                     />
                   ) : (
                     <Image
-                      src={car.image ? (car.image.startsWith("/upload") ? `http://localhost:5000${car.image}` : car.image) : "/car-placeholder.png"}
+                      src={car.image ? (car.image.startsWith("/upload") ? `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}${car.image}` : car.image) : "/car-placeholder.png"}
                       alt={car.name}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-700"

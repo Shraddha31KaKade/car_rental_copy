@@ -1,4 +1,4 @@
-/* utils/api.js */
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const getCookie = (name) => {
   if (typeof document === "undefined") return null;
@@ -27,7 +27,7 @@ export const fetchWithAuth = async (url, options = {}) => {
     
     if (refreshToken) {
       try {
-        const refreshRes = await fetch("http://localhost:5000/api/auth/refresh", {
+        const refreshRes = await fetch(`${API_URL}/api/auth/refresh`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token: refreshToken })

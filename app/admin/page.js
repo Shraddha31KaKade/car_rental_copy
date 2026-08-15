@@ -33,9 +33,10 @@ export default function AdminReports() {
     setLoading(true);
     setError(null);
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
       const [reportsRes, carsRes] = await Promise.all([
-        fetchWithAuth("http://localhost:5000/api/admin/reports").catch(() => null),
-        fetchWithAuth("http://localhost:5000/api/admin/cars/approved").catch(() => null)
+        fetchWithAuth(`${apiUrl}/api/admin/reports`).catch(() => null),
+        fetchWithAuth(`${apiUrl}/api/admin/cars/approved`).catch(() => null)
       ]);
       
       if (reportsRes && reportsRes.ok) {

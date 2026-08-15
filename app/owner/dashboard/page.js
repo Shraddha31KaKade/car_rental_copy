@@ -13,10 +13,11 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
         const [dashRes, anRes, notifRes] = await Promise.all([
-           fetchWithAuth("http://localhost:5000/api/owner/dashboard", { method: "GET" }),
-           fetchWithAuth("http://localhost:5000/api/owner/analytics", { method: "GET" }),
-           fetchWithAuth("http://localhost:5000/api/owner/notifications", { method: "GET" })
+           fetchWithAuth(`${apiUrl}/api/owner/dashboard`, { method: "GET" }),
+           fetchWithAuth(`${apiUrl}/api/owner/analytics`, { method: "GET" }),
+           fetchWithAuth(`${apiUrl}/api/owner/notifications`, { method: "GET" })
         ]);
         
         if (dashRes.ok && anRes.ok && notifRes.ok) {
@@ -47,7 +48,8 @@ export default function DashboardPage() {
 
   const handleMarkAsRead = async () => {
     try {
-      const res = await fetchWithAuth("http://localhost:5000/api/owner/notifications/read", { method: "POST" });
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/owner/notifications/read`, { method: "POST" });
       if (res.ok) {
         setNotifications(notifications.map(n => ({ ...n, isRead: true })));
       }

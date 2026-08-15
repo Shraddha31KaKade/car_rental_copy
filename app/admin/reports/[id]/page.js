@@ -23,7 +23,8 @@ export default function ReportDetails() {
   const fetchReportDetails = async () => {
     setLoading(true);
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/admin/reports/${id}`);
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/admin/reports/${id}`);
       if (!res.ok) throw new Error("Failed to fetch report details");
       const data = await res.json();
       setReport(data.data);
@@ -37,7 +38,8 @@ export default function ReportDetails() {
   const handleTriggerAI = async () => {
     setAiLoading(true);
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/admin/reports/${id}/analyze`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/admin/reports/${id}/analyze`, {
         method: 'POST'
       });
       if (!res.ok) throw new Error("AI analysis failed");
@@ -57,7 +59,8 @@ export default function ReportDetails() {
   const handleAction = async (statusEnum) => {
     setActionLoading(true);
     try {
-      const res = await fetchWithAuth(`http://localhost:5000/api/admin/reports/${id}/status`, {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+      const res = await fetchWithAuth(`${apiUrl}/api/admin/reports/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: statusEnum })
@@ -114,7 +117,7 @@ export default function ReportDetails() {
                   <h4 className="text-sm font-medium text-on-surface-variant mb-2">Attachments</h4>
                   <div className="flex gap-4 overflow-x-auto">
                     {report.attachments.map((url, i) => (
-                      <img key={i} src={`http://localhost:5000${url}`} alt="Attachment" className="h-32 rounded-xl border border-outline-variant/30 object-cover" />
+                      <img key={i} src={`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}${url}`} alt="Attachment" className="h-32 rounded-xl border border-outline-variant/30 object-cover" />
                     ))}
                   </div>
                 </div>
