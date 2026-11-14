@@ -72,9 +72,9 @@ export default function RegisterPage() {
             ✨
           </div>
           <h2 className="text-4xl font-black text-white tracking-tighter mb-3">
-            Join the <span className="text-indigo-500">Circle</span>
+            Create an <span className="text-indigo-500">Account</span>
           </h2>
-          <p className="text-slate-400 font-medium">Elevate your mobility with CarRental</p>
+          <p className="text-slate-400 font-medium">Sign up to start renting with CarRental</p>
         </div>
 
         <div className="space-y-6">
@@ -83,7 +83,7 @@ export default function RegisterPage() {
             <input
               type="text"
               name="name"
-              placeholder="John Wick"
+              placeholder="John Doe"
               value={formData.name}
               onChange={handleChange}
               className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
@@ -91,11 +91,11 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Email Domain</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Email Address</label>
             <input
               type="email"
               name="email"
-              placeholder="vantage@continental.com"
+              placeholder="john@example.com"
               value={formData.email}
               onChange={handleChange}
               className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
@@ -104,11 +104,11 @@ export default function RegisterPage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Access Key</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Password</label>
               <input
                 type="password"
                 name="password"
-                placeholder="••••••••"
+                placeholder="Enter password"
                 value={formData.password}
                 onChange={handleChange}
                 className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
@@ -116,11 +116,11 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Verify Key</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Confirm Password</label>
               <input
                 type="password"
                 name="confirmPassword"
-                placeholder="••••••••"
+                placeholder="Confirm password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
@@ -133,13 +133,13 @@ export default function RegisterPage() {
           onClick={handleRegister}
           className="btn-primary w-full mt-12 py-5 rounded-2xl shadow-indigo-500/20"
         >
-          Initialize Access
+          Sign Up
         </button>
 
         <p className="text-center text-slate-500 mt-10 font-bold uppercase tracking-widest text-[10px]">
-          Already an Elite Member?{" "}
+          Already have an account?{" "}
           <Link href="/" className="text-indigo-500 hover:text-indigo-400 transition-colors">
-            Authorize Now
+            Sign In
           </Link>
         </p>
 

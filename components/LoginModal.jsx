@@ -46,11 +46,14 @@ export default function LoginModal({ onClose, onLoginSuccess }) {
 
         if (onLoginSuccess) {
           onLoginSuccess(data.user);
+          onClose();
         } else if (data.user && data.user.role === 'ADMIN') {
           window.location.href = '/admin';
+        } else if (data.user && data.user.role === 'OWNER') {
+          window.location.href = '/owner/dashboard';
+        } else {
+          onClose();
         }
-
-        onClose();
       } else {
         alert(data.message || "Invalid credentials");
       }
@@ -82,21 +85,21 @@ export default function LoginModal({ onClose, onLoginSuccess }) {
 
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-500/10 text-indigo-400 rounded-[1.50rem] text-3xl mb-8 border border-indigo-500/20 drop-shadow-[0_0_15px_rgba(99,102,241,0.3)] animate-float">
-            🗝️
+            🔑
           </div>
           <h2 className="text-4xl font-black text-white tracking-tighter mb-3">
             Welcome <span className="text-indigo-500">Back</span>
           </h2>
-          <p className="text-slate-400 font-medium">Authorize your next escape</p>
+          <p className="text-slate-400 font-medium">Sign in to your account</p>
         </div>
 
         <div className="space-y-6">
            <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Email Access</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Email Address</label>
             <input
               type="email"
               name="email"
-              placeholder="concierge@carescape.app"
+              placeholder="you@example.com"
               value={formData.email}
               onChange={handleChange}
               className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
@@ -104,18 +107,18 @@ export default function LoginModal({ onClose, onLoginSuccess }) {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Security Key</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Password</label>
             <input
               type="password"
               name="password"
-              placeholder="••••••••"
+              placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
               className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
             />
             <div className="flex justify-end pr-2">
                <Link href="/forgot-password" onClick={onClose} className="text-[9px] font-black text-slate-500 hover:text-indigo-400 uppercase tracking-widest transition-colors">
-                 Forgot Security Key?
+                 Forgot Password?
                </Link>
             </div>
           </div>
@@ -125,17 +128,17 @@ export default function LoginModal({ onClose, onLoginSuccess }) {
           onClick={handleLogin}
           className="btn-primary w-full mt-12 py-5 rounded-2xl shadow-indigo-500/20"
         >
-          Verify Access
+          Sign In
         </button>
 
         <p className="text-center text-slate-500 mt-10 font-bold uppercase tracking-widest text-[10px]">
-          New to the Collective?{" "}
+          Don't have an account?{" "}
           <Link
             href="/register"
             onClick={onClose}
             className="text-indigo-500 font-bold hover:text-indigo-400 transition-colors"
           >
-            Create Account
+            Sign Up
           </Link>
         </p>
       </div>

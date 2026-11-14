@@ -17,7 +17,11 @@ export function middleware(request) {
     }
 
     try {
-      const user = JSON.parse(decodeURIComponent(userCookie));
+      let decodedStr = userCookie;
+      try {
+        decodedStr = decodeURIComponent(userCookie);
+      } catch (_) {}
+      const user = JSON.parse(decodedStr);
 
       // Role authorization
       if (isAdminPath && user.role !== 'ADMIN') {

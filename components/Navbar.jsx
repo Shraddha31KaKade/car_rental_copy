@@ -143,14 +143,14 @@ export default function Navbar({ onLoginClick }) {
               onClick={onLoginClick}
               className="btn-primary py-3 px-8 text-sm"
             >
-              Member Access
+              Sign In
             </button>
           )}
         </div>
 
         {/* Mobile Toggle */}
         <button 
-          className="md:hidden text-white p-2"
+          className="lg:hidden text-white p-2"
           onClick={toggleMobileMenu}
         >
           {isMobileMenuOpen ? "✕" : "☰"}
@@ -159,28 +159,52 @@ export default function Navbar({ onLoginClick }) {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-slate-950/95 backdrop-blur-3xl border-t border-white/5 p-8 animate-fadeIn">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-slate-950/95 backdrop-blur-3xl border-t border-white/5 p-8 animate-fadeIn">
           <div className="flex flex-col gap-6 text-center">
             <Link href="/" className="text-xl font-black text-white" onClick={toggleMobileMenu}>Home</Link>
             <Link href="/cars" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>Fleet</Link>
             <Link href="/services" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>Services</Link>
             <Link href="/booking" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>My Journeys</Link>
             <Link href="/list-cars" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>List Your Car</Link>
+
+            {loggedInUser?.role === "ADMIN" && (
+              <Link 
+                href="/admin" 
+                className="bg-indigo-600 hover:bg-indigo-500 text-white py-3 px-6 rounded-2xl text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2"
+                onClick={toggleMobileMenu}
+              >
+                <span>🛡️</span> Admin Portal
+              </Link>
+            )}
+
+            {loggedInUser?.role === "OWNER" && (
+              <Link 
+                href="/owner/dashboard" 
+                className="btn-outline py-3 px-6 text-sm font-bold text-indigo-400 border border-indigo-500/30 rounded-2xl uppercase tracking-widest"
+                onClick={toggleMobileMenu}
+              >
+                Owner Dashboard
+              </Link>
+            )}
+
             {loggedInUser ? (
               <div className="pt-4 border-t border-white/5">
+                <p className="text-xs text-slate-400 mb-3 uppercase tracking-widest font-black">
+                  Signed in as <span className="text-indigo-400">{loggedInUser.name || loggedInUser.email}</span>
+                </p>
                 <button 
                   onClick={handleLogout}
-                  className="w-full py-4 text-rose-500 font-bold"
+                  className="w-full py-4 text-rose-500 font-bold uppercase tracking-widest text-sm"
                 >
                   Sign Out
                 </button>
               </div>
             ) : (
               <button 
-                onClick={onLoginClick}
+                onClick={() => { toggleMobileMenu(); onLoginClick(); }}
                 className="btn-primary w-full py-4 text-lg"
               >
-                Member Access
+                Sign In
               </button>
             )}
           </div>

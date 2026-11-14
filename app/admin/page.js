@@ -158,11 +158,14 @@ export default function AdminReports() {
               <AlertCircle size={16} /> Needs attention
             </p>
           </div>
-          <div className="bg-surface-container-low rounded-2xl p-6 transition-transform hover:-translate-y-1 border border-transparent">
+          <div 
+            onClick={() => router.push("/admin/cars")}
+            className="bg-surface-container-low rounded-2xl p-6 transition-transform hover:-translate-y-1 border border-transparent cursor-pointer hover:border-indigo-500/30"
+          >
             <h3 className="text-on-surface-variant text-sm font-medium mb-4">Active Fleet (Approved)</h3>
             <p className="text-5xl font-bold text-on-surface tracking-tight">{loading ? "-" : approvedCars.length}</p>
             <p className="text-sm text-primary mt-4 font-medium flex items-center gap-1">
-              <CheckCircle2 size={16} /> Cars available to rent
+              <CheckCircle2 size={16} /> Manage Fleet &rarr;
             </p>
           </div>
           <div className="bg-surface-container-low rounded-2xl p-6 transition-transform hover:-translate-y-1">

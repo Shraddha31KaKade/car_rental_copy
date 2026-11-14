@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CopyPlus, LayoutDashboard, FileText, Settings, Users, ArrowLeft } from "lucide-react";
+import { CopyPlus, LayoutDashboard, FileText, Settings, Users, ArrowLeft, Car } from "lucide-react";
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
 
   const navLinks = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+    { name: "Fleet Management", href: "/admin/cars", icon: Car },
     { name: "Verifications", href: "/admin/verifications", icon: FileText },
     { name: "System Settings", href: "/admin/settings", icon: Settings },
     { name: "User Management", href: "/admin/users", icon: Users },
