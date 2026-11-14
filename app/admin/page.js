@@ -160,7 +160,7 @@ export default function AdminReports() {
           </div>
           <div 
             onClick={() => router.push("/admin/cars")}
-            className="bg-surface-container-low rounded-2xl p-6 transition-transform hover:-translate-y-1 border border-transparent cursor-pointer hover:border-indigo-500/30"
+            className="bg-surface-container-low rounded-2xl p-6 transition-transform hover:-translate-y-1 border border-transparent cursor-pointer hover:border-blue-500/30"
           >
             <h3 className="text-on-surface-variant text-sm font-medium mb-4">Active Fleet (Approved)</h3>
             <p className="text-5xl font-bold text-on-surface tracking-tight">{loading ? "-" : approvedCars.length}</p>

@@ -103,15 +103,15 @@ export default function AdminCarReviewDetail({ params }) {
     CHANGES_REQUESTED:  { label: "Changes Requested",  color: "bg-orange-500/15 text-orangeite-400 border-orange-500/30" },
   };
 
-  const currentStatus = car ? (statusConfig[car.listingStatus] || { label: car.listingStatus, color: "bg-slate-500/15 text-slate-400 border-slate-500/30" }) : null;
+  const currentStatus = car ? (statusConfig[car.listingStatus] || { label: car.listingStatus, color: "bg-slate-500/15 text-slate-600 border-slate-500/30" }) : null;
 
   if (loading) return (
-    <div className="min-h-screen bg-[#020617] flex items-center justify-center">
-      <Loader2 className="animate-spin text-indigo-400" size={40} />
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center">
+      <Loader2 className="animate-spin text-blue-400" size={40} />
     </div>
   );
   if (error || !car) return (
-    <div className="min-h-screen bg-[#020617] flex items-center justify-center text-red-400 font-bold">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center text-red-400 font-bold">
       {error || "Car not found"}
     </div>
   );
@@ -119,37 +119,37 @@ export default function AdminCarReviewDetail({ params }) {
   const isAlreadyDecided = car.listingStatus === "APPROVED" || car.listingStatus === "REJECTED";
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white font-sans p-6 lg:p-8">
+    <div className="min-h-screen bg-slate-50 text-slate-900 text-slate-900 font-sans p-6 lg:p-8">
       <div className="max-w-5xl mx-auto space-y-6">
 
         {/* ─── Breadcrumb ─── */}
         <button
           onClick={() => router.push("/admin/cars")}
-          className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm font-medium group"
+          className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors text-sm font-medium group"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
           Back to Approval Queue
         </button>
 
         {/* ─── Header Card ─── */}
-        <div className="bg-[#0f172a] border border-white/5 rounded-2xl p-6">
+        <div className="bg-[#0f172a] border border-slate-200 rounded-2xl p-6">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 rounded-xl bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-blue-400">
                   <Car size={20} />
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold tracking-tight">{car.name}</h1>
-                  <p className="text-slate-400 text-sm">{car.brand} · Listing #{car.id}</p>
+                  <p className="text-slate-600 text-sm">{car.brand} · Listing #{car.id}</p>
                 </div>
               </div>
-              <p className="text-slate-400 text-sm">
+              <p className="text-slate-600 text-sm">
                 <span className="font-semibold text-slate-300">Listing Owner:</span> {car.ownerName || car.owner?.name} —{" "}
-                <span className="text-indigo-400">{car.ownerEmail || car.owner?.email}</span>
+                <span className="text-blue-400">{car.ownerEmail || car.owner?.email}</span>
               </p>
               {car.ownerContact && (
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-600 text-sm">
                   <span className="font-semibold text-slate-300">Contact:</span> {car.ownerContact}
                 </p>
               )}
@@ -164,7 +164,7 @@ export default function AdminCarReviewDetail({ params }) {
                 )}
                 <button
                   onClick={handleDelete}
-                  className="px-4 py-1.5 rounded-xl bg-red-500/10 text-red-500 text-xs font-bold uppercase tracking-widest hover:bg-red-500 hover:text-white transition-colors"
+                  className="px-4 py-1.5 rounded-xl bg-red-500/10 text-red-500 text-xs font-bold uppercase tracking-widest hover:bg-red-500 hover:text-slate-900 transition-colors"
                 >
                   Delete Car
                 </button>
@@ -190,13 +190,13 @@ export default function AdminCarReviewDetail({ params }) {
 
         {/* ─── Action Buttons ─── */}
         {!isAlreadyDecided && (
-          <div className="bg-[#0f172a] border border-white/5 rounded-2xl p-5">
+          <div className="bg-[#0f172a] border border-slate-200 rounded-2xl p-5">
             <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-4">Admin Decision</p>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => submitDecision("APPROVED")}
                 disabled={isSubmitting || decisionMode !== null}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-emerald-900/30"
+                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-slate-900 font-bold text-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed shadow-lg shadow-emerald-900/30"
               >
                 <Check size={16} />
                 Approve Listing
@@ -204,7 +204,7 @@ export default function AdminCarReviewDetail({ params }) {
               <button
                 onClick={() => setDecisionMode("CHANGES")}
                 disabled={isSubmitting || decisionMode === "CHANGES"}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-slate-900 font-bold text-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <Edit3 size={16} />
                 Request Changes
@@ -212,7 +212,7 @@ export default function AdminCarReviewDetail({ params }) {
               <button
                 onClick={() => setDecisionMode("REJECT")}
                 disabled={isSubmitting || decisionMode === "REJECT"}
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-red-700 hover:bg-red-600 text-white font-bold text-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-red-700 hover:bg-red-600 text-slate-900 font-bold text-sm transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <X size={16} />
                 Reject Listing
@@ -222,18 +222,18 @@ export default function AdminCarReviewDetail({ params }) {
         )}
 
         {isAlreadyDecided && !successMsg && (
-          <div className="bg-slate-800/50 border border-white/5 p-4 rounded-xl text-slate-400 text-sm font-medium">
-            This listing has already been <strong className="text-white">{car.listingStatus.toLowerCase()}</strong>. No further action needed.
+          <div className="bg-slate-800/50 border border-slate-200 p-4 rounded-xl text-slate-600 text-sm font-medium">
+            This listing has already been <strong className="text-slate-900">{car.listingStatus.toLowerCase()}</strong>. No further action needed.
           </div>
         )}
 
         {/* ─── Reason Input Panel ─── */}
         {decisionMode && (
           <div className={`p-5 rounded-2xl border ${decisionMode === "REJECT" ? "bg-red-950/30 border-red-500/30" : "bg-orange-950/20 border-orange-500/20"}`}>
-            <h3 className="font-bold text-white mb-1">
+            <h3 className="font-bold text-slate-900 mb-1">
               {decisionMode === "REJECT" ? "❌ Rejection Reason" : "📝 Changes Required"}
             </h3>
-            <p className="text-xs text-slate-400 mb-3">This message will be emailed to the car owner automatically.</p>
+            <p className="text-xs text-slate-600 mb-3">This message will be emailed to the car owner automatically.</p>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -242,14 +242,14 @@ export default function AdminCarReviewDetail({ params }) {
                   ? "Explain why this listing is being rejected..."
                   : "Describe the changes needed (e.g., upload clearer RC document, fix price, add more photos)..."
               }
-              className="w-full bg-[#020617] border border-white/10 p-4 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 transition-colors mb-4 resize-none text-sm"
+              className="w-full bg-slate-50 text-slate-900 border border-slate-200 p-4 rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:border-blue-500 transition-colors mb-4 resize-none text-sm"
               rows={4}
             />
             <div className="flex gap-3">
               <button
                 onClick={() => submitDecision(decisionMode === "REJECT" ? "REJECTED" : "CHANGES_REQUESTED")}
                 disabled={isSubmitting}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-white transition-colors ${decisionMode === "REJECT" ? "bg-red-700 hover:bg-red-600" : "bg-orange-600 hover:bg-orange-500"} disabled:opacity-50`}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-slate-900 transition-colors ${decisionMode === "REJECT" ? "bg-red-700 hover:bg-red-600" : "bg-orange-600 hover:bg-orange-500"} disabled:opacity-50`}
               >
                 {isSubmitting ? <Loader2 className="animate-spin" size={16} /> : <Check size={16} />}
                 {isSubmitting ? "Sending..." : "Confirm & Notify Owner"}
@@ -257,7 +257,7 @@ export default function AdminCarReviewDetail({ params }) {
               <button
                 onClick={() => { setDecisionMode(null); setNotes(""); }}
                 disabled={isSubmitting}
-                className="px-6 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-sm transition-colors"
+                className="px-6 py-2.5 rounded-xl bg-slate-50 hover:bg-white/10 text-slate-300 font-bold text-sm transition-colors"
               >
                 Cancel
               </button>
@@ -269,9 +269,9 @@ export default function AdminCarReviewDetail({ params }) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
           {/* Vehicle Details */}
-          <div className="bg-[#0f172a] border border-white/5 rounded-2xl p-6 space-y-4">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
-              <Car size={18} className="text-indigo-400" /> Vehicle Details
+          <div className="bg-[#0f172a] border border-slate-200 rounded-2xl p-6 space-y-4">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-slate-900">
+              <Car size={18} className="text-blue-400" /> Vehicle Details
             </h2>
             <div className="grid grid-cols-2 gap-3">
               {[
@@ -285,14 +285,14 @@ export default function AdminCarReviewDetail({ params }) {
                 { label: "Transmission", value: car.transmission || "N/A" },
                 { label: "Location",  value: car.location || "N/A" },
               ].map(({ label, value }) => (
-                <div key={label} className="bg-white/5 p-3 rounded-xl">
+                <div key={label} className="bg-slate-50 p-3 rounded-xl">
                   <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">{label}</p>
-                  <p className="text-sm font-semibold text-white">{value}</p>
+                  <p className="text-sm font-semibold text-slate-900">{value}</p>
                 </div>
               ))}
-              <div className="bg-indigo-500/10 border border-indigo-500/20 p-3 rounded-xl">
-                <p className="text-[10px] text-indigo-400 uppercase tracking-widest font-bold mb-1">Price / Day</p>
-                <p className="text-sm font-bold text-indigo-300 flex items-center gap-1">
+              <div className="bg-blue-50 border border-blue-200 p-3 rounded-xl">
+                <p className="text-[10px] text-blue-400 uppercase tracking-widest font-bold mb-1">Price / Day</p>
+                <p className="text-sm font-bold text-blue-600 flex items-center gap-1">
                   <IndianRupee size={13} />
                   {car.price?.toLocaleString("en-IN")}
                 </p>
@@ -301,9 +301,9 @@ export default function AdminCarReviewDetail({ params }) {
           </div>
 
           {/* Documentation & Media */}
-          <div className="bg-[#0f172a] border border-white/5 rounded-2xl p-6 space-y-5">
-            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
-              <FileText size={18} className="text-indigo-400" /> Documentation & Media
+          <div className="bg-[#0f172a] border border-slate-200 rounded-2xl p-6 space-y-5">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-slate-900">
+              <FileText size={18} className="text-blue-400" /> Documentation & Media
             </h2>
 
             {/* RC Document */}
@@ -326,7 +326,7 @@ export default function AdminCarReviewDetail({ params }) {
                       }
                     }}
                     disabled={analyzing}
-                    className="text-[10px] bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 px-3 py-1 rounded-full font-bold flex items-center gap-1 hover:bg-indigo-500/30 transition"
+                    className="text-[10px] bg-blue-50 text-blue-600 text-blue-400 border border-blue-500/30 px-3 py-1 rounded-full font-bold flex items-center gap-1 hover:bg-blue-500/30 transition"
                   >
                     {analyzing ? <Loader2 size={10} className="animate-spin" /> : "✨"} AI Check
                   </button>
@@ -339,14 +339,14 @@ export default function AdminCarReviewDetail({ params }) {
                     href={car.rcDocument.startsWith("http") ? car.rcDocument : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/${car.rcDocument}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-3 p-4 border border-white/10 rounded-xl text-indigo-400 font-medium hover:bg-white/5 transition text-sm"
+                    className="flex items-center gap-3 p-4 border border-slate-200 rounded-xl text-blue-400 font-medium hover:bg-slate-50 transition text-sm"
                   >
                     <FileText size={16} /> View Submitted RC Document
                   </a>
 
                   {aiData && (
-                    <div className="bg-indigo-500/10 border border-indigo-500/20 p-4 rounded-xl text-sm animate-in fade-in">
-                      <p className="font-bold text-indigo-400 flex items-center gap-2 mb-2">✨ AI Verification</p>
+                    <div className="bg-blue-50 border border-blue-200 p-4 rounded-xl text-sm animate-in fade-in">
+                      <p className="font-bold text-blue-400 flex items-center gap-2 mb-2">✨ AI Verification</p>
                       <ul className="space-y-1 text-slate-300">
                         <li><span className="font-semibold text-slate-100">Owner:</span> {aiData.ownerName}</li>
                         <li><span className="font-semibold text-slate-100">Reg Num:</span> {aiData.registrationNumber}</li>
@@ -376,7 +376,7 @@ export default function AdminCarReviewDetail({ params }) {
                     <img
                       key={i}
                       src={img.startsWith("http") ? img : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/${img}`}
-                      className="h-28 w-44 object-cover rounded-xl shrink-0 border border-white/10"
+                      className="h-28 w-44 object-cover rounded-xl shrink-0 border border-slate-200"
                       alt={`Car ${i + 1}`}
                     />
                   ))
@@ -389,17 +389,17 @@ export default function AdminCarReviewDetail({ params }) {
         </div>
 
         {/* ─── Owner History ─── */}
-        <div className="bg-[#0f172a] border border-white/5 rounded-2xl p-6 mt-6">
-          <h2 className="flex items-center gap-2 text-lg font-bold text-white mb-4">
-            <Car size={18} className="text-indigo-400" /> Owner's Fleet History
+        <div className="bg-[#0f172a] border border-slate-200 rounded-2xl p-6 mt-6">
+          <h2 className="flex items-center gap-2 text-lg font-bold text-slate-900 mb-4">
+            <Car size={18} className="text-blue-400" /> Owner's Fleet History
           </h2>
           {car.owner?.ownedCars && car.owner.ownedCars.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {car.owner.ownedCars.map(c => (
-                <div key={c.id} className="bg-white/5 p-4 rounded-xl border border-white/10 flex flex-col justify-between">
+                <div key={c.id} className="bg-slate-50 p-4 rounded-xl border border-slate-200 flex flex-col justify-between">
                   <div>
-                    <p className="text-sm font-bold text-white mb-1">{c.name}</p>
-                    <p className="text-xs text-slate-400">{c.brand} ({c.year})</p>
+                    <p className="text-sm font-bold text-slate-900 mb-1">{c.name}</p>
+                    <p className="text-xs text-slate-600">{c.brand} ({c.year})</p>
                   </div>
                   <div className="mt-3">
                     <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${

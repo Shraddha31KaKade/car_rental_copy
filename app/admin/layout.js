@@ -16,16 +16,16 @@ export default function AdminLayout({ children }) {
   ];
 
   return (
-    <div className="flex h-screen bg-[#020617] text-[#f8fafc]">
-      {/* Sidebar - Stitch Inspired Dark Theme */}
-      <aside className="w-64 bg-[#0f172a] border-r border-white/5 flex flex-col pt-8 pb-4">
+    <div className="flex h-screen bg-slate-50 text-slate-900">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white border-r border-slate-200 shadow-sm flex flex-col pt-8 pb-4">
         <div className="px-6 mb-10 flex items-center gap-3">
-          <div className="w-8 h-8 rounded bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+          <div className="w-8 h-8 rounded bg-blue-50 text-blue-600 flex items-center justify-center">
              <CopyPlus size={18} />
           </div>
           <div>
-            <h2 className="font-bold text-lg tracking-tight">Admin Suite</h2>
-            <p className="text-xs text-slate-400">Control Panel</p>
+            <h2 className="font-bold text-lg tracking-tight text-slate-900">Admin Suite</h2>
+            <p className="text-xs text-slate-500">Control Panel</p>
           </div>
         </div>
 
@@ -40,11 +40,11 @@ export default function AdminLayout({ children }) {
                 href={link.href}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 font-medium ${
                   isActive 
-                    ? "bg-indigo-600 shadow-[0_0_20px_rgba(99,102,241,0.2)] text-white" 
-                    : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                    ? "bg-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.2)] text-white" 
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                 }`}
               >
-                <Icon size={18} className={isActive ? "text-white" : "text-slate-500"} />
+                <Icon size={18} className={isActive ? "text-white" : "text-slate-400"} />
                 {link.name}
               </Link>
             );
@@ -54,7 +54,7 @@ export default function AdminLayout({ children }) {
         <div className="px-4 mt-auto mb-4">
           <Link
             href="/"
-            className="flex items-center justify-center gap-3 px-4 py-4 rounded-2xl bg-white/5 text-indigo-400 hover:text-white hover:bg-indigo-600 transition-all duration-500 font-black text-xs uppercase tracking-widest border border-white/5 hover:border-indigo-500 shadow-xl"
+            className="flex items-center justify-center gap-3 px-4 py-4 rounded-2xl bg-slate-100 text-blue-600 hover:text-white hover:bg-blue-600 transition-all duration-500 font-black text-xs uppercase tracking-widest border border-slate-200 hover:border-blue-600 shadow-sm"
           >
             <ArrowLeft size={16} /> Back to Website
           </Link>

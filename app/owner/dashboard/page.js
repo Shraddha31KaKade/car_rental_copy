@@ -38,8 +38,8 @@ export default function DashboardPage() {
     fetchStats();
   }, []);
 
-  if (loading) return <div className="text-white animate-pulse">Loading Metrics...</div>;
-  if (!stats || !analytics) return <div className="text-white">Failed to load metrics.</div>;
+  if (loading) return <div className="text-slate-900 animate-pulse">Loading Metrics...</div>;
+  if (!stats || !analytics) return <div className="text-slate-900">Failed to load metrics.</div>;
 
   const chartData = Object.keys(analytics.earningsPerMonth).map(month => ({
      name: month,
@@ -59,9 +59,9 @@ export default function DashboardPage() {
   return (
     <div className="animate-fadeUp">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-black text-white uppercase tracking-tighter italic">Command Center</h1>
+        <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tighter italic">Command Center</h1>
         {notifications.some(n => !n.isRead) && (
-          <button onClick={handleMarkAsRead} className="text-[10px] font-black text-indigo-400 border border-indigo-500/30 px-4 py-2 rounded-full hover:bg-indigo-500/10 transition-colors uppercase tracking-widest">
+          <button onClick={handleMarkAsRead} className="text-[10px] font-black text-blue-600 border border-blue-500/30 px-4 py-2 rounded-full hover:bg-blue-500/10 transition-colors uppercase tracking-widest">
             Clear New Alerts
           </button>
         )}
@@ -71,24 +71,24 @@ export default function DashboardPage() {
       {notifications.length > 0 && (
         <div className="mb-12 space-y-4">
           <div className="flex items-center gap-3 mb-4">
-             <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-             <h2 className="text-sm font-black text-white uppercase tracking-widest">Operational Alerts</h2>
+             <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+             <h2 className="text-sm font-black text-slate-900 uppercase tracking-widest">Operational Alerts</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
              {notifications.slice(0, 4).map((notif, i) => (
-               <div key={notif.id} className={`p-6 rounded-[1.5rem] border transition-all ${notif.isRead ? 'bg-white/5 border-white/5 opacity-60' : 'bg-indigo-500/10 border-indigo-500/30 shadow-[0_10px_30px_rgba(99,102,241,0.1)]'}`}>
+               <div key={notif.id} className={`p-6 rounded-[1.5rem] border transition-all ${notif.isRead ? 'bg-white/5 border-white/5 opacity-60' : 'bg-blue-50 border-blue-200 shadow-[0_10px_30px_rgba(59,130,246,0.1)]'}`}>
                   <div className="flex justify-between items-start mb-3">
-                    <span className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter ${notif.isRead ? 'bg-white/5 text-slate-500' : 'bg-indigo-500 text-white'}`}>
+                    <span className={`text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-tighter ${notif.isRead ? 'bg-white/5 text-slate-500' : 'bg-blue-500 text-slate-900'}`}>
                       {notif.isRead ? 'Viewed' : 'New Transmission'}
                     </span>
                     <span className="text-[9px] font-bold text-slate-600 font-mono italic">
                       {new Date(notif.createdAt).toLocaleString()}
                     </span>
                   </div>
-                  <p className="text-sm font-medium text-slate-200 leading-relaxed">{notif.message}</p>
+                  <p className="text-sm font-medium text-slate-700 leading-relaxed">{notif.message}</p>
                   {!notif.isRead && notif.message.includes("update your listing") && (
-                    <div className="mt-4 pt-4 border-t border-white/5">
-                      <a href="/owner/my-cars" className="text-[10px] font-black text-indigo-400 uppercase tracking-widest hover:text-white transition-colors flex items-center gap-2">
+                    <div className="mt-4 pt-4 border-t border-slate-200">
+                      <a href="/owner/my-cars" className="text-[10px] font-black text-blue-600 uppercase tracking-widest hover:text-slate-900 transition-colors flex items-center gap-2">
                         Go to Listing Control Panel →
                       </a>
                     </div>
@@ -100,17 +100,17 @@ export default function DashboardPage() {
       )}
       
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 relative overflow-hidden group col-span-1 sm:col-span-2 lg:col-span-1">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-3xl p-8 relative overflow-hidden group col-span-1 sm:col-span-2 lg:col-span-1">
            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 relative z-10 flex items-center justify-between">
               Net Earnings
-              <span className="bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full">After 15% Fee</span>
+              <span className="bg-blue-500/20 text-blue-600 px-2 py-0.5 rounded-full">After 15% Fee</span>
            </p>
-           <p className="text-4xl font-black text-white tracking-tighter relative z-10 mb-2">₹{analytics.totalEarnings}</p>
+           <p className="text-4xl font-black text-slate-900 tracking-tighter relative z-10 mb-2">₹{analytics.totalEarnings}</p>
            
-           <div className="pt-4 border-t border-white/5 mt-4 relative z-10">
+           <div className="pt-4 border-t border-slate-200 mt-4 relative z-10">
               <div className="flex justify-between text-xs mb-1">
                  <span className="text-slate-400 font-medium">Gross Booking Revenue</span>
-                 <span className="text-white font-bold">₹{analytics.grossEarnings}</span>
+                 <span className="text-slate-900 font-bold">₹{analytics.grossEarnings}</span>
               </div>
               <div className="flex justify-between text-xs">
                  <span className="text-slate-500 font-medium text-[10px] uppercase">Platform Escrow Fee</span>
@@ -119,24 +119,24 @@ export default function DashboardPage() {
            </div>
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 relative overflow-hidden group">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-3xl p-8 relative overflow-hidden group">
            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 relative z-10">Active Fleet</p>
-           <p className="text-4xl font-black text-white tracking-tighter relative z-10">{stats.carsCount}</p>
+           <p className="text-4xl font-black text-slate-900 tracking-tighter relative z-10">{stats.carsCount}</p>
         </div>
 
-        <div className="bg-indigo-500/10 border border-indigo-500/20 rounded-3xl p-8 relative overflow-hidden group">
-           <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2 relative z-10">Pending Actions</p>
-           <p className="text-4xl font-black text-white tracking-tighter relative z-10">{stats.pendingRequests}</p>
+        <div className="bg-blue-50 border border-blue-200 rounded-3xl p-8 relative overflow-hidden group">
+           <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-2 relative z-10">Pending Actions</p>
+           <p className="text-4xl font-black text-slate-900 tracking-tighter relative z-10">{stats.pendingRequests}</p>
         </div>
 
-        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 relative overflow-hidden group">
+        <div className="bg-white border border-slate-200 shadow-sm rounded-3xl p-8 relative overflow-hidden group">
            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 relative z-10">Authorized Trips</p>
            <p className="text-4xl font-black text-emerald-400 tracking-tighter relative z-10">{stats.approvedBookingsCount}</p>
         </div>
       </div>
 
-      <div className="bg-white/5 border border-white/10 rounded-3xl p-8">
-        <h2 className="text-2xl font-bold text-white mb-6">Revenue History</h2>
+      <div className="bg-white border border-slate-200 shadow-sm rounded-3xl p-8">
+        <h2 className="text-2xl font-bold text-slate-900 mb-6">Revenue History</h2>
         <div className="mt-4">
            <ResponsiveContainer width="99%" height={256}>
              <BarChart data={chartData}>

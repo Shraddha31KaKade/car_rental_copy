@@ -60,70 +60,70 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#020617] px-4 pt-20 relative overflow-hidden isolate">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-900 px-4 pt-20 relative overflow-hidden isolate">
       {/* Background Blobs */}
-      <div className="bg-blob blob-indigo top-[-10%] left-[-10%] opacity-20"></div>
-      <div className="bg-blob blob-violet bottom-[-10%] right-[-10%] opacity-20"></div>
+      <div className="bg-blob blob-blue top-[-10%] left-[-10%] opacity-20"></div>
+      <div className="bg-blob blob-sky bottom-[-10%] right-[-10%] opacity-20"></div>
 
-      <div className="bg-slate-900/40 backdrop-blur-3xl w-full max-w-md p-10 sm:p-12 rounded-[3.5rem] border border-white/5 shadow-2xl animate-fadeUp relative z-10">
+      <div className="bg-white border border-slate-200 w-full max-w-md p-10 sm:p-12 rounded-[3.5rem] shadow-2xl animate-fadeUp relative z-10">
         
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-500/10 text-indigo-400 rounded-[1.50rem] text-3xl mb-8 border border-indigo-500/20 drop-shadow-[0_0_15px_rgba(99,102,241,0.3)] animate-float">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-50 text-blue-600 rounded-[1.50rem] text-3xl mb-6 border border-blue-200 shadow-sm animate-float">
             ✨
           </div>
-          <h2 className="text-4xl font-black text-white tracking-tighter mb-3">
-            Create an <span className="text-indigo-500">Account</span>
+          <h2 className="text-4xl font-black text-slate-950 tracking-tighter mb-2">
+            Create an <span className="text-blue-600">Account</span>
           </h2>
-          <p className="text-slate-400 font-medium">Sign up to start renting with CarRental</p>
+          <p className="text-slate-500 font-medium text-sm">Sign up to start renting with CarRental</p>
         </div>
 
         <div className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Full Name</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-700 ml-1">Full Name</label>
             <input
               type="text"
               name="name"
               placeholder="John Doe"
               value={formData.name}
               onChange={handleChange}
-              className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
+              className="w-full bg-slate-50 border border-slate-300 px-6 py-4 rounded-2xl focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Email Address</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-700 ml-1">Email Address</label>
             <input
               type="email"
               name="email"
               placeholder="john@example.com"
               value={formData.email}
               onChange={handleChange}
-              className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
+              className="w-full bg-slate-50 border border-slate-300 px-6 py-4 rounded-2xl focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-400"
             />
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Password</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-700 ml-1">Password</label>
               <input
                 type="password"
                 name="password"
                 placeholder="Enter password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
+                className="w-full bg-slate-50 border border-slate-300 px-6 py-4 rounded-2xl focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-400"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Confirm Password</label>
+              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-700 ml-1">Confirm Password</label>
               <input
                 type="password"
                 name="confirmPassword"
                 placeholder="Confirm password"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
+                className="w-full bg-slate-50 border border-slate-300 px-6 py-4 rounded-2xl focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-400"
               />
             </div>
           </div>
@@ -131,14 +131,14 @@ export default function RegisterPage() {
 
         <button
           onClick={handleRegister}
-          className="btn-primary w-full mt-12 py-5 rounded-2xl shadow-indigo-500/20"
+          className="btn-primary w-full mt-10 py-5 rounded-2xl shadow-blue-500/25"
         >
           Sign Up
         </button>
 
-        <p className="text-center text-slate-500 mt-10 font-bold uppercase tracking-widest text-[10px]">
+        <p className="text-center text-slate-500 mt-8 font-bold uppercase tracking-widest text-[10px]">
           Already have an account?{" "}
-          <Link href="/" className="text-indigo-500 hover:text-indigo-400 transition-colors">
+          <Link href="/" className="text-blue-600 hover:text-blue-700 transition-colors">
             Sign In
           </Link>
         </p>

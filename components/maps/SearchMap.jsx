@@ -90,7 +90,7 @@ export default function SearchMap({ cars, hoverCarId }) {
            const isHovered = hoverCarId === car.id;
            const icon = L.icon({
              iconUrl: isHovered 
-                 ? 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png'
+                 ? 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png'
                  : 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
              shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
              iconSize: isHovered ? [30, 48] : [25, 41],
@@ -127,7 +127,7 @@ export default function SearchMap({ cars, hoverCarId }) {
                    </div>
                    <button 
                      onClick={() => router.push(`/cars/${car.id}`)}
-                     className="w-full py-2 bg-indigo-500 text-white font-black text-[10px] uppercase tracking-widest rounded-lg hover:bg-indigo-600 transition-colors mt-2"
+                     className="w-full py-2 bg-blue-600 text-white font-black text-[10px] uppercase tracking-widest rounded-lg hover:bg-blue-500 transition-colors mt-2"
                    >
                      View Booking Details
                    </button>

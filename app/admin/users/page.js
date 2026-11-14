@@ -40,11 +40,11 @@ export default function AdminUsersPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white p-8 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 p-8 font-sans">
       <div className="max-w-7xl mx-auto space-y-8 relative">
         <button 
           onClick={() => router.push("/admin")}
-          className="text-slate-400 hover:text-white transition-colors text-sm font-medium mb-4 inline-flex items-center gap-2"
+          className="text-slate-600 hover:text-slate-900 transition-colors text-sm font-medium mb-4 inline-flex items-center gap-2"
         >
           &larr; Back to Dashboard
         </button>
@@ -58,20 +58,20 @@ export default function AdminUsersPage() {
 
         <div>
           <p className="text-slate-500 font-semibold tracking-wide text-sm mb-1 uppercase">Admin Suite</p>
-          <h1 className="text-4xl text-white font-bold tracking-tight">User Management & Feedback</h1>
+          <h1 className="text-4xl text-slate-900 font-bold tracking-tight">User Management & Feedback</h1>
         </div>
 
         <div className="bg-[#0f172a] rounded-2xl border border-white/5 overflow-hidden">
           <div className="p-6 border-b border-white/5 flex gap-4">
             <button 
               onClick={() => setActiveTab("USERS")}
-              className={`text-lg font-bold px-4 py-2 rounded-xl transition ${activeTab === "USERS" ? "bg-indigo-600 text-white" : "text-slate-400 hover:bg-white/5"}`}
+              className={`text-lg font-bold px-4 py-2 rounded-xl transition ${activeTab === "USERS" ? "bg-blue-600 text-slate-900" : "text-slate-600 hover:bg-white/5"}`}
             >
               Registered Users
             </button>
             <button 
               onClick={() => setActiveTab("INQUIRIES")}
-              className={`text-lg font-bold px-4 py-2 rounded-xl transition ${activeTab === "INQUIRIES" ? "bg-emerald-600 text-white" : "text-slate-400 hover:bg-white/5"}`}
+              className={`text-lg font-bold px-4 py-2 rounded-xl transition ${activeTab === "INQUIRIES" ? "bg-emerald-600 text-slate-900" : "text-slate-600 hover:bg-white/5"}`}
             >
               Customer Queries & Feedback
             </button>
@@ -80,7 +80,7 @@ export default function AdminUsersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-white/5 text-slate-400 text-sm uppercase tracking-wider">
+                <tr className="bg-white/5 text-slate-600 text-sm uppercase tracking-wider">
                   {activeTab === "USERS" ? (
                     <>
                       <th className="p-4 font-semibold w-16"><Users size={18} /></th>
@@ -103,7 +103,7 @@ export default function AdminUsersPage() {
               </thead>
               <tbody className="text-slate-300 text-[15px]">
                 {loading ? (
-                  <tr><td colSpan="6" className="p-8 text-center"><Loader2 className="animate-spin inline-block text-indigo-400" /></td></tr>
+                  <tr><td colSpan="6" className="p-8 text-center"><Loader2 className="animate-spin inline-block text-blue-400" /></td></tr>
                 ) : activeTab === "USERS" ? (
                   users.length === 0 ? (
                     <tr><td colSpan="5" className="p-8 text-center text-slate-500">No users found.</td></tr>
@@ -112,8 +112,8 @@ export default function AdminUsersPage() {
                       <tr key={user.id} className="hover:bg-white/5 border-t border-white/5">
                         <td className="p-4"></td>
                         <td className="p-4 font-medium">{user.id}</td>
-                        <td className="p-4 font-semibold text-white">{user.name}</td>
-                        <td className="p-4 text-indigo-300">{user.email}</td>
+                        <td className="p-4 font-semibold text-slate-900">{user.name}</td>
+                        <td className="p-4 text-blue-600">{user.email}</td>
                         <td className="p-4">
                           <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
                             user.role === 'ADMIN' ? 'bg-purple-500/20 text-purple-400' :
@@ -133,14 +133,14 @@ export default function AdminUsersPage() {
                     inquiries.map(inq => (
                       <tr key={inq.id} className="hover:bg-white/5 border-t border-white/5">
                         <td className="p-4"></td>
-                        <td className="p-4 text-slate-400 text-sm">{new Date(inq.createdAt).toLocaleDateString()}</td>
-                        <td className="p-4 font-semibold text-white">{inq.name}</td>
+                        <td className="p-4 text-slate-600 text-sm">{new Date(inq.createdAt).toLocaleDateString()}</td>
+                        <td className="p-4 font-semibold text-slate-900">{inq.name}</td>
                         <td className="p-4 text-sm">
-                          {inq.email && <div className="flex items-center gap-1 text-indigo-300"><Mail size={12}/> {inq.email}</div>}
+                          {inq.email && <div className="flex items-center gap-1 text-blue-600"><Mail size={12}/> {inq.email}</div>}
                           {inq.mobile && <div className="flex items-center gap-1 text-emerald-300 mt-1"><Phone size={12}/> {inq.mobile}</div>}
                         </td>
                         <td className="p-4 max-w-xs truncate" title={inq.message}>{inq.message}</td>
-                        <td className="p-4 max-w-xs truncate text-xs text-slate-400" title={inq.autoReply || "None"}>
+                        <td className="p-4 max-w-xs truncate text-xs text-slate-600" title={inq.autoReply || "None"}>
                           {inq.autoReply || "None"}
                         </td>
                       </tr>

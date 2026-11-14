@@ -177,9 +177,9 @@ function ListCarForm() {
   // ── Loading state while fetching car ──────────────────────────────────────
   if (fetchingCar) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent mx-auto mb-6" />
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-r-4 border-r-transparent mx-auto mb-6" />
           <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Loading car details...</p>
         </div>
       </div>
@@ -189,10 +189,10 @@ function ListCarForm() {
   // ── Admin blocker ────────────────────────────────────────────────────────
   if (userRole === "ADMIN") {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-        <div className="bg-slate-900/40 backdrop-blur-3xl p-16 rounded-[4rem] border border-red-500/30 text-center shadow-2xl max-w-md mx-auto">
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center">
+        <div className="bg-white p-16 rounded-[4rem] border border-red-500/30 text-center shadow-2xl max-w-md mx-auto">
           <div className="text-8xl mb-8">🛡️</div>
-          <h2 className="text-4xl font-black text-white mb-4 uppercase tracking-tighter">
+          <h2 className="text-4xl font-black text-slate-950 mb-4 uppercase tracking-tighter">
             Admin Restricted
           </h2>
           <p className="text-slate-500 font-medium">
@@ -201,7 +201,7 @@ function ListCarForm() {
           </p>
           <button 
             onClick={() => router.push("/admin")}
-            className="mt-8 bg-indigo-600 hover:bg-indigo-500 text-white py-3 px-8 rounded-full font-bold uppercase tracking-widest text-xs transition"
+            className="mt-8 bg-blue-600 hover:bg-blue-500 text-white py-3 px-8 rounded-full font-bold uppercase tracking-widest text-xs transition"
           >
             Go to Admin Dashboard
           </button>
@@ -213,13 +213,13 @@ function ListCarForm() {
   // ── Success state ──────────────────────────────────────────────────────────
   if (success) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-        <div className="bg-slate-900/40 backdrop-blur-3xl p-16 rounded-[4rem] border border-indigo-500/30 text-center shadow-2xl max-w-md mx-auto">
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center">
+        <div className="bg-white p-16 rounded-[4rem] border border-blue-500/30 text-center shadow-2xl max-w-md mx-auto">
           <div className="text-8xl mb-8">{isEditMode ? "🔄" : "🚀"}</div>
-          <h2 className="text-4xl font-black text-white mb-4 uppercase tracking-tighter">
+          <h2 className="text-4xl font-black text-slate-950 mb-4 uppercase tracking-tighter">
             {isEditMode ? "Resubmitted!" : "Asset Integrated"}
           </h2>
-          <p className="text-indigo-400 font-black uppercase tracking-widest text-[10px] mb-6">
+          <p className="text-blue-600 font-black uppercase tracking-widest text-[10px] mb-6">
             {isEditMode ? "Back in Admin Review Queue" : "Verification Protocol Initialized"}
           </p>
           <p className="text-slate-500 font-medium">
@@ -233,20 +233,20 @@ function ListCarForm() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-20 pb-24 relative overflow-hidden isolate">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pt-20 pb-24 relative overflow-hidden isolate">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
 
           {/* Left side info panel */}
           <div>
-            <div className="inline-block px-4 py-1.5 mb-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.3em]">
+            <div className="inline-block px-4 py-1.5 mb-8 rounded-full bg-blue-50 border border-blue-200 text-blue-600 text-[10px] font-black uppercase tracking-[0.3em]">
               {isEditMode ? "Edit & Resubmit" : "Partner Program"}
             </div>
-            <h1 className="text-6xl md:text-8xl font-black text-white mb-10 tracking-tighter uppercase italic leading-[0.9]">
+            <h1 className="text-6xl md:text-8xl font-black text-slate-950 mb-10 tracking-tighter uppercase italic leading-[0.9]">
               {isEditMode ? (
                 <>Update Your <span className="text-orange-500">Listing</span></>
               ) : (
-                <>Monetize Your <span className="text-indigo-500">Fleet</span></>
+                <>Monetize Your <span className="text-blue-600">Fleet</span></>
               )}
             </h1>
 
@@ -285,34 +285,34 @@ function ListCarForm() {
           <div>
             {/* Terms & Conditions — only for new listings */}
             {!isTermsSubmitted ? (
-              <div className="bg-[#111] p-10 sm:p-14 rounded-3xl border border-white/10 shadow-2xl">
-                <h2 className="text-3xl font-bold text-white mb-6 uppercase tracking-tighter">Terms & Conditions</h2>
+              <div className="bg-white p-10 sm:p-14 rounded-3xl border border-slate-200 shadow-2xl">
+                <h2 className="text-3xl font-bold text-slate-950 mb-6 uppercase tracking-tighter">Terms & Conditions</h2>
                 <div className="max-h-64 overflow-y-auto pr-4 space-y-4 text-sm text-slate-400 font-medium mb-8">
                   <p>Welcome to CarRental Fleet Partnership. By listing your vehicle, you agree to these legal bindings.</p>
                   <p><strong>1. Accuracy of Information:</strong> The listed specifications, photos, and condition of your vehicle must be thoroughly accurate. Misrepresentations will lead to a permanent ban.</p>
                 </div>
                 <label className="flex items-center gap-4 cursor-pointer group mb-10">
-                  <div className="relative flex items-center justify-center w-8 h-8 rounded-xl border-2 border-indigo-500/30 bg-black/20 group-hover:border-indigo-400 transition-colors">
+                  <div className="relative flex items-center justify-center w-8 h-8 rounded-xl border-2 border-blue-500/30 bg-black/20 group-hover:border-blue-400 transition-colors">
                     <input
                       type="checkbox"
                       className="absolute opacity-0 w-full h-full cursor-pointer"
                       checked={termsAccepted}
                       onChange={(e) => setTermsAccepted(e.target.checked)}
                     />
-                    {termsAccepted && <span className="text-indigo-400">✓</span>}
+                    {termsAccepted && <span className="text-blue-600">✓</span>}
                   </div>
-                  <span className="text-white font-bold text-sm tracking-wide">I agree to the Terms & Conditions.</span>
+                  <span className="text-slate-900 font-bold text-sm tracking-wide">I agree to the Terms & Conditions.</span>
                 </label>
                 <button
                   disabled={!termsAccepted}
-                  className="btn-primary w-full py-7 rounded-[2rem] text-lg tracking-[0.2em] shadow-indigo-500/20 disabled:opacity-50"
+                  className="btn-primary w-full py-7 rounded-[2rem] text-lg tracking-[0.2em] shadow-blue-500/20 disabled:opacity-50"
                   onClick={() => setIsTermsSubmitted(true)}
                 >
                   Proceed to Listing Form
                 </button>
               </div>
             ) : (
-              <div className="bg-[#111] p-10 sm:p-14 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden">
+              <div className="bg-white p-10 sm:p-14 rounded-3xl border border-slate-200 shadow-2xl relative overflow-hidden">
 
                 {/* Edit mode banner */}
                 {isEditMode && (
@@ -324,7 +324,7 @@ function ListCarForm() {
                 {/* Step indicator */}
                 <div className="flex gap-2 mb-10">
                   {[1, 2, 3].map(s => (
-                    <div key={s} className={`h-2 flex-1 rounded-full ${step >= s ? "bg-indigo-500" : "bg-white/10"}`} />
+                    <div key={s} className={`h-2 flex-1 rounded-full ${step >= s ? "bg-blue-500" : "bg-white/10"}`} />
                   ))}
                 </div>
 
@@ -335,10 +335,10 @@ function ListCarForm() {
                   {/* ── Step 1: Specifications & Owner Details ── */}
                   {step === 1 && (
                     <>
-                      <h2 className="text-3xl font-bold text-white mb-6 uppercase tracking-tighter">Step 1: Specifications & Owner Details</h2>
+                      <h2 className="text-3xl font-bold text-slate-950 mb-6 uppercase tracking-tighter">Step 1: Specifications & Owner Details</h2>
                       
-                      <div className="bg-white/5 p-6 rounded-2xl border border-white/10 space-y-6 mb-8">
-                        <h3 className="text-sm font-black text-indigo-400 uppercase tracking-widest">Owner Contact Information</h3>
+                      <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-6 mb-8">
+                        <h3 className="text-sm font-black text-blue-600 uppercase tracking-widest">Owner Contact Information</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                           <div className="space-y-2">
                             <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Owner Full Name</label>
@@ -355,7 +355,7 @@ function ListCarForm() {
                         </div>
                       </div>
 
-                      <h3 className="text-sm font-black text-indigo-400 uppercase tracking-widest mb-4">Vehicle Details</h3>
+                      <h3 className="text-sm font-black text-blue-600 uppercase tracking-widest mb-4">Vehicle Details</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                         <div className="space-y-2">
                           <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Vehicle Name</label>
@@ -422,7 +422,7 @@ function ListCarForm() {
                   {/* ── Step 2: Media ── */}
                   {step === 2 && (
                     <>
-                      <h2 className="text-3xl font-bold text-white mb-6 uppercase tracking-tighter">Step 2: Media & Docs</h2>
+                      <h2 className="text-3xl font-bold text-slate-950 mb-6 uppercase tracking-tighter">Step 2: Media & Docs</h2>
                       <div className="space-y-6">
 
                         {/* Existing images preview */}
@@ -439,14 +439,14 @@ function ListCarForm() {
                         )}
 
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest ml-1">
+                          <label className="text-[10px] font-black text-blue-600 uppercase tracking-widest ml-1">
                             {isEditMode ? "New Car Photos (optional — replaces existing)" : "Car Photos (Up to 5)"}
                           </label>
                           <div className="relative group/file">
                             <input type="file" multiple accept="image/*" onChange={handleImagesChange}
                               required={!isEditMode}
                               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                            <div className="w-full bg-indigo-500/5 border-2 border-dashed border-indigo-500/20 rounded-2xl px-6 py-10 flex flex-col items-center justify-center group-hover/file:border-indigo-500/40 transition-all">
+                            <div className="w-full bg-blue-500/5 border-2 border-dashed border-blue-500/20 rounded-2xl px-6 py-10 flex flex-col items-center justify-center group-hover/file:border-blue-500/40 transition-all">
                               <span className="text-3xl mb-2">📸</span>
                               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
                                 {images.length > 0 ? `${images.length} new image(s) selected` : "Select images"}
@@ -487,7 +487,7 @@ function ListCarForm() {
                   {/* ── Step 3: Location ── */}
                   {step === 3 && (
                     <>
-                      <h2 className="text-3xl font-bold text-white mb-6 uppercase tracking-tighter">Step 3: Location</h2>
+                      <h2 className="text-3xl font-bold text-slate-950 mb-6 uppercase tracking-tighter">Step 3: Location</h2>
                       <div className="space-y-6">
                         <div className="space-y-2">
                           <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">City / Region</label>
@@ -509,7 +509,7 @@ function ListCarForm() {
                     <button
                       type="submit"
                       disabled={loading}
-                      className={`btn-primary flex-1 py-4 rounded-[1.5rem] text-sm font-black tracking-[0.2em] shadow-indigo-500/20 disabled:opacity-50 ${isEditMode && step === 3 ? "bg-orange-600 hover:bg-orange-500" : ""}`}
+                      className={`btn-primary flex-1 py-4 rounded-[1.5rem] text-sm font-black tracking-[0.2em] shadow-blue-500/20 disabled:opacity-50 ${isEditMode && step === 3 ? "bg-orange-600 hover:bg-orange-500" : ""}`}
                     >
                       {loading ? "Processing..." : (
                         step < 3 ? "Next Step →" : (isEditMode ? "✅ Resubmit for Review" : "Authorize Listing")
@@ -535,7 +535,7 @@ function ListCarForm() {
       </div>
       <style jsx>{`
         .input-field {
-          @apply w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-5 focus:border-indigo-500/40 transition-all font-bold text-white text-xs uppercase;
+          @apply w-full bg-slate-50 border border-slate-300 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-slate-900 text-xs uppercase;
         }
       `}</style>
     </div>
@@ -546,8 +546,8 @@ function ListCarForm() {
 export default function ListYourCarPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent" />
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-r-4 border-r-transparent" />
       </div>
     }>
       <ListCarForm />

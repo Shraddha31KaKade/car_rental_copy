@@ -69,21 +69,21 @@ export default function RequestsPage() {
     }
   };
 
-  if (loading) return <div className="text-white animate-pulse">Scanning Requests...</div>;
+  if (loading) return <div className="text-slate-900 animate-pulse">Scanning Requests...</div>;
 
   return (
     <div className="animate-fadeUp">
-      <h1 className="text-4xl font-black text-white uppercase tracking-tighter mb-8 italic">Authorization Queue</h1>
+      <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tighter mb-8 italic">Authorization Queue</h1>
       
       {requests.length === 0 ? (
-        <div className="text-center py-20 bg-white/5 border border-white/5 rounded-3xl">
+        <div className="text-center py-20 bg-white border border-slate-200 rounded-3xl">
            <div className="text-6xl mb-4 opacity-50">📋</div>
            <p className="text-slate-400 font-bold tracking-widest uppercase">No pending actions</p>
         </div>
       ) : (
         <div className="flex flex-col gap-4">
           {requests.map(request => (
-            <div key={request.id} className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div key={request.id} className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-6">
               <div className="flex items-center gap-6 w-full md:w-auto">
                 <div className="w-20 h-20 bg-slate-800 rounded-xl overflow-hidden shrink-0 relative leading-[0]">
                    {request.car.images && request.car.images[0] ? (
@@ -99,9 +99,9 @@ export default function RequestsPage() {
                    )}
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-white">{request.car.name}</h3>
+                  <h3 className="text-xl font-black text-slate-900">{request.car.name}</h3>
                   <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">
-                    Req by: <span className="text-indigo-400">{request.user.name}</span>
+                    Req by: <span className="text-blue-600">{request.user.name}</span>
                   </p>
                   <p className="text-[10px] text-slate-500 mt-2 font-mono">
                     {new Date(request.startDate).toLocaleDateString()} - {new Date(request.endDate).toLocaleDateString()}
@@ -120,11 +120,11 @@ export default function RequestsPage() {
                          value={rejectReason}
                          onChange={(e) => setRejectReason(e.target.value)}
                          placeholder="Enter reason for rejection..."
-                         className="bg-black/40 border border-white/10 px-4 py-2 rounded-xl text-xs text-white uppercase tracking-widest"
+                         className="bg-black/40 border border-slate-200 px-4 py-2 rounded-xl text-xs text-slate-900 uppercase tracking-widest"
                       />
                       <div className="flex gap-2">
-                        <button onClick={() => setRejectingId(null)} className="flex-1 py-2 text-[10px] uppercase font-bold text-slate-400 bg-white/5 rounded-lg hover:bg-white/10">Cancel</button>
-                        <button onClick={() => handleReject(request.id)} className="flex-1 py-2 text-[10px] uppercase font-bold text-white bg-rose-500 rounded-lg hover:bg-rose-600">Submit</button>
+                        <button onClick={() => setRejectingId(null)} className="flex-1 py-2 text-[10px] uppercase font-bold text-slate-400 bg-white rounded-lg hover:bg-white/10">Cancel</button>
+                        <button onClick={() => handleReject(request.id)} className="flex-1 py-2 text-[10px] uppercase font-bold text-slate-900 bg-rose-500 rounded-lg hover:bg-rose-600">Submit</button>
                       </div>
                    </div>
                 ) : request.status === 'PENDING' ? (

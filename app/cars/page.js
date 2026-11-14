@@ -64,30 +64,30 @@ function CarCard({ car, index }) {
 
       <div className="p-8">
         <div className="flex justify-between items-center mb-2">
-          <h2 className="font-black text-2xl text-white group-hover:text-indigo-400 transition-colors uppercase tracking-tight">
+          <h2 className="font-black text-2xl text-slate-900 group-hover:text-blue-600 transition-colors uppercase tracking-tight">
             {car.name}
           </h2>
-          <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest leading-none">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">
             {car.year || "2024"}
           </span>
         </div>
         
-        <p className="text-slate-400 font-medium text-[10px] uppercase tracking-widest mb-6 flex items-center gap-2">
-           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+        <p className="text-slate-500 font-medium text-[10px] uppercase tracking-widest mb-6 flex items-center gap-2">
+           <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
            {car.type || "Performance"} • {car.location || "Global"}
         </p>
 
-        <div className="grid grid-cols-2 gap-4 text-slate-300 text-[10px] font-black uppercase tracking-widest mb-8">
-          <div className="flex items-center gap-2 bg-white/5 p-3 rounded-xl border border-white/5">
+        <div className="grid grid-cols-2 gap-4 text-slate-700 text-[10px] font-black uppercase tracking-widest mb-8">
+          <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200/80">
             <span className="opacity-70 text-lg">👥</span> {car.seats || "4"} Seats
           </div>
-          <div className="flex items-center gap-2 bg-white/5 p-3 rounded-xl border border-white/5">
+          <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200/80">
             <span className="opacity-70 text-lg">⚙️</span> {car.transmission || "Auto"}
           </div>
-          <div className="flex items-center gap-2 bg-white/5 p-3 rounded-xl border border-white/5">
+          <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200/80">
             <span className="opacity-70 text-lg">⛽</span> {car.fuel || "Hybrid"}
           </div>
-          <div className="flex items-center gap-2 bg-white/5 p-3 rounded-xl border border-white/5">
+          <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-xl border border-slate-200/80">
              <span className="opacity-70 text-lg">📍</span> Origins
           </div>
         </div>
@@ -159,28 +159,28 @@ function CarsContent() {
   }, [searchFromUrl, latFromUrl, lngFromUrl, startFromUrl, endFromUrl]);
 
   return (
-    <div className="relative isolate min-h-screen pt-32 pb-24 bg-[#0a0a0a]">
+    <div className="relative isolate min-h-screen pt-32 pb-24 bg-slate-50 text-slate-900">
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Header & Controls Area */}
         <div className="flex flex-col xl:flex-row justify-between items-start xl:items-end mb-12 gap-8">
           <div>
-            <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">
+            <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-[10px] font-black uppercase tracking-[0.2em] shadow-sm">
               Curated Excellence
             </div>
-            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-white mb-2">
-              The <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-indigo-400 bg-clip-text text-transparent italic">Escape</span> Fleet
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-950 mb-2">
+              The <span className="bg-gradient-to-r from-blue-600 via-sky-500 to-blue-600 bg-clip-text text-transparent italic">Escape</span> Fleet
             </h1>
-            <p className="text-slate-400 text-lg font-medium leading-relaxed max-w-xl">
+            <p className="text-slate-600 text-lg font-medium leading-relaxed max-w-xl">
               Every vehicle in our collection is a masterpiece of design and performance.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto">
             {/* Search Bar */}
-            <div className="relative w-full sm:w-96 group text-white">
-              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-indigo-400">
-                 <span className="drop-shadow-[0_0_8px_rgba(99,102,241,0.5)]">🔍</span>
+            <div className="relative w-full sm:w-96 group text-slate-900">
+              <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-blue-600">
+                 <span>🔍</span>
               </div>
               <form onSubmit={(e) => {
                 e.preventDefault();
@@ -193,7 +193,7 @@ function CarsContent() {
                   placeholder="Search by brand or model..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-slate-900/60 backdrop-blur-3xl border border-white/10 rounded-2xl pl-14 pr-6 py-4 focus:outline-none focus:border-indigo-500/50 transition-all shadow-xl font-bold placeholder:text-slate-600 text-sm"
+                  className="w-full bg-white border border-slate-200 rounded-2xl pl-14 pr-6 py-4 focus:outline-none focus:border-blue-500 transition-all shadow-md font-bold placeholder:text-slate-400 text-sm"
                 />
               </form>
             </div>
@@ -202,7 +202,7 @@ function CarsContent() {
             <button 
               onClick={() => setShowMap(!showMap)}
               title={showMap ? "Hide Map" : "Show Map"}
-              className="w-14 h-14 rounded-2xl bg-slate-900/40 hover:bg-slate-800 border border-white/10 hover:border-indigo-500/50 flex items-center justify-center transition-all shadow-xl text-2xl group"
+              className="w-14 h-14 rounded-2xl bg-white hover:bg-slate-100 border border-slate-200 hover:border-blue-400 flex items-center justify-center transition-all shadow-md text-2xl group text-slate-700"
             >
               <span className="group-hover:scale-110 transition-transform">
                 {showMap ? "🗺️" : "🌍"}
@@ -217,7 +217,7 @@ function CarsContent() {
           {/* Map Side (Sticky) */}
           {showMap && (
              <div className="w-full xl:w-1/3 relative z-20">
-               <div className="xl:sticky xl:top-32 h-[400px] rounded-lg overflow-hidden border border-white/10 shadow-lg group">
+               <div className="xl:sticky xl:top-32 h-[400px] rounded-2xl overflow-hidden border border-slate-200 shadow-lg group bg-white">
                  <div className="h-[600px] w-full [&>div]:h-full">
                     <SearchMap cars={cars} hoverCarId={hoverCarId} />
                  </div>
@@ -229,16 +229,16 @@ function CarsContent() {
           <div className={`w-full ${showMap ? 'xl:w-2/3' : 'w-full'}`}>
             {loading ? (
               <div className="flex justify-center py-40">
-                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent"></div>
+                 <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-r-4 border-r-transparent"></div>
               </div>
             ) : (
               <div className={`grid grid-cols-1 ${showMap ? 'sm:grid-cols-2' : 'sm:grid-cols-2 lg:grid-cols-3'} gap-6`}>
                 {cars.length > 0 ? (
                   cars.map((car, index) => <CarCard key={car.id} car={car} index={index} />)
                 ) : (
-                  <div className={`text-center col-span-full py-32 bg-[#111] border border-white/5 rounded-2xl`}>
+                  <div className={`text-center col-span-full py-32 bg-white border border-slate-200 rounded-3xl shadow-sm`}>
                     <div className="text-6xl mb-6">🏎️</div>
-                    <h2 className="text-2xl font-bold text-white mb-3 tracking-tight">Fleet Not Found</h2>
+                    <h2 className="text-2xl font-bold text-slate-900 mb-3 tracking-tight">Fleet Not Found</h2>
                     <p className="text-slate-500 max-w-xs mx-auto">Refine your criteria for the perfect escape.</p>
                   </div>
                 )}
@@ -254,8 +254,8 @@ function CarsContent() {
 export default function CarsPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent"></div>
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-r-4 border-r-transparent"></div>
       </div>
     }>
       <CarsContent />

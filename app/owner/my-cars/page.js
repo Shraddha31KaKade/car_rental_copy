@@ -80,21 +80,21 @@ export default function MyCarsPage() {
 
   if (loading) return (
     <div className="flex items-center justify-center py-40">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-indigo-500 border-r-4 border-r-transparent" />
+      <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-r-4 border-r-transparent" />
     </div>
   );
 
   return (
     <div className="animate-fadeUp">
       <div className="flex justify-between items-end mb-8">
-        <h1 className="text-4xl font-black text-white uppercase tracking-tighter italic">My Fleet</h1>
-        <div className="bg-indigo-500/20 px-4 py-1.5 border border-indigo-500/30 rounded-full text-indigo-400 text-[10px] font-black uppercase tracking-widest">
+        <h1 className="text-4xl font-black text-slate-900 uppercase tracking-tighter italic">My Fleet</h1>
+        <div className="bg-blue-500/20 px-4 py-1.5 border border-blue-500/30 rounded-full text-blue-600 text-[10px] font-black uppercase tracking-widest">
           {cars.length} Vehicle{cars.length !== 1 ? "s" : ""}
         </div>
       </div>
 
       {cars.length === 0 ? (
-        <div className="text-center py-20 bg-white/5 border border-white/5 rounded-3xl">
+        <div className="text-center py-20 bg-white border border-slate-200 rounded-3xl">
           <div className="text-6xl mb-4 opacity-50">🏎️</div>
           <p className="text-slate-400 font-bold tracking-widest uppercase">No vehicles listed yet</p>
         </div>
@@ -110,7 +110,7 @@ export default function MyCarsPage() {
             const needsResubmit = car.listingStatus === "CHANGES_REQUESTED" || car.listingStatus === "REJECTED";
 
             return (
-              <div key={car.id} className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden group">
+              <div key={car.id} className="bg-white border border-slate-200 rounded-3xl overflow-hidden group">
                 {/* Image */}
                 <div className="h-48 relative overflow-hidden bg-slate-900">
                   {car.images && car.images[0] ? (
@@ -147,10 +147,10 @@ export default function MyCarsPage() {
 
                 {/* Card body */}
                 <div className="p-5">
-                  <h3 className="text-xl font-black text-white mb-1">{car.name}</h3>
+                  <h3 className="text-xl font-black text-slate-900 mb-1">{car.name}</h3>
                   <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
                     <span>{car.brand} · {car.year || "2024"}</span>
-                    <span className="text-indigo-400">₹{car.price?.toLocaleString("en-IN")}/day</span>
+                    <span className="text-blue-600">₹{car.price?.toLocaleString("en-IN")}/day</span>
                   </div>
 
                   {/* Admin feedback panel — visible when rejected or changes requested */}
@@ -167,7 +167,7 @@ export default function MyCarsPage() {
 
                   {/* Resubmit notice */}
                   {needsResubmit && (
-                    <div className="mb-4 bg-indigo-500/10 border border-indigo-500/20 p-3 rounded-xl text-xs text-indigo-300 font-medium">
+                    <div className="mb-4 bg-blue-50 border border-blue-200 p-3 rounded-xl text-xs text-blue-300 font-medium">
                       Make the changes above, then click <strong>Edit & Resubmit</strong> — your listing will automatically go back to Admin review.
                     </div>
                   )}
@@ -181,8 +181,8 @@ export default function MyCarsPage() {
                         disabled={isToggling}
                         className={`flex items-center gap-1.5 flex-1 justify-center py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors ${
                           car.isPaused
-                            ? "bg-indigo-500 hover:bg-indigo-600 text-white"
-                            : "bg-white/10 hover:bg-white/20 text-white"
+                            ? "bg-blue-600 hover:bg-blue-500 text-slate-900"
+                            : "bg-white/10 hover:bg-white/20 text-slate-900"
                         } disabled:opacity-50`}
                       >
                         {isToggling ? (
@@ -198,7 +198,7 @@ export default function MyCarsPage() {
                     {/* Edit button — always available */}
                     <button
                       onClick={() => window.location.href = `/list-cars?edit=${car.id}`}
-                      className={`flex items-center gap-1.5 justify-center py-2 rounded-xl bg-white/5 text-slate-300 text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors ${canPause ? "flex-none px-4" : "flex-1"}`}
+                      className={`flex items-center gap-1.5 justify-center py-2 rounded-xl bg-white text-slate-300 text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors ${canPause ? "flex-none px-4" : "flex-1"}`}
                     >
                       <Edit size={13} />
                       {needsResubmit ? "Edit & Resubmit" : "Edit"}
@@ -207,7 +207,7 @@ export default function MyCarsPage() {
                     {/* Delete button */}
                     <button
                       onClick={() => handleDelete(car.id)}
-                      className="flex items-center gap-1.5 flex-none px-4 justify-center py-2 rounded-xl bg-red-500/10 text-red-500 text-xs font-bold uppercase tracking-widest hover:bg-red-500 hover:text-white transition-colors"
+                      className="flex items-center gap-1.5 flex-none px-4 justify-center py-2 rounded-xl bg-red-500/10 text-red-500 text-xs font-bold uppercase tracking-widest hover:bg-red-500 hover:text-slate-900 transition-colors"
                     >
                       Delete
                     </button>

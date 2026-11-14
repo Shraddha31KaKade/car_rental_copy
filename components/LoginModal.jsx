@@ -66,58 +66,58 @@ export default function LoginModal({ onClose, onLoginSuccess }) {
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-[#020617]/80 backdrop-blur-xl animate-fadeIn"
+        className="absolute inset-0 bg-slate-950/40 backdrop-blur-md animate-fadeIn"
         onClick={onClose}
       ></div>
       
       {/* Modal Container */}
-      <div className="bg-slate-900/40 backdrop-blur-3xl w-full max-w-md p-10 sm:p-12 rounded-[3.5rem] border border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.5)] relative z-10 animate-fadeUp overflow-hidden">
+      <div className="bg-white/95 backdrop-blur-3xl w-full max-w-md p-10 sm:p-12 rounded-[3.5rem] border border-slate-200 shadow-2xl relative z-10 animate-fadeUp overflow-hidden">
         {/* Glow effects */}
-        <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-600/10 rounded-full blur-[100px]"></div>
-        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-violet-600/10 rounded-full blur-[100px]"></div>
+        <div className="absolute -top-24 -right-24 w-64 h-64 bg-blue-400/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-sky-300/10 rounded-full blur-[100px] pointer-events-none"></div>
 
         <button
           onClick={onClose}
-          className="absolute top-8 right-8 text-2xl text-slate-500 hover:text-white transition-colors"
+          className="absolute top-8 right-8 text-2xl text-slate-400 hover:text-slate-700 transition-colors"
         >
           ✕
         </button>
 
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-indigo-500/10 text-indigo-400 rounded-[1.50rem] text-3xl mb-8 border border-indigo-500/20 drop-shadow-[0_0_15px_rgba(99,102,241,0.3)] animate-float">
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-50 text-blue-600 rounded-[1.50rem] text-3xl mb-6 border border-blue-200 shadow-sm animate-float">
             🔑
           </div>
-          <h2 className="text-4xl font-black text-white tracking-tighter mb-3">
-            Welcome <span className="text-indigo-500">Back</span>
+          <h2 className="text-4xl font-black text-slate-950 tracking-tighter mb-2">
+            Welcome <span className="text-blue-600">Back</span>
           </h2>
-          <p className="text-slate-400 font-medium">Sign in to your account</p>
+          <p className="text-slate-500 font-medium text-sm">Sign in to your account</p>
         </div>
 
         <div className="space-y-6">
            <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Email Address</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 ml-1">Email Address</label>
             <input
               type="email"
               name="email"
               placeholder="you@example.com"
               value={formData.email}
               onChange={handleChange}
-              className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
+              className="w-full bg-slate-50 border border-slate-300 px-6 py-4 rounded-2xl focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-400"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Password</label>
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 ml-1">Password</label>
             <input
               type="password"
               name="password"
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full bg-black/20 border border-white/5 px-6 py-5 rounded-2xl focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white placeholder:text-slate-700"
+              className="w-full bg-slate-50 border border-slate-300 px-6 py-4 rounded-2xl focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-slate-900 placeholder:text-slate-400"
             />
             <div className="flex justify-end pr-2">
-               <Link href="/forgot-password" onClick={onClose} className="text-[9px] font-black text-slate-500 hover:text-indigo-400 uppercase tracking-widest transition-colors">
+               <Link href="/forgot-password" onClick={onClose} className="text-[9px] font-black text-slate-500 hover:text-blue-600 uppercase tracking-widest transition-colors">
                  Forgot Password?
                </Link>
             </div>
@@ -126,17 +126,17 @@ export default function LoginModal({ onClose, onLoginSuccess }) {
 
         <button
           onClick={handleLogin}
-          className="btn-primary w-full mt-12 py-5 rounded-2xl shadow-indigo-500/20"
+          className="btn-primary w-full mt-10 py-5 rounded-2xl shadow-blue-500/25"
         >
           Sign In
         </button>
 
-        <p className="text-center text-slate-500 mt-10 font-bold uppercase tracking-widest text-[10px]">
+        <p className="text-center text-slate-500 mt-8 font-bold uppercase tracking-widest text-[10px]">
           Don't have an account?{" "}
           <Link
             href="/register"
             onClick={onClose}
-            className="text-indigo-500 font-bold hover:text-indigo-400 transition-colors"
+            className="text-blue-600 font-bold hover:text-blue-700 transition-colors"
           >
             Sign Up
           </Link>

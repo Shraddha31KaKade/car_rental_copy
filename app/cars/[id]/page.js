@@ -42,14 +42,14 @@ export default function CarDetailsPage() {
   }, [id]);
 
   if (loading) return (
-    <div className="min-h-screen bg-[#020617] flex items-center justify-center">
-       <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent"></div>
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+       <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-r-4 border-r-transparent"></div>
     </div>
   );
 
   if (!car) return (
-    <div className="min-h-screen bg-[#020617] flex flex-col items-center justify-center gap-8">
-       <p className="text-white text-4xl font-black uppercase tracking-widest animate-pulse">Vehicle Not Found</p>
+    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center gap-8">
+       <p className="text-slate-900 text-4xl font-black uppercase tracking-widest animate-pulse">Vehicle Not Found</p>
        <Link href="/cars" className="btn-outline">Return to Fleet</Link>
     </div>
   );
@@ -142,20 +142,20 @@ export default function CarDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] pt-40 pb-24 relative overflow-hidden isolate">
+    <div className="min-h-screen bg-slate-50 text-slate-900 pt-40 pb-24 relative overflow-hidden isolate">
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <Link href="/cars" className="inline-flex items-center gap-2 text-slate-500 hover:text-indigo-400 font-black uppercase tracking-[0.3em] text-[10px] mb-12 transition-colors group">
+        <Link href="/cars" className="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 font-black uppercase tracking-[0.3em] text-[10px] mb-12 transition-colors group">
            <span className="group-hover:-translate-x-1 transition-transform">←</span> Back to Fleet
         </Link>
 
         {isBooked ? (
-          <div className="max-w-3xl mx-auto text-center bg-[#111] p-20 rounded-3xl border border-white/10">
+          <div className="max-w-3xl mx-auto text-center bg-white p-20 rounded-3xl border border-slate-200 shadow-xl">
             <div className="text-9xl mb-10">📨</div>
-            <h1 className="text-6xl font-black text-white mb-6 tracking-tighter uppercase italic">Request Sent</h1>
-            <p className="text-indigo-400 text-2xl font-black mb-12 tracking-widest uppercase">Host is reviewing.</p>
-            <p className="text-slate-400 mb-16 text-lg max-w-sm mx-auto font-medium leading-relaxed">
-              Your reservation request for the <span className="text-white font-bold">{car.name}</span> has been forwarded to the elite owner for approval. Payment will be authorized upon acceptance.
+            <h1 className="text-6xl font-black text-slate-950 mb-6 tracking-tighter uppercase italic">Request Sent</h1>
+            <p className="text-blue-600 text-2xl font-black mb-12 tracking-widest uppercase">Host is reviewing.</p>
+            <p className="text-slate-600 mb-16 text-lg max-w-sm mx-auto font-medium leading-relaxed">
+              Your reservation request for the <span className="text-slate-900 font-bold">{car.name}</span> has been forwarded to the elite owner for approval. Payment will be authorized upon acceptance.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="/booking" className="btn-primary">View Journey Log</Link>
@@ -167,7 +167,7 @@ export default function CarDetailsPage() {
 
           {/* IMAGE SECTION */}
           <div className="lg:sticky lg:top-40 w-full lg:w-1/2">
-            <div className="bg-[#111] rounded-3xl border border-white/10 p-12 overflow-hidden">
+            <div className="bg-white rounded-3xl border border-slate-200 p-12 overflow-hidden shadow-lg">
               <Image
                 src={displayImage}
                 alt={car.name}
@@ -180,21 +180,21 @@ export default function CarDetailsPage() {
 
           {/* DETAILS SECTION */}
           <div className="w-full lg:w-1/2">
-            <div className="bg-[#111] rounded-3xl border border-white/10 p-10 sm:p-14 relative overflow-hidden">
+            <div className="bg-white rounded-3xl border border-slate-200 p-10 sm:p-14 relative overflow-hidden shadow-xl">
               <div className="flex flex-col sm:flex-row justify-between items-start mb-12 gap-6">
                 <div>
-                  <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em]">
+                  <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-[10px] font-black uppercase tracking-[0.2em] shadow-sm">
                      {car.brand || "Elite"} Collection
                   </div>
-                  <h1 className="text-5xl sm:text-6xl font-black text-white mb-4 tracking-tighter leading-none uppercase italic">
+                  <h1 className="text-5xl sm:text-6xl font-black text-slate-950 mb-4 tracking-tighter leading-none uppercase italic">
                     {car.name}
                   </h1>
-                  <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px]">
+                  <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px]">
                     {car.type || "Performance"} • {car.year || "2024"} Release
                   </p>
                 </div>
-                <div className="sm:text-right border-l sm:border-l-0 sm:border-r border-indigo-500/20 sm:pr-8 pl-8 sm:pl-0">
-                  <div className="text-4xl font-black text-white tracking-tighter">
+                <div className="sm:text-right border-l sm:border-l-0 sm:border-r border-slate-200 sm:pr-8 pl-8 sm:pl-0">
+                  <div className="text-4xl font-black text-slate-950 tracking-tighter">
                     ₹{car.price}
                   </div>
                   <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-1">per journey</p>
@@ -202,12 +202,12 @@ export default function CarDetailsPage() {
               </div>
 
               {/* OWNER TRACKER */}
-              <div className="mb-12 p-6 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 flex items-center gap-4 group cursor-help relative hover:border-indigo-500/30 transition-all">
-                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-xl">👤</div>
+              <div className="mb-12 p-6 rounded-2xl bg-blue-50/60 border border-blue-200/60 flex items-center gap-4 group cursor-help relative hover:border-blue-300 transition-all">
+                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-sky-500 flex items-center justify-center text-white text-xl shadow-md">👤</div>
                  <div>
                     <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-0.5">Elite Origin (Owner)</p>
-                    <p className="text-white font-black uppercase tracking-tight blur-sm select-none group-hover:blur-0 transition-all">Protected Identity</p>
-                    <p className="text-[8px] text-indigo-400 uppercase tracking-widest mt-1">Contact revealed post-authorization</p>
+                    <p className="text-slate-900 font-black uppercase tracking-tight blur-sm select-none group-hover:blur-0 transition-all">Protected Identity</p>
+                    <p className="text-[8px] text-blue-600 uppercase tracking-widest mt-1">Contact revealed post-authorization</p>
                  </div>
               </div>
 
@@ -218,10 +218,10 @@ export default function CarDetailsPage() {
                   { icon: "⛽", label: "Propulsion", value: car.fuel || "Hybrid" },
                   { icon: "📍", label: "Origin", value: car.location || "Global Access" }
                 ].map((spec, i) => (
-                  <div key={i} className="bg-white/5 border border-white/5 p-5 rounded-2xl group/spec hover:border-indigo-500/30 transition-colors">
-                    <div className="text-2xl mb-2 opacity-50 group-hover/spec:opacity-100 transition-opacity">{spec.icon}</div>
+                  <div key={i} className="bg-slate-50 border border-slate-200/80 p-5 rounded-2xl group/spec hover:border-blue-400 transition-colors">
+                    <div className="text-2xl mb-2 opacity-70 group-hover/spec:opacity-100 transition-opacity">{spec.icon}</div>
                     <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mb-1">{spec.label}</p>
-                    <p className="font-bold text-white text-xs">{spec.value}</p>
+                    <p className="font-bold text-slate-900 text-xs">{spec.value}</p>
                   </div>
                 ))}
               </div>
@@ -229,31 +229,33 @@ export default function CarDetailsPage() {
               {/* LOCATION MAP */}
               {car.lat && car.lng && (
                 <div className="mb-12">
-                   <h3 className="text-white font-bold uppercase tracking-[0.4em] text-[10px] mb-6 opacity-40">Vehicle Geo-Location</h3>
-                   <MapLocationDisplay position={{ lat: car.lat, lng: car.lng }} name={car.name} />
+                   <h3 className="text-slate-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-6">Vehicle Geo-Location</h3>
+                   <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-md">
+                     <MapLocationDisplay position={{ lat: car.lat, lng: car.lng }} name={car.name} />
+                   </div>
                 </div>
               )}
 
               <div className="space-y-8">
                 {/* CHECKOUT STEPPER UI */}
-                <div className="flex items-center justify-between mb-8 opacity-60 w-1/2">
+                <div className="flex items-center justify-between mb-8 w-1/2">
                    {[1,2].map(step => (
-                     <div key={step} className={`flex items-center ${checkoutStep === step ? 'opacity-100 text-indigo-400 font-black' : 'opacity-40'} w-full`}>
-                        <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${checkoutStep === step ? 'bg-indigo-500/20 border-indigo-500/50' : 'bg-white/5'} border`}>{step}</div>
-                        {step < 2 && <div className="h-0.5 w-full bg-white/10 mx-2"></div>}
+                     <div key={step} className={`flex items-center ${checkoutStep === step ? 'opacity-100 text-blue-600 font-black' : 'opacity-40 text-slate-400'} w-full`}>
+                        <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${checkoutStep === step ? 'bg-blue-100 border-blue-400 text-blue-700' : 'bg-slate-100 text-slate-500'} border`}>{step}</div>
+                        {step < 2 && <div className="h-0.5 w-full bg-slate-200 mx-2"></div>}
                      </div>
                    ))}
                 </div>
 
                 {checkoutStep === 1 && (
                   <div>
-                    <h3 className="text-white font-bold uppercase tracking-[0.4em] text-[10px] mb-6 opacity-40">STEP 1: Schedule Configuration</h3>
+                    <h3 className="text-slate-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-6">STEP 1: Schedule Configuration</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                       <div className="space-y-3">
                         <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Departure Date</label>
                         <input
                           type="date"
-                          className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white text-xs uppercase"
+                          className="w-full bg-slate-50 border border-slate-300 rounded-2xl px-6 py-5 focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-slate-900 text-xs uppercase"
                           value={startDate}
                           onChange={(e) => setStartDate(e.target.value)}
                         />
@@ -263,7 +265,7 @@ export default function CarDetailsPage() {
                         <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">Return Date</label>
                         <input
                           type="date"
-                          className="w-full bg-black/20 border border-white/10 rounded-2xl px-6 py-5 focus:outline-none focus:border-indigo-500/40 transition-all font-bold text-white text-xs uppercase"
+                          className="w-full bg-slate-50 border border-slate-300 rounded-2xl px-6 py-5 focus:outline-none focus:border-blue-500 focus:bg-white transition-all font-bold text-slate-900 text-xs uppercase"
                           value={endDate}
                           onChange={(e) => setEndDate(e.target.value)}
                         />
@@ -279,40 +281,40 @@ export default function CarDetailsPage() {
                 )}
 
                 {checkoutStep === 2 && (
-                  <div className="bg-[#111] border border-white/10 p-8 rounded-2xl">
-                     <h3 className="text-white font-bold uppercase tracking-[0.4em] text-[10px] mb-6 opacity-40">STEP 2: Host Request Review</h3>
+                  <div className="bg-slate-50 border border-slate-200 p-8 rounded-2xl">
+                     <h3 className="text-slate-700 font-bold uppercase tracking-[0.4em] text-[10px] mb-6">STEP 2: Host Request Review</h3>
                      
                      <div className="space-y-4 mb-8">
-                        <div className="flex justify-between text-slate-400 text-xs font-black uppercase tracking-widest"><p>Base Rate</p><p>₹{car.price} / day</p></div>
-                        <div className="flex justify-between text-slate-400 text-xs font-black uppercase tracking-widest"><p>Duration</p><p>{Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) || 1} Days</p></div>
-                        <div className="w-full h-px bg-white/10 my-4"></div>
-                        <div className="flex justify-between text-indigo-400 text-sm font-black uppercase tracking-widest"><p>Estimated Charge</p><p>₹{(car.price * (Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) || 1)).toLocaleString()}</p></div>
+                        <div className="flex justify-between text-slate-600 text-xs font-black uppercase tracking-widest"><p>Base Rate</p><p>₹{car.price} / day</p></div>
+                        <div className="flex justify-between text-slate-600 text-xs font-black uppercase tracking-widest"><p>Duration</p><p>{Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) || 1} Days</p></div>
+                        <div className="w-full h-px bg-slate-200 my-4"></div>
+                        <div className="flex justify-between text-blue-600 text-sm font-black uppercase tracking-widest"><p>Estimated Charge</p><p>₹{(car.price * (Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) || 1)).toLocaleString()}</p></div>
                      </div>
 
-                     <div className="bg-slate-900 border border-indigo-500/10 border-l-4 border-l-indigo-500 rounded-xl p-4 flex flex-col gap-2 mb-8">
-                         <p className="text-[10px] text-white uppercase tracking-widest font-black leading-relaxed">System Rule Triggered: Owner Approval Required</p>
-                         <p className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">No payment will be collected until host confirms vehicle availability.</p>
+                     <div className="bg-blue-50 border border-blue-200 border-l-4 border-l-blue-600 rounded-xl p-4 flex flex-col gap-2 mb-8">
+                         <p className="text-[10px] text-slate-900 uppercase tracking-widest font-black leading-relaxed">System Rule Triggered: Owner Approval Required</p>
+                         <p className="text-[9px] text-slate-600 font-bold uppercase tracking-wider">No payment will be collected until host confirms vehicle availability.</p>
                      </div>
 
                      <button
                         onClick={sendBookingRequest}
                         disabled={isSubmitting}
-                        className="btn-primary w-full py-5 rounded-2xl text-sm font-black uppercase tracking-widest bg-gradient-to-r from-indigo-500 to-violet-500 disabled:opacity-50"
+                        className="btn-primary w-full py-5 rounded-2xl text-sm font-black uppercase tracking-widest bg-gradient-to-r from-blue-600 to-sky-500 disabled:opacity-50"
                       >
                         {isSubmitting ? "Transmitting..." : "Send Booking Request"}
                       </button>
 
-                      <button onClick={() => setCheckoutStep(1)} className="text-xs uppercase tracking-widest text-slate-500 mt-6 hover:text-white transition-colors font-black text-center w-full block">Modify Dates</button>
+                      <button onClick={() => setCheckoutStep(1)} className="text-xs uppercase tracking-widest text-slate-500 mt-6 hover:text-slate-900 transition-colors font-black text-center w-full block">Modify Dates</button>
                   </div>
                 )}
 
               </div>
             </div>
           </div>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
 }
 

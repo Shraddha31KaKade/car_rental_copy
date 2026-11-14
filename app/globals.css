@@ -3,33 +3,34 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #6366f1;
-  --color-primary-dim: #4f46e5;
-  --color-secondary: #1e293b;
-  --color-secondary-container: #334155;
-  --color-on-secondary-container: #f1f5f9;
-  --color-tertiary: #8b5cf6;
-  --color-tertiary-container: #8b5cf6;
+  --color-primary: #2563eb;
+  --color-primary-dim: #1d4ed8;
+  --color-secondary: #f1f5f9;
+  --color-secondary-container: #e2e8f0;
+  --color-on-secondary-container: #0f172a;
+  --color-tertiary: #0ea5e9;
+  --color-tertiary-container: #0284c7;
   --color-error: #ef4444;
-  --color-error-container: #7f1d1d;
-  --color-background-base: #020617;
-  --color-surface-dim: #0f172a;
-  --color-surface: #020617;
-  --color-surface-container-low: #0f172a;
-  --color-surface-container: #1e293b;
-  --color-surface-container-high: #334155;
-  --color-surface-container-lowest: #0f172a;
-  --color-surface-container-highest: #475569;
-  --color-on-surface: #f8fafc;
-  --color-on-surface-variant: #94a3b8;
-  --color-outline-variant: #334155;
+  --color-error-container: #fee2e2;
+  --color-background-base: #f8fafc;
+  --color-surface-dim: #f1f5f9;
+  --color-surface: #ffffff;
+  --color-surface-container-low: #ffffff;
+  --color-surface-container: #f8fafc;
+  --color-surface-container-high: #f1f5f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-highest: #e2e8f0;
+  --color-on-surface: #0f172a;
+  --color-on-surface-variant: #64748b;
+  --color-outline-variant: #e2e8f0;
   
-  --shadow-diffused: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+  --shadow-diffused: 0 10px 30px -5px rgba(0, 0, 0, 0.06);
 }
 
 :root {
-  --background: #020617;
-  --foreground: #f8fafc;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --border-color: rgba(226, 232, 240, 0.9);
 }
 
 body {
@@ -88,60 +89,58 @@ body {
 
 /* Components */
 .glass-nav {
-  background: rgba(2, 6, 23, 0.8);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-color);
 }
 
 .btn-primary {
-  @apply bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold transition-all duration-500 shadow-2xl shadow-indigo-500/20 hover:bg-indigo-500 hover:shadow-indigo-500/40 hover:-translate-y-1 active:scale-95;
-  box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+  @apply bg-gradient-to-r from-blue-600 to-sky-600 text-white px-8 py-4 rounded-2xl font-bold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:from-blue-700 hover:to-sky-700 hover:shadow-blue-500/40 hover:-translate-y-0.5 active:scale-95;
 }
 
 .btn-outline {
-  @apply border border-indigo-400/30 text-indigo-400 px-8 py-4 rounded-2xl font-bold transition-all duration-500 hover:bg-indigo-500/10 hover:border-indigo-400 active:scale-95;
+  @apply border border-slate-300 text-slate-800 bg-white px-8 py-4 rounded-2xl font-bold transition-all duration-300 hover:bg-slate-50 hover:border-blue-500 hover:text-blue-600 shadow-sm active:scale-95;
 }
 
 .search-card {
-  @apply flex flex-col md:flex-row items-center gap-4 bg-slate-900/40 backdrop-blur-3xl p-6 rounded-3xl border border-white/5 shadow-2xl transition-all duration-700 hover:border-indigo-500/30 max-w-5xl mx-auto;
+  @apply flex flex-col md:flex-row items-center gap-4 bg-white/95 backdrop-blur-2xl p-6 rounded-3xl border border-slate-200/90 shadow-xl transition-all duration-500 hover:border-blue-500/40 hover:shadow-2xl max-w-5xl mx-auto;
 }
 
 .carCard {
-  @apply bg-slate-900/30 backdrop-blur-2xl rounded-[2.5rem] overflow-hidden border border-white/5 transition-all duration-700 hover:-translate-y-3 hover:border-indigo-500/40 hover:shadow-[0_20px_50px_rgba(99,102,241,0.15)];
+  @apply bg-white rounded-[2rem] overflow-hidden border border-slate-200/80 transition-all duration-500 hover:-translate-y-2 hover:border-blue-500/40 hover:shadow-[0_20px_40px_rgba(37,99,235,0.1)];
 }
 
 .carImageWrapper {
-  @apply relative overflow-hidden bg-slate-800/50;
+  @apply relative overflow-hidden bg-slate-100/70;
 }
 
 .carImage {
-  @apply transition-transform duration-1000 group-hover:scale-110 drop-shadow-[0_15px_15px_rgba(0,0,0,0.5)];
+  @apply transition-transform duration-700 group-hover:scale-105 drop-shadow-[0_10px_15px_rgba(0,0,0,0.1)];
 }
 
 .viewBtn {
-  @apply block w-full text-center py-4 bg-white/5 border border-white/10 text-white rounded-2xl font-bold transition-all duration-500 hover:bg-indigo-600 hover:border-indigo-600 hover:shadow-indigo-500/30;
+  @apply block w-full text-center py-4 bg-slate-100 hover:bg-blue-600 text-slate-800 hover:text-white rounded-xl font-bold transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25;
 }
 
 .availableBadge {
-  @apply absolute top-6 left-6 bg-indigo-500 text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl;
+  @apply absolute top-5 left-5 bg-blue-600 text-white px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-md;
 }
 
 .priceBadge {
-  @apply absolute bottom-6 right-6 bg-slate-950/80 backdrop-blur-md text-white px-4 py-2 rounded-xl text-lg font-black shadow-xl border border-white/5;
+  @apply absolute bottom-5 right-5 bg-white/95 backdrop-blur-md text-slate-900 px-4 py-2 rounded-xl text-base font-extrabold shadow-md border border-slate-200;
 }
 
-/* Neon Blur Blobs */
+/* Ambient Diffuse Blobs (Soft and subtle for light theme) */
 .bg-blob {
-  @apply absolute -z-10 rounded-full blur-[120px] opacity-20 animate-pulse;
+  @apply absolute -z-10 rounded-full blur-[140px] pointer-events-none;
 }
 
-.blob-indigo { background: #6366f1; width: 400px; height: 400px; }
-.blob-violet { background: #8b5cf6; width: 350px; height: 350px; }
-.blob-cyan { background: #06b6d4; width: 300px; height: 300px; }
+.blob-indigo, .blob-blue { background: #93c5fd; width: 500px; height: 500px; opacity: 0.25; }
+.blob-violet, .blob-sky { background: #7dd3fc; width: 450px; height: 450px; opacity: 0.25; }
+.blob-cyan { background: #a5f3fc; width: 400px; height: 400px; opacity: 0.20; }
 
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
-

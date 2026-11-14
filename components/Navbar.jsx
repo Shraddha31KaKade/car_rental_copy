@@ -100,40 +100,40 @@ export default function Navbar({ onLoginClick }) {
               e.target.nextSibling.style.display = 'flex';
             }}
           />
-          <span className="text-2xl font-black tracking-tighter text-white hidden md:flex items-baseline">
-            car<span className="text-indigo-500">Rental</span>
+          <span className="text-2xl font-black tracking-tighter text-slate-900 hidden md:flex items-baseline">
+            car<span className="text-blue-600">Rental</span>
           </span>
         </Link>
 
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-6 xl:gap-10 flex-1 justify-center">
-          <Link href="/" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">Home</Link>
-          <Link href="/cars" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">Fleet</Link>
-          <Link href="/services" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">Services</Link>
-          <Link href="/booking" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">My Journeys</Link>
-          <Link href="/list-cars" className="text-sm font-bold text-white hover:text-indigo-400 transition-colors uppercase tracking-widest whitespace-nowrap">List Your Car</Link>
+          <Link href="/" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">Home</Link>
+          <Link href="/cars" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">Fleet</Link>
+          <Link href="/services" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">Services</Link>
+          <Link href="/booking" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">My Journeys</Link>
+          <Link href="/list-cars" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">List Your Car</Link>
         </div>
 
         {/* Desktop Actions */}
         <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-shrink-0 justify-end">
           {loggedInUser?.role === "ADMIN" && (
-            <Link href="/admin" className="bg-indigo-600 hover:bg-indigo-500 text-white py-3 px-6 rounded-2xl text-xs font-black shadow-lg shadow-indigo-500/20 hover:-translate-y-1 transition-all uppercase tracking-widest border border-white/10 flex items-center gap-2">
+            <Link href="/admin" className="bg-blue-600 hover:bg-blue-500 text-white py-3 px-6 rounded-2xl text-xs font-black shadow-lg shadow-blue-500/20 hover:-translate-y-0.5 transition-all uppercase tracking-widest border border-white/10 flex items-center gap-2">
                <span className="text-sm">🛡️</span> Admin Portal
             </Link>
           )}
 
           {loggedInUser?.role === "OWNER" && (
-            <Link href="/owner/dashboard" className="btn-outline py-2 px-6 text-xs drop-shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+            <Link href="/owner/dashboard" className="btn-outline py-2.5 px-6 text-xs">
                Owner Dashboard
             </Link>
           )}
 
           {loggedInUser ? (
             <div className="flex items-center gap-6">
-              <span className="text-xs font-black text-slate-500 uppercase tracking-widest">Welcome, <span className="text-indigo-400">{loggedInUser.name || loggedInUser.email}</span></span>
+              <span className="text-xs font-black text-slate-600 uppercase tracking-widest">Welcome, <span className="text-blue-600">{loggedInUser.name || loggedInUser.email}</span></span>
               <button 
                 onClick={handleLogout}
-                className="text-sm font-black text-rose-500 hover:text-rose-400 transition-colors uppercase tracking-widest"
+                className="text-sm font-black text-rose-600 hover:text-rose-700 transition-colors uppercase tracking-widest"
               >
                 Sign Out
               </button>
@@ -150,7 +150,7 @@ export default function Navbar({ onLoginClick }) {
 
         {/* Mobile Toggle */}
         <button 
-          className="lg:hidden text-white p-2"
+          className="lg:hidden text-slate-900 p-2"
           onClick={toggleMobileMenu}
         >
           {isMobileMenuOpen ? "✕" : "☰"}
@@ -159,18 +159,18 @@ export default function Navbar({ onLoginClick }) {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-slate-950/95 backdrop-blur-3xl border-t border-white/5 p-8 animate-fadeIn">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-3xl border-t border-slate-200 p-8 animate-fadeIn shadow-2xl">
           <div className="flex flex-col gap-6 text-center">
-            <Link href="/" className="text-xl font-black text-white" onClick={toggleMobileMenu}>Home</Link>
-            <Link href="/cars" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>Fleet</Link>
-            <Link href="/services" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>Services</Link>
-            <Link href="/booking" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>My Journeys</Link>
-            <Link href="/list-cars" className="text-xl font-black text-slate-400" onClick={toggleMobileMenu}>List Your Car</Link>
+            <Link href="/" className="text-xl font-bold text-slate-900 hover:text-blue-600" onClick={toggleMobileMenu}>Home</Link>
+            <Link href="/cars" className="text-xl font-bold text-slate-700 hover:text-blue-600" onClick={toggleMobileMenu}>Fleet</Link>
+            <Link href="/services" className="text-xl font-bold text-slate-700 hover:text-blue-600" onClick={toggleMobileMenu}>Services</Link>
+            <Link href="/booking" className="text-xl font-bold text-slate-700 hover:text-blue-600" onClick={toggleMobileMenu}>My Journeys</Link>
+            <Link href="/list-cars" className="text-xl font-bold text-slate-700 hover:text-blue-600" onClick={toggleMobileMenu}>List Your Car</Link>
 
             {loggedInUser?.role === "ADMIN" && (
               <Link 
                 href="/admin" 
-                className="bg-indigo-600 hover:bg-indigo-500 text-white py-3 px-6 rounded-2xl text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2"
+                className="bg-blue-600 hover:bg-blue-500 text-white py-3 px-6 rounded-2xl text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
                 onClick={toggleMobileMenu}
               >
                 <span>🛡️</span> Admin Portal
@@ -180,7 +180,7 @@ export default function Navbar({ onLoginClick }) {
             {loggedInUser?.role === "OWNER" && (
               <Link 
                 href="/owner/dashboard" 
-                className="btn-outline py-3 px-6 text-sm font-bold text-indigo-400 border border-indigo-500/30 rounded-2xl uppercase tracking-widest"
+                className="btn-outline py-3 px-6 text-sm font-bold text-blue-600 border border-blue-500/30 rounded-2xl uppercase tracking-widest"
                 onClick={toggleMobileMenu}
               >
                 Owner Dashboard
@@ -188,13 +188,13 @@ export default function Navbar({ onLoginClick }) {
             )}
 
             {loggedInUser ? (
-              <div className="pt-4 border-t border-white/5">
-                <p className="text-xs text-slate-400 mb-3 uppercase tracking-widest font-black">
-                  Signed in as <span className="text-indigo-400">{loggedInUser.name || loggedInUser.email}</span>
+              <div className="pt-4 border-t border-slate-200">
+                <p className="text-xs text-slate-600 mb-3 uppercase tracking-widest font-black">
+                  Signed in as <span className="text-blue-600">{loggedInUser.name || loggedInUser.email}</span>
                 </p>
                 <button 
                   onClick={handleLogout}
-                  className="w-full py-4 text-rose-500 font-bold uppercase tracking-widest text-sm"
+                  className="w-full py-4 text-rose-600 hover:text-rose-700 font-bold uppercase tracking-widest text-sm"
                 >
                   Sign Out
                 </button>

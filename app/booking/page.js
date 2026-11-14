@@ -146,7 +146,7 @@ function MyBookingsContent() {
              email: user?.email,
            },
            theme: {
-             color: "#6366f1",
+             color: "#2563eb",
            },
          };
 
@@ -166,16 +166,16 @@ function MyBookingsContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent"></div>
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-r-4 border-r-transparent"></div>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#020617] flex flex-col items-center justify-center p-6 animate-fadeUp relative overflow-hidden">
-        <div className="bg-blob blob-indigo top-0 left-0 opacity-10"></div>
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 animate-fadeUp relative overflow-hidden">
+        <div className="bg-blob blob-blue top-0 left-0 opacity-10"></div>
         <div className="text-8xl mb-8 animate-float">🔒</div>
         <h1 className="text-4xl font-black text-white mb-4 tracking-tighter">Access Reserved</h1>
         <p className="text-slate-500 mb-10 text-center max-w-sm font-medium leading-relaxed">
@@ -229,11 +229,11 @@ function MyBookingsContent() {
 
     return (
       <div
-        className="group flex flex-col items-center gap-6 bg-slate-900/30 rounded-[3rem] border border-white/5 backdrop-blur-3xl hover:border-indigo-500/40 transition-all duration-700 p-8 sm:p-10 animate-fadeUp relative overflow-hidden"
+        className="group flex flex-col items-center gap-6 bg-white rounded-[3rem] border border-slate-200 shadow-md backdrop-blur-3xl hover:border-blue-500/40 transition-all duration-700 p-8 sm:p-10 animate-fadeUp relative overflow-hidden"
         style={{ animationDelay: `${100 + index * 100}ms` }}
       >
         <div className="w-full flex-1 relative z-10 flex flex-col lg:flex-row gap-10">
-          <div className="bg-slate-800/40 p-8 rounded-3xl w-full lg:w-72 flex-shrink-0 flex justify-center items-center overflow-hidden border border-white/5 leading-[0] relative z-10">
+          <div className="bg-slate-100 p-8 rounded-3xl w-full lg:w-72 flex-shrink-0 flex justify-center items-center overflow-hidden border border-slate-200 leading-[0] relative z-10">
             <img
               src={carImg}
               alt={car.name || "Car"}
@@ -244,24 +244,24 @@ function MyBookingsContent() {
           <div className="flex-1 w-full text-center lg:text-left relative z-10">
             <div className="flex flex-col sm:flex-row justify-between items-start gap-6 mb-8">
               <div className="text-left w-full sm:w-auto">
-                <h2 className="text-3xl sm:text-4xl font-black text-white mb-2 tracking-tighter group-hover:text-indigo-400 transition-colors uppercase italic">
+                <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-2 tracking-tighter group-hover:text-blue-600 transition-colors uppercase italic">
                   {car.name || "Elite Performance"}
                 </h2>
                 <div className="flex items-center gap-2 text-slate-500 text-[10px] font-black uppercase tracking-widest">
-                  <span className={`w-2 h-2 rounded-full ${isActive ? 'bg-indigo-500 animate-pulse' : 'bg-slate-700'}`}></span>
+                  <span className={`w-2 h-2 rounded-full ${isActive ? 'bg-blue-500 animate-pulse' : 'bg-slate-700'}`}></span>
                   {isActive ? 'Active Expedition' : 'Past Venture'} • ID: #{booking.id?.toString().slice(-6) || "N/A"}
                 </div>
               </div>
               
               <div className="flex flex-col items-end w-full sm:w-auto">
-                <div className="text-right p-4 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 w-full sm:w-60 group/owner cursor-default transition-all">
+                <div className="text-right p-4 rounded-2xl bg-blue-50 border border-blue-200 w-full sm:w-60 group/owner cursor-default transition-all">
                    <p className="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em] mb-1">Elite Origin (Host)</p>
                    {isConfirmed ? (
-                     <p className="text-white text-xs font-black uppercase tracking-tight truncate">{car.owner?.name || "Premium Rental Collective"}</p>
+                     <p className="text-slate-900 text-xs font-black uppercase tracking-tight truncate">{car.owner?.name || "Premium Rental Collective"}</p>
                    ) : (
                      <>
-                        <p className="text-white font-black uppercase tracking-tight blur-sm select-none">Protected Identity</p>
-                        <p className="text-[8px] text-indigo-400 uppercase tracking-widest mt-1">Confirmed bookings only</p>
+                        <p className="text-slate-900 font-black uppercase tracking-tight blur-sm select-none">Protected Identity</p>
+                        <p className="text-[8px] text-blue-400 uppercase tracking-widest mt-1">Confirmed bookings only</p>
                      </>
                    )}
                 </div>
@@ -269,11 +269,11 @@ function MyBookingsContent() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-              <div className="lg:col-span-2 bg-black/20 p-6 rounded-[2rem] border border-white/5 relative overflow-hidden">
+              <div className="lg:col-span-2 bg-slate-50 p-6 rounded-[2rem] border border-slate-200 relative overflow-hidden">
                  <p className="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em] mb-6">Journey Tracker</p>
                  <div className="relative flex justify-between items-center px-4">
-                    <div className="absolute top-1/2 left-0 w-full h-[1px] bg-slate-800 -translate-y-1/2 z-0"></div>
-                    <div className={`absolute top-1/2 left-0 h-[1.5px] bg-indigo-500 -translate-y-1/2 z-0 transition-all duration-1000 ${
+                    <div className="absolute top-1/2 left-0 w-full h-[1px] bg-slate-200 -translate-y-1/2 z-0"></div>
+                    <div className={`absolute top-1/2 left-0 h-[1.5px] bg-blue-500 -translate-y-1/2 z-0 transition-all duration-1000 ${
                       booking.status === 'REJECTED' ? 'w-0' :
                       ['CONFIRMED', 'COMPLETED'].includes(booking.status) ? 'w-full' : 
                       ['APPROVED', 'PAYMENT_PENDING'].includes(booking.status) ? 'w-1/2' : 'w-[5%]'
@@ -297,7 +297,7 @@ function MyBookingsContent() {
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs transition-all duration-500 border-2 ${
                             isRejected ? 'bg-rose-500 border-rose-400 text-white shadow-[0_0_15px_rgba(244,63,94,0.5)]' :
                             isActionable ? 'bg-amber-500 border-amber-400 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)] animate-pulse' :
-                            isCompleted ? 'bg-indigo-500 border-indigo-400 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'bg-slate-900 border-slate-700 text-slate-500'
+                            isCompleted ? 'bg-blue-500 border-blue-400 text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'bg-slate-900 border-slate-700 text-slate-500'
                           }`}>
                             {step.icon}
                           </div>
@@ -312,9 +312,9 @@ function MyBookingsContent() {
               </div>
 
               <div className="flex flex-col gap-4">
-                <div className="bg-black/20 p-6 rounded-[2rem] border border-white/5 flex flex-col justify-center">
+                <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-200 flex flex-col justify-center">
                   <p className="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em] mb-1">Total investment</p>
-                  <p className="text-3xl font-black text-white italic">₹{booking.totalAmount || 0}</p>
+                  <p className="text-3xl font-black text-slate-900 italic">₹{booking.totalAmount || 0}</p>
                 </div>
               </div>
             </div>
@@ -322,11 +322,11 @@ function MyBookingsContent() {
         </div>
         
         {/* ACTION / PAYMENT BAR */}
-        <div className="w-full pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-6 relative z-10">
+        <div className="w-full pt-6 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-6 relative z-10">
            <div className="flex flex-wrap gap-10 opacity-80">
               <div className="space-y-1.5">
                 <p className="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em]">Deployment Window</p>
-                <p className="text-xs font-bold text-slate-200 uppercase tracking-tighter">{startDate} <span className="text-indigo-500 mx-1">/</span> {endDate}</p>
+                <p className="text-xs font-bold text-slate-800 uppercase tracking-tighter">{startDate} <span className="text-blue-600 mx-1">/</span> {endDate}</p>
               </div>
             </div>
             
@@ -355,25 +355,25 @@ function MyBookingsContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#020617] pt-40 pb-24 relative overflow-hidden isolate">
-       <div className="bg-blob blob-indigo top-0 right-0 opacity-10"></div>
-       <div className="bg-blob blob-violet bottom-0 left-0 opacity-10"></div>
+    <div className="min-h-screen bg-slate-50 text-slate-900 pt-40 pb-24 relative overflow-hidden isolate">
+       <div className="bg-blob blob-blue top-0 right-0 opacity-10"></div>
+       <div className="bg-blob blob-sky bottom-0 left-0 opacity-10"></div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="mb-24 animate-fadeUp">
-          <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-[10px] font-black uppercase tracking-[0.3em]">
+          <div className="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-50 border border-blue-200 text-blue-700 shadow-sm text-[10px] font-black uppercase tracking-[0.3em]">
             Elite Logbook
           </div>
-          <h1 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-tighter uppercase italic leading-[0.9]">
-            The <span className="text-indigo-500">Journey</span> Archives
+          <h1 className="text-6xl md:text-8xl font-black text-slate-950 mb-8 tracking-tighter uppercase italic leading-[0.9]">
+            The <span className="text-blue-600">Journey</span> Archives
           </h1>
-          <p className="text-slate-400 text-xl font-medium max-w-xl">Curating your legacy across the roads of tomorrow.</p>
+          <p className="text-slate-600 text-xl font-medium max-w-xl">Curating your legacy across the roads of tomorrow.</p>
         </div>
 
         {myBookings.length === 0 ? (
-          <div className="text-center bg-slate-900/20 py-32 rounded-[4rem] border border-white/5 backdrop-blur-3xl animate-fadeUp delay-100 shadow-2xl">
+          <div className="text-center bg-white py-32 rounded-[4rem] border border-slate-200 shadow-xl backdrop-blur-3xl animate-fadeUp delay-100 shadow-2xl">
             <div className="text-9xl mb-10 opacity-20 animate-float brightness-150">🏎️</div>
-            <h2 className="text-4xl font-black text-white mb-6 uppercase tracking-tighter">No Active Logs</h2>
+            <h2 className="text-4xl font-black text-slate-900 mb-6 uppercase tracking-tighter">No Active Logs</h2>
             <p className="text-slate-500 mb-14 max-w-xs mx-auto font-medium text-lg">Your next peak performance is just one reservation away.</p>
             <Link href="/cars" className="btn-primary px-12">
               Explore the Collection
@@ -384,8 +384,8 @@ function MyBookingsContent() {
             {/* ACTIVE BOOKINGS */}
             <div className="space-y-12">
                <div className="flex items-center gap-6">
-                  <h2 className="text-[10px] font-black text-white uppercase tracking-[0.5em] whitespace-nowrap">Active Expeditions</h2>
-                  <div className="h-px w-full bg-gradient-to-r from-indigo-500/20 to-transparent"></div>
+                  <h2 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.5em] whitespace-nowrap">Active Expeditions</h2>
+                  <div className="h-px w-full bg-gradient-to-r from-blue-500/20 to-transparent"></div>
                </div>
                
                <div className="grid gap-10">
@@ -422,8 +422,8 @@ function MyBookingsContent() {
 export default function MyBookingsPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#020617] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-500 border-r-4 border-r-transparent"></div>
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-r-4 border-r-transparent"></div>
       </div>
     }>
       <MyBookingsContent />
