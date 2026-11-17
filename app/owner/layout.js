@@ -44,12 +44,21 @@ export default function OwnerLayout({ children }) {
                 );
               })}
             </nav>
+
+            <div className="pt-6 mt-6 border-t border-slate-200">
+              <Link
+                href="/"
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-slate-100 text-blue-600 hover:bg-blue-600 hover:text-white font-black text-xs uppercase tracking-widest transition-all"
+              >
+                ← Back to Website
+              </Link>
+            </div>
           </div>
         </div>
 
         {/* Dynamic Content */}
         <div className="flex-grow">
-          <div className="bg-slate-900/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 md:p-12 shadow-2xl min-h-[500px]">
+          <div className="bg-white border border-slate-200 rounded-[2.5rem] p-8 md:p-12 shadow-md min-h-[500px] text-slate-900">
              {children}
           </div>
         </div>

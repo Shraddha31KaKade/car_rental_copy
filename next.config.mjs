@@ -1,5 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: '/fleet',
+        destination: '/cars',
+      },
+      {
+        source: '/my-journey',
+        destination: '/booking',
+      },
+      {
+        source: '/my-journeys',
+        destination: '/booking',
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {

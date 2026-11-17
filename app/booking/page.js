@@ -177,7 +177,7 @@ function MyBookingsContent() {
       <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center justify-center p-6 animate-fadeUp relative overflow-hidden">
         <div className="bg-blob blob-blue top-0 left-0 opacity-10"></div>
         <div className="text-8xl mb-8 animate-float">🔒</div>
-        <h1 className="text-4xl font-black text-white mb-4 tracking-tighter">Access Reserved</h1>
+        <h1 className="text-4xl font-black text-slate-900 mb-4 tracking-tighter">Access Reserved</h1>
         <p className="text-slate-500 mb-10 text-center max-w-sm font-medium leading-relaxed">
           Please sign in to your CarRental account to access your exclusive journey logs.
         </p>
@@ -297,12 +297,12 @@ function MyBookingsContent() {
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs transition-all duration-500 border-2 ${
                             isRejected ? 'bg-rose-500 border-rose-400 text-white shadow-[0_0_15px_rgba(244,63,94,0.5)]' :
                             isActionable ? 'bg-amber-500 border-amber-400 text-black shadow-[0_0_15px_rgba(245,158,11,0.5)] animate-pulse' :
-                            isCompleted ? 'bg-blue-500 border-blue-400 text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'bg-slate-900 border-slate-700 text-slate-500'
+                            isCompleted ? 'bg-blue-500 border-blue-400 text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]' : 'bg-slate-100 border-slate-300 text-slate-400'
                           }`}>
                             {step.icon}
                           </div>
                           <div className="text-center">
-                            <p className={`text-[8px] font-black uppercase tracking-tighter ${isCompleted || isRejected || isActionable ? 'text-white' : 'text-slate-600'}`}>{step.label}</p>
+                            <p className={`text-[8px] font-black uppercase tracking-tighter ${isCompleted || isRejected || isActionable ? 'text-slate-900' : 'text-slate-500'}`}>{step.label}</p>
                             <p className={`text-[7px] font-bold uppercase tracking-widest ${isRejected ? 'text-rose-400' : isActionable ? 'text-amber-400' : 'text-slate-500'}`}>{step.sub}</p>
                           </div>
                         </div>

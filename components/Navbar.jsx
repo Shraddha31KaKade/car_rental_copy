@@ -106,34 +106,34 @@ export default function Navbar({ onLoginClick }) {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex items-center gap-6 xl:gap-10 flex-1 justify-center">
-          <Link href="/" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">Home</Link>
-          <Link href="/cars" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">Fleet</Link>
-          <Link href="/services" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">Services</Link>
-          <Link href="/booking" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">My Journeys</Link>
-          <Link href="/list-cars" className="text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">List Your Car</Link>
+        <div className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-10 flex-1 justify-center">
+          <Link href="/" className="text-xs lg:text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">Home</Link>
+          <Link href="/cars" className="text-xs lg:text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">Fleet</Link>
+          <Link href="/services" className="text-xs lg:text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">Services</Link>
+          <Link href="/booking" className="text-xs lg:text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">My Journeys</Link>
+          <Link href="/list-cars" className="text-xs lg:text-sm font-bold text-slate-700 hover:text-blue-600 transition-colors uppercase tracking-widest whitespace-nowrap">List Your Car</Link>
         </div>
 
         {/* Desktop Actions */}
-        <div className="hidden lg:flex items-center gap-4 xl:gap-6 flex-shrink-0 justify-end">
+        <div className="hidden md:flex items-center gap-3 lg:gap-4 xl:gap-6 flex-shrink-0 justify-end">
           {loggedInUser?.role === "ADMIN" && (
-            <Link href="/admin" className="bg-blue-600 hover:bg-blue-500 text-white py-3 px-6 rounded-2xl text-xs font-black shadow-lg shadow-blue-500/20 hover:-translate-y-0.5 transition-all uppercase tracking-widest border border-white/10 flex items-center gap-2">
+            <Link href="/admin" className="bg-blue-600 hover:bg-blue-500 text-white py-2.5 lg:py-3 px-4 lg:px-6 rounded-2xl text-[11px] lg:text-xs font-black shadow-lg shadow-blue-500/20 hover:-translate-y-0.5 transition-all uppercase tracking-widest border border-white/10 flex items-center gap-2">
                <span className="text-sm">🛡️</span> Admin Portal
             </Link>
           )}
 
           {loggedInUser?.role === "OWNER" && (
-            <Link href="/owner/dashboard" className="btn-outline py-2.5 px-6 text-xs">
+            <Link href="/owner/dashboard" className="btn-outline py-2 lg:py-2.5 px-4 lg:px-6 text-[11px] lg:text-xs">
                Owner Dashboard
             </Link>
           )}
 
           {loggedInUser ? (
-            <div className="flex items-center gap-6">
-              <span className="text-xs font-black text-slate-600 uppercase tracking-widest">Welcome, <span className="text-blue-600">{loggedInUser.name || loggedInUser.email}</span></span>
+            <div className="flex items-center gap-4 lg:gap-6">
+              <span className="text-[11px] lg:text-xs font-black text-slate-600 uppercase tracking-widest">Welcome, <span className="text-blue-600">{loggedInUser.name || loggedInUser.email}</span></span>
               <button 
                 onClick={handleLogout}
-                className="text-sm font-black text-rose-600 hover:text-rose-700 transition-colors uppercase tracking-widest"
+                className="text-xs lg:text-sm font-black text-rose-600 hover:text-rose-700 transition-colors uppercase tracking-widest"
               >
                 Sign Out
               </button>
@@ -141,7 +141,7 @@ export default function Navbar({ onLoginClick }) {
           ) : (
             <button 
               onClick={onLoginClick}
-              className="btn-primary py-3 px-8 text-sm"
+              className="btn-primary py-2.5 lg:py-3 px-5 lg:px-8 text-xs lg:text-sm"
             >
               Sign In
             </button>
@@ -150,7 +150,7 @@ export default function Navbar({ onLoginClick }) {
 
         {/* Mobile Toggle */}
         <button 
-          className="lg:hidden text-slate-900 p-2"
+          className="md:hidden text-slate-900 p-2"
           onClick={toggleMobileMenu}
         >
           {isMobileMenuOpen ? "✕" : "☰"}
@@ -159,7 +159,7 @@ export default function Navbar({ onLoginClick }) {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-3xl border-t border-slate-200 p-8 animate-fadeIn shadow-2xl">
+        <div className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-3xl border-t border-slate-200 p-8 animate-fadeIn shadow-2xl">
           <div className="flex flex-col gap-6 text-center">
             <Link href="/" className="text-xl font-bold text-slate-900 hover:text-blue-600" onClick={toggleMobileMenu}>Home</Link>
             <Link href="/cars" className="text-xl font-bold text-slate-700 hover:text-blue-600" onClick={toggleMobileMenu}>Fleet</Link>
